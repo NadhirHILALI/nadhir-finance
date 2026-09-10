@@ -59,15 +59,29 @@ const dt=d=>new Intl.DateTimeFormat("fr-CA",{day:"2-digit",month:"short"}).forma
 function save(){localStorage.setItem("nf_onefile",JSON.stringify(s));render()}
 function upcoming(days=14){
  let a=[],start=new Date();start.setHours(12,0,0,0);
- for(let i=0;i<=days;i++){let d=new Date(start);d.setDate(start.getDate()+i);
+ for(let i=1;i<=days;i++){let d=new Date(start);d.setDate(start.getDate()+i);
    s.rec.forEach(r=>{if(d.getDate()==r[2])a.push({d:new Date(d),n:r[0],a:-r[1]})});
    if(d.getDay()==4){a.push({d:new Date(d),n:"Paie",a:s.pay});a.push({d:new Date(d),n:"Épargne Tunisie",a:-100})}
  }return a.sort((x,y)=>x.d-y.d)
 }
 function safe(){
- let ev=upcoming(14),net=ev.reduce((z,x)=>z+x.a,0);
- let wk=s.expenses.filter(e=>Date.now()-new Date(e.date+"T12:00:00")<7*864e5).reduce((z,e)=>z+Number(e.amount),0);
- return Math.max(0,s.cash+net-s.floor-wk)
+ let balance=s.cash;
+ let minBalance=balance;
+
+ upcoming(30).forEach(x=>{
+   balance+=x.a;
+   minBalance=Math.min(minBalance,balance);
+ });
+
+ let remainingBudget=Object.keys(s.budgets).reduce((total,k)=>{
+   let spent=s.expenses
+     .filter(e=>e.category==k && Date.now()-new Date(e.date+"T12:00:00")<7*864e5)
+     .reduce((z,e)=>z+Number(e.amount),0);
+
+   return total+Math.max(0,s.budgets[k]-spent);
+ },0);
+
+ return Math.max(0,minBalance-s.floor-remainingBudget);
 }
 function recExtra(){let x=safe();return x>=s.extra?s.extra:x>=80?80:0}
 function bars(){
