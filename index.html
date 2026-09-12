@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08131f">
+<title>Nadhir Finance V2 — Phase 2</title>
+<style>
+:root{
+  --bg:#07111c;--panel:#0c1927;--panel2:#102236;--card:#0f2134;--line:#213a52;
+  --text:#f4f7fb;--muted:#8ea4b9;--blue:#2e8cff;--blue2:#6ab5ff;
+  --good:#2ac37d;--warn:#f1b84b;--bad:#ef6472;--shadow:0 12px 28px rgba(0,0,0,.26)
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:560px;margin:0 auto;min-height:100vh;padding-bottom:90px}
+header{position:sticky;top:0;z-index:10;padding:18px 16px 12px;background:rgba(7,17,28,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.04)}
+.brand{font-size:24px;font-weight:900}.brand span{color:var(--blue)}.sub{font-size:12px;color:var(--muted);margin-top:3px}
+main{padding:14px}
+.card{background:linear-gradient(180deg,var(--card),var(--panel));border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#0d3f76,#125fae 52%,#2287de);border-color:#2c78bc}
+.title{font-size:16px;font-weight:850;margin-bottom:10px}.eyebrow{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:800;color:#afd2f1}
+.big{font-size:38px;font-weight:900;margin:5px 0}.muted{color:var(--muted)}.small{font-size:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{min-width:0;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}
+.kpi .value{font-size:21px;font-weight:900;margin-top:4px;overflow-wrap:anywhere}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:800;background:#14324d;border:1px solid #2b5273;color:#c4e3ff}
+.badge.good{background:#113928;border-color:#245c44;color:#c3f3d9}.badge.warn{background:#4b3915;border-color:#705821;color:#ffe4a7}.badge.bad{background:#4e2029;border-color:#7a2e3a;color:#ffdce2}
+.btn{border:0;border-radius:13px;background:var(--blue);color:#fff;padding:12px 14px;font-weight:850}
+.btn.alt{background:#17334e;border:1px solid #2d526f;color:#dcefff}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn.bad{background:#57212b;border:1px solid #7a2e3a;color:#ffdde2}.btn:disabled{opacity:.45;cursor:not-allowed}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+label{display:block;margin:10px 0 5px;font-size:12px;color:#b0c4d5}
+input,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#091725;color:var(--text);padding:12px;font-size:16px;outline:none}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(46,140,255,.14)}
+.list{display:flex;flex-direction:column;gap:9px}.item{border:1px solid var(--line);border-radius:15px;background:#0b1b2a;padding:12px}
+.item .name{font-weight:850}.item .meta{font-size:12px;color:var(--muted);margin-top:3px}.item .amount{font-weight:900}
+.note{padding:11px;border-radius:14px;border:1px solid #34516b;background:#0c2134;color:#c7d7e6;font-size:12px}
+.empty{text-align:center;padding:18px;border:1px dashed #31506a;border-radius:16px;color:var(--muted)}
+.steps{display:flex;gap:6px;margin-bottom:14px}.step{height:5px;flex:1;background:#183149;border-radius:999px}.step.on{background:var(--blue)}
+.tree{display:flex;flex-direction:column;gap:8px}.tree-row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);background:#0d2031;border-radius:15px;padding:13px}
+.tree-row strong{font-size:14px}.tree-row .count{font-size:12px;color:var(--muted)}
+.tree-main{flex:1;min-width:0}.tree-open{border:0;background:transparent;color:var(--text);padding:0;text-align:left;width:100%}
+.actions3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.action{min-height:72px;border:1px solid var(--line);border-radius:18px;background:#0e2336;color:var(--text);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;font-weight:850}
+.action .symbol{font-size:26px;color:var(--blue2)}
+.status-line{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.rule-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+nav[hidden]{display:none!important}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(560px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(8,19,31,.97);border-top:1px solid var(--line);padding:8px 8px max(8px,env(safe-area-inset-bottom));z-index:20}
+nav button{border:0;background:transparent;color:#788fa6;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:18px}
+nav button.active{color:var(--blue2)}nav .lab{font-size:10px}
+dialog{width:min(500px,94vw);border:0;padding:0;background:transparent;color:var(--text)}dialog::backdrop{background:rgba(0,0,0,.67);backdrop-filter:blur(2px)}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.close{border:0;background:transparent;color:var(--muted);font-size:26px;padding:3px 8px}.hr{height:1px;background:var(--line);margin:14px 0}
+.inline-check{display:flex;align-items:center;gap:9px;margin-top:12px}.inline-check input{width:auto;transform:scale(1.15)}
+@media (max-width:390px){.grid2,.actions3{grid-template-columns:1fr}.big{font-size:32px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">Nadhir <span>Finance</span></div><div class="sub" id="headerSub">V2 · Phase 2</div></header>
+<main id="view"></main>
+<nav id="nav" hidden>
+  <button data-page="home" class="active">⌂<span class="lab">Accueil</span></button>
+  <button data-page="history">≡<span class="lab">Historique</span></button>
+  <button data-page="manage">⌘<span class="lab">Gérer</span></button>
+  <button data-page="projects">◇<span class="lab">Projets</span></button>
+  <button data-page="more">•••<span class="lab">Plus</span></button>
+</nav>
+</div>
+
+<dialog id="dlg">
+  <div class="modal">
+    <div class="modal-head"><div class="title" id="dlgTitle"></div><button class="close" id="dlgClose" aria-label="Fermer">×</button></div>
+    <div id="dlgBody"></div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+"use strict";
+
+const DB_NAME="nadhir_finance_v2";
+const DB_VERSION=2;
+const STORE_ACCOUNTS="accounts";
+const STORE_META="meta";
+const STORE_RULES="rules";
+
+const defaultSettings={cycleDay:2,mainCurrency:"CAD",safetyReserve:0,primaryAccountId:null,dataVersion:2};
+const ruleLabels={
+  fixed_income:"Revenus fixes",
+  debit:"Prélèvements",
+  reserved_budget:"Budgets réservés",
+  transfer:"Virements programmés"
+};
+
+let db=null,page="home",manageSection=null,onboardingStep=1;
+const state={accounts:[],rules:[],settings:null,onboardingComplete:false};
+
+const view=document.getElementById("view"),nav=document.getElementById("nav"),dlg=document.getElementById("dlg"),
+dlgTitle=document.getElementById("dlgTitle"),dlgBody=document.getElementById("dlgBody"),dlgClose=document.getElementById("dlgClose"),
+headerSub=document.getElementById("headerSub");
+
+function uid(){return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():"id-"+Date.now()+"-"+Math.random().toString(16).slice(2)}
+function safeText(str=""){return String(str).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function digitsFor(currency){return currency==="TND"?3:2}
+function money(n,currency="CAD"){const d=digitsFor(currency);return new Intl.NumberFormat("fr-CA",{style:"currency",currency,minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(n||0))}
+function maxDayInMonth(y,m){return new Date(y,m+1,0).getDate()}
+function fmtDate(d){return new Intl.DateTimeFormat("fr-CA",{day:"2-digit",month:"short",year:"numeric"}).format(d)}
+function cycleRange(day){const now=new Date();now.setHours(12,0,0,0);const y=now.getFullYear(),m=now.getMonth(),thisDay=Math.min(day,maxDayInMonth(y,m));let start,end;if(now.getDate()>=thisDay){start=new Date(y,m,thisDay,12);const nm=m===11?0:m+1,ny=m===11?y+1:y;end=new Date(ny,nm,Math.min(day,maxDayInMonth(ny,nm)),12)}else{const pm=m===0?11:m-1,py=m===0?y-1:y;start=new Date(py,pm,Math.min(day,maxDayInMonth(py,pm)),12);end=new Date(y,m,thisDay,12)}return{start,end}}
+
+function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);req.onupgradeneeded=e=>{const d=e.target.result;if(!d.objectStoreNames.contains(STORE_ACCOUNTS))d.createObjectStore(STORE_ACCOUNTS,{keyPath:"id"});if(!d.objectStoreNames.contains(STORE_META))d.createObjectStore(STORE_META,{keyPath:"key"});if(!d.objectStoreNames.contains(STORE_RULES))d.createObjectStore(STORE_RULES,{keyPath:"id"})};req.onsuccess=e=>resolve(e.target.result);req.onerror=()=>reject(req.error)})}
+function store(name,mode="readonly"){return db.transaction(name,mode).objectStore(name)}
+function getAll(name){return new Promise((resolve,reject)=>{const r=store(name).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)})}
+function getOne(name,key){return new Promise((resolve,reject)=>{const r=store(name).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
+function putOne(name,value){return new Promise((resolve,reject)=>{const r=store(name,"readwrite").put(value);r.onsuccess=()=>resolve(value);r.onerror=()=>reject(r.error)})}
+
+async function loadState(){
+  state.accounts=await getAll(STORE_ACCOUNTS);
+  state.rules=await getAll(STORE_RULES);
+  const s=await getOne(STORE_META,"settings"),o=await getOne(STORE_META,"onboardingComplete");
+  state.settings=s?s.value:null;
+  state.onboardingComplete=!!(o&&o.value)
+}
+function activeAccounts(){return state.accounts.filter(a=>!a.archived)}
+function primaryAccount(){const id=state.settings?.primaryAccountId;return activeAccounts().find(a=>a.id===id)||activeAccounts().find(a=>a.role==="primary_spending")||null}
+function accountById(id){return state.accounts.find(a=>a.id===id)||null}
+function activeRules(type=null){return state.rules.filter(r=>!r.archived&&(!type||r.type===type))}
+function ruleCount(type){return activeRules(type).length}
+function statusBadge(rule){return rule.status==="frozen"?'<span class="badge warn">Gelé</span>':'<span class="badge good">Actif</span>'}
+function openModal(title,html){dlgTitle.textContent=title;dlgBody.innerHTML=html;dlg.showModal()}
+function closeModal(){dlg.close()}
+dlgClose.addEventListener("click",closeModal);
+
+function frequencyFields(rule={}){
+  const f=rule.frequency||"monthly";
+  let extra="";
+  if(f==="weekly"){
+    extra=`<label>Jour de la semaine</label><select id="ruleWeekday">${["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"].map((n,i)=>`<option value="${i}" ${Number(rule.weekday)===i?"selected":""}>${n}</option>`).join("")}</select>`;
+  }else if(f==="biweekly"){
+    extra=`<label>Date de référence</label><input id="ruleReferenceDate" type="date" value="${rule.referenceDate||""}" required><div class="muted small">Le rythme de 14 jours part de cette date.</div>`;
+  }else if(f==="monthly"){
+    extra=`<label>Jour du mois</label><input id="ruleMonthDay" type="number" min="1" max="28" value="${rule.monthDay||1}" required>`;
+  }else if(f==="annual"){
+    extra=`<label>Date annuelle</label><input id="ruleAnnualDate" type="date" value="${rule.annualDate||""}" required><div class="muted small">L'année de cette date sert seulement de référence; le mois et le jour se répètent chaque année.</div>`;
+  }
+  return extra;
+}
+function bindFrequencyChange(){
+  const select=document.getElementById("ruleFrequency"),box=document.getElementById("frequencyExtra");
+  if(!select||!box)return;
+  const redraw=()=>{box.innerHTML=frequencyFields({frequency:select.value});};
+  select.addEventListener("change",redraw)
+}
+function scheduleSummary(r){
+  if(r.frequency==="weekly") return "Hebdomadaire · "+(["dim.","lun.","mar.","mer.","jeu.","ven.","sam."][Number(r.weekday)||0]);
+  if(r.frequency==="biweekly") return "Aux 2 semaines · réf. "+(r.referenceDate||"—");
+  if(r.frequency==="monthly") return "Mensuel · le "+r.monthDay;
+  if(r.frequency==="annual"){
+    const d=r.annualDate?new Date(r.annualDate+"T12:00:00"):null;
+    return "Annuel · "+(d?new Intl.DateTimeFormat("fr-CA",{day:"2-digit",month:"short"}).format(d):"—");
+  }
+  return r.frequency||"—"
+}
+function executionSummary(r){return r.executionMode==="confirm"?"À confirmer":"Automatique"}
+
+function accountForm(account=null,onboarding=false){
+  const hasPrimary=activeAccounts().some(a=>a.role==="primary_spending"&&a.id!==account?.id);
+  const chosenRole=account?.role||(hasPrimary?"protected_savings":"primary_spending");
+  return `<form id="accountForm">
+    <label>Nom du compte</label><input id="accName" required maxlength="60" value="${safeText(account?.name||"")}" placeholder="Ex. EOP">
+    <label>Type</label><select id="accType">
+      <option value="current" ${account?.type==="current"?"selected":""}>Compte courant</option>
+      <option value="savings" ${account?.type==="savings"?"selected":""}>Épargne</option>
+      <option value="tracking" ${account?.type==="tracking"?"selected":""}>Suivi seulement</option>
+      <option value="other" ${account?.type==="other"?"selected":""}>Autre</option>
+    </select>
+    <label>Devise</label><select id="accCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option value="${c}" ${(account?.currency||"CAD")===c?"selected":""}>${c}</option>`).join("")}</select>
+    <label>Solde actuel</label><input id="accBalance" type="number" step="${(account?.currency||"CAD")==="TND"?"0.001":"0.01"}" required value="${account?.balance??""}" placeholder="${(account?.currency||"CAD")==="TND"?"0.000":"0.00"}">
+    <label>Rôle</label><select id="accRole">
+      <option value="primary_spending" ${chosenRole==="primary_spending"?"selected":""}>Compte principal de dépenses</option>
+      <option value="protected_savings" ${chosenRole==="protected_savings"?"selected":""}>Épargne protégée</option>
+      <option value="tracking_only" ${chosenRole==="tracking_only"?"selected":""}>Suivi seulement</option>
+    </select>
+    <div class="note" style="margin-top:10px">Le compte principal servira au futur moteur Safe to Spend.</div>
+    <div class="form-actions"><button class="btn" type="submit">${account?"Enregistrer":"Ajouter le compte"}</button>${onboarding?"":'<button type="button" class="btn ghost" id="cancelAcc">Annuler</button>'}</div>
+  </form>`
+}
+async function saveAccount(existing=null){
+  const name=document.getElementById("accName").value.trim(),type=document.getElementById("accType").value,currency=document.getElementById("accCurrency").value,balance=Number(document.getElementById("accBalance").value),role=document.getElementById("accRole").value;
+  if(!name||!Number.isFinite(balance)){alert("Vérifiez le nom et le solde.");return}
+  if(role==="primary_spending"){
+    for(const a of state.accounts){if(a.id!==existing?.id&&a.role==="primary_spending"&&!a.archived){a.role="protected_savings";await putOne(STORE_ACCOUNTS,a)}}
+  }
+  const obj={id:existing?.id||uid(),name,type,currency,balance,role,archived:existing?.archived||false,createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};
+  await putOne(STORE_ACCOUNTS,obj);await loadState();
+  if(role==="primary_spending"){state.settings={...(state.settings||defaultSettings),primaryAccountId:obj.id};await putOne(STORE_META,{key:"settings",value:state.settings})}
+  closeModal();render()
+}
+function bindAccountForm(existing=null){
+  const form=document.getElementById("accountForm");if(!form)return;
+  const currencySelect=document.getElementById("accCurrency"),balanceInput=document.getElementById("accBalance");
+  function updatePrecision(){const tnd=currencySelect?.value==="TND";if(balanceInput){balanceInput.step=tnd?"0.001":"0.01";balanceInput.placeholder=tnd?"0.000":"0.00"}}
+  currencySelect?.addEventListener("change",updatePrecision);updatePrecision();
+  form.addEventListener("submit",e=>{e.preventDefault();saveAccount(existing)});
+  document.getElementById("cancelAcc")?.addEventListener("click",closeModal)
+}
+
+function commonRuleFields(rule={}){
+  const accountOptions=activeAccounts().map(a=>`<option value="${a.id}" ${rule.accountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("");
+  return `
+    <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(rule.name||"")}">
+    <label>Montant</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${rule.amount??""}">
+    <label>Fréquence</label><select id="ruleFrequency">
+      <option value="weekly" ${rule.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+      <option value="biweekly" ${rule.frequency==="biweekly"?"selected":""}>Aux 2 semaines</option>
+      <option value="monthly" ${(!rule.frequency||rule.frequency==="monthly")?"selected":""}>Mensuelle</option>
+      <option value="annual" ${rule.frequency==="annual"?"selected":""}>Annuelle</option>
+    </select>
+    <div id="frequencyExtra">${frequencyFields(rule.frequency?rule:{...rule,frequency:"monthly"})}</div>
+    <label>Compte</label><select id="ruleAccount">${accountOptions}</select>
+  `
+}
+function ruleForm(type,rule=null){
+  const r=rule||{type,status:"active",executionMode:"auto",frequency:"monthly"};
+  if(type==="fixed_income"||type==="debit"){
+    const roleLabel=type==="fixed_income"?"Compte destination":"Compte source";
+    return `<form id="ruleForm">${commonRuleFields(r).replace("<label>Compte</label>",`<label>${roleLabel}</label>`)}
+      <label>Mode d’exécution</label><select id="ruleExecution">
+        <option value="auto" ${r.executionMode!=="confirm"?"selected":""}>Automatique</option>
+        <option value="confirm" ${r.executionMode==="confirm"?"selected":""}>À confirmer</option>
+      </select>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  if(type==="reserved_budget"){
+    return `<form id="ruleForm">
+      <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(r.name||"")}">
+      <label>Montant réservé</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${r.amount??""}">
+      <label>Fréquence</label><select id="ruleFrequency">
+        <option value="weekly" ${r.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+        <option value="monthly" ${(!r.frequency||r.frequency==="monthly")?"selected":""}>Mensuelle</option>
+        <option value="annual" ${r.frequency==="annual"?"selected":""}>Annuelle</option>
+      </select>
+      <div id="frequencyExtra">${r.frequency==="annual"?frequencyFields(r):""}</div>
+      <label>Compte à protéger</label><select id="ruleAccount">${activeAccounts().map(a=>`<option value="${a.id}" ${r.accountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label class="inline-check"><input id="ruleRollover" type="checkbox" ${r.rollover?"checked":""}> Reporter le reste au cycle suivant</label>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  if(type==="transfer"){
+    const accounts=activeAccounts();
+    return `<form id="ruleForm">
+      <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(r.name||"")}">
+      <label>Compte source</label><select id="ruleSource">${accounts.map(a=>`<option value="${a.id}" ${r.sourceAccountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label>Montant prévu à débiter</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${r.amount??""}">
+      <label>Compte destination</label><select id="ruleDestination">${accounts.map(a=>`<option value="${a.id}" ${r.destinationAccountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label>Fréquence</label><select id="ruleFrequency">
+        <option value="weekly" ${r.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+        <option value="biweekly" ${r.frequency==="biweekly"?"selected":""}>Aux 2 semaines</option>
+        <option value="monthly" ${(!r.frequency||r.frequency==="monthly")?"selected":""}>Mensuelle</option>
+        <option value="annual" ${r.frequency==="annual"?"selected":""}>Annuelle</option>
+      </select>
+      <div id="frequencyExtra">${frequencyFields(r.frequency?r:{...r,frequency:"monthly"})}</div>
+      <label>Mode d’exécution</label><select id="ruleExecution">
+        <option value="auto" ${r.executionMode!=="confirm"?"selected":""}>Automatique</option>
+        <option value="confirm" ${r.executionMode==="confirm"?"selected":""}>À confirmer</option>
+      </select>
+      <div class="note" style="margin-top:10px">Si les deux comptes n’ont pas la même devise, le montant réellement crédité sera saisi lors de l’exécution. Aucun taux de change n’est inventé.</div>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  return ""
+}
+function readSchedule(){
+  const frequency=document.getElementById("ruleFrequency").value;
+  const out={frequency};
+  if(frequency==="weekly") out.weekday=Number(document.getElementById("ruleWeekday").value);
+  if(frequency==="biweekly") out.referenceDate=document.getElementById("ruleReferenceDate").value;
+  if(frequency==="monthly") out.monthDay=Math.max(1,Math.min(28,Number(document.getElementById("ruleMonthDay").value)||1));
+  if(frequency==="annual") out.annualDate=document.getElementById("ruleAnnualDate").value;
+  return out
+}
+async function saveRule(type,existing=null){
+  const name=document.getElementById("ruleName").value.trim(),amount=Number(document.getElementById("ruleAmount").value);
+  if(!name||!Number.isFinite(amount)||amount<0){alert("Vérifiez le nom et le montant.");return}
+
+  let schedule;
+  if(type==="reserved_budget"){
+    const frequency=document.getElementById("ruleFrequency").value;
+    schedule={frequency};
+    if(frequency==="annual"){
+      schedule.annualDate=document.getElementById("ruleAnnualDate")?.value||"";
+    }
+  }else{
+    schedule=readSchedule();
+  }
+
+  if(schedule.frequency==="biweekly"&&!schedule.referenceDate){alert("Ajoutez une date de référence.");return}
+  if(schedule.frequency==="annual"&&!schedule.annualDate){alert("Ajoutez la date annuelle.");return}
+
+  const base={id:existing?.id||uid(),type,name,amount,status:existing?.status||"active",archived:false,createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString(),...schedule};
+  if(type==="fixed_income"||type==="debit"){
+    base.accountId=document.getElementById("ruleAccount").value;
+    base.executionMode=document.getElementById("ruleExecution").value
+  }else if(type==="reserved_budget"){
+    base.accountId=document.getElementById("ruleAccount").value;
+    base.rollover=document.getElementById("ruleRollover").checked
+  }else if(type==="transfer"){
+    base.sourceAccountId=document.getElementById("ruleSource").value;
+    base.destinationAccountId=document.getElementById("ruleDestination").value;
+    if(base.sourceAccountId===base.destinationAccountId){alert("Le compte source et destination doivent être différents.");return}
+    base.executionMode=document.getElementById("ruleExecution").value
+  }
+  await putOne(STORE_RULES,base);await loadState();closeModal();render()
+}
+function bindRuleForm(type,existing=null){
+  document.getElementById("cancelRule")?.addEventListener("click",closeModal);
+  const freq=document.getElementById("ruleFrequency"),box=document.getElementById("frequencyExtra");
+  if(freq&&box){
+    freq.addEventListener("change",()=>{
+      if(type==="reserved_budget"&&freq.value!=="annual"){box.innerHTML="";return}
+      box.innerHTML=frequencyFields({frequency:freq.value})
+    })
+  }
+  document.getElementById("ruleForm")?.addEventListener("submit",e=>{e.preventDefault();saveRule(type,existing)})
+}
+function ruleMeta(r){
+  if(r.type==="transfer"){
+    const s=accountById(r.sourceAccountId),d=accountById(r.destinationAccountId);
+    return `${scheduleSummary(r)} · ${s?.name||"?"} → ${d?.name||"?"} · ${executionSummary(r)}`
+  }
+  const a=accountById(r.accountId);
+  if(r.type==="reserved_budget"){
+    let freqLabel = r.frequency==="weekly" ? "Hebdomadaire" :
+                    r.frequency==="annual" ? scheduleSummary(r) :
+                    "Mensuel";
+    return `${freqLabel} · ${a?.name||"?"} · Reste ${r.rollover?"reporté":"libéré"}`;
+  }
+  return `${scheduleSummary(r)} · ${a?.name||"?"} · ${executionSummary(r)}`
+}
+function ruleCurrency(r){
+  if(r.type==="transfer") return accountById(r.sourceAccountId)?.currency||state.settings?.mainCurrency||"CAD";
+  return accountById(r.accountId)?.currency||state.settings?.mainCurrency||"CAD"
+}
+function openRuleEditor(rule){
+  openModal("Modifier · "+ruleLabels[rule.type],ruleForm(rule.type,rule)+`
+    <div class="hr"></div>
+    <div class="rule-actions">
+      <button class="btn alt" id="toggleRule">${rule.status==="frozen"?"Réactiver":"Geler"}</button>
+      <button class="btn bad" id="archiveRule">Supprimer</button>
+    </div>`);
+  bindRuleForm(rule.type,rule);
+  document.getElementById("toggleRule").onclick=async()=>{rule.status=rule.status==="frozen"?"active":"frozen";rule.updatedAt=new Date().toISOString();await putOne(STORE_RULES,rule);await loadState();closeModal();render()};
+  document.getElementById("archiveRule").onclick=async()=>{if(!confirm("Supprimer cette règle de la configuration actuelle ?"))return;rule.archived=true;rule.updatedAt=new Date().toISOString();await putOne(STORE_RULES,rule);await loadState();closeModal();render()}
+}
+
+function renderOnboarding(){
+  nav.hidden=true;headerSub.textContent="V2 · Configuration initiale";
+  if(onboardingStep===1){
+    view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step"></div><div class="step"></div></div><div class="eyebrow">Étape 1 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Créer mes comptes</div><div class="muted small" style="margin-bottom:14px">Ajoutez d'abord vos comptes réels. Rien n'est créé automatiquement.</div><div class="list">${activeAccounts().length?activeAccounts().map(a=>`<div class="item"><div class="row"><div><div class="name">${safeText(a.name)}</div><div class="meta">${a.currency} · ${a.role==="primary_spending"?"Compte principal":a.role==="protected_savings"?"Épargne protégée":"Suivi seulement"}</div></div><div class="amount">${money(a.balance,a.currency)}</div></div></div>`).join(""):'<div class="empty">Aucun compte pour le moment.</div>'}</div><div class="form-actions"><button class="btn" id="addOnboardAccount">+ Ajouter un compte</button><button class="btn alt" id="nextOnboard1" ${primaryAccount()?"":"disabled"}>Continuer</button></div>${primaryAccount()?"":'<div class="note" style="margin-top:10px">Il faut au moins un compte principal de dépenses pour continuer.</div>'}</div>`;
+    document.getElementById("addOnboardAccount").onclick=()=>{openModal("Ajouter un compte",accountForm(null,true));bindAccountForm(null)};
+    document.getElementById("nextOnboard1").onclick=()=>{onboardingStep=2;renderOnboarding()};return
+  }
+  if(onboardingStep===2){
+    const s=state.settings||defaultSettings;
+    view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step on"></div><div class="step"></div></div><div class="eyebrow">Étape 2 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Paramètres du cycle</div><form id="settingsForm"><label>Jour de clôture du cycle</label><input id="cycleDay" type="number" min="1" max="28" required value="${s.cycleDay||2}"><div class="muted small">Le jour est configurable.</div><label>Devise principale</label><select id="mainCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option value="${c}" ${(s.mainCurrency||"CAD")===c?"selected":""}>${c}</option>`).join("")}</select><label>Réserve de sécurité optionnelle</label><input id="safetyReserve" type="number" min="0" step="0.01" value="${s.safetyReserve||0}"><div class="form-actions"><button class="btn ghost" type="button" id="backOnboard">Retour</button><button class="btn" type="submit">Continuer</button></div></form></div>`;
+    document.getElementById("backOnboard").onclick=()=>{onboardingStep=1;renderOnboarding()};
+    document.getElementById("settingsForm").onsubmit=async e=>{e.preventDefault();const pa=primaryAccount();state.settings={...defaultSettings,...(state.settings||{}),cycleDay:Math.max(1,Math.min(28,Number(document.getElementById("cycleDay").value)||2)),mainCurrency:document.getElementById("mainCurrency").value,safetyReserve:Math.max(0,Number(document.getElementById("safetyReserve").value)||0),primaryAccountId:pa?.id||null};await putOne(STORE_META,{key:"settings",value:state.settings});onboardingStep=3;renderOnboarding()};return
+  }
+  const pa=primaryAccount(),s=state.settings||defaultSettings,range=cycleRange(s.cycleDay);
+  view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step on"></div><div class="step on"></div></div><div class="eyebrow">Étape 3 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Prêt à démarrer</div><div class="grid2"><div class="kpi"><div class="muted small">Compte principal</div><div class="value">${safeText(pa?.name||"—")}</div></div><div class="kpi"><div class="muted small">Solde actuel</div><div class="value">${pa?money(pa.balance,pa.currency):"—"}</div></div><div class="kpi"><div class="muted small">Cycle actuel</div><div class="value" style="font-size:15px">${fmtDate(range.start)} → ${fmtDate(range.end)}</div></div><div class="kpi"><div class="muted small">Réserve sécurité</div><div class="value">${money(s.safetyReserve,s.mainCurrency)}</div></div></div><div class="note" style="margin-top:14px">Phase 2 active maintenant la gestion des règles fixes.</div><div class="form-actions"><button class="btn ghost" id="backOnboard2">Retour</button><button class="btn" id="finishOnboard">Ouvrir Nadhir Finance</button></div></div>`;
+  document.getElementById("backOnboard2").onclick=()=>{onboardingStep=2;renderOnboarding()};
+  document.getElementById("finishOnboard").onclick=async()=>{await putOne(STORE_META,{key:"onboardingComplete",value:true});await loadState();page="home";render()}
+}
+
+function renderHome(){
+  const s=state.settings||defaultSettings,pa=primaryAccount(),range=cycleRange(s.cycleDay);
+  headerSub.textContent=`Cycle ${fmtDate(range.start)} → ${fmtDate(range.end)}`;
+  const rulesReady=state.rules.filter(r=>!r.archived).length;
+  view.innerHTML=`<div class="card hero"><div class="eyebrow">SAFE TO SPEND AUJOURD’HUI</div><div class="big">—</div><span class="badge warn">Moteur financier · Phase suivante</span><div class="small" style="margin-top:10px;color:#d8ecff">Les règles sont maintenant enregistrables, mais aucun Safe to Spend n'est calculé avant l'installation du moteur.</div></div>
+  <div class="grid2"><div class="card kpi"><div class="muted small">Compte principal</div><div class="value">${safeText(pa?.name||"—")}</div><div class="small muted">${pa?money(pa.balance,pa.currency):"—"}</div></div><div class="card kpi"><div class="muted small">Règles configurées</div><div class="value">${rulesReady}</div><div class="small muted">Fixes / budgets / virements</div></div></div>
+  <div class="card"><div class="title">Actions rapides</div><div class="actions3"><button class="action" disabled><span class="symbol">＋</span><span>Revenu</span></button><button class="action" disabled><span class="symbol">−</span><span>Dépense</span></button><button class="action" disabled><span class="symbol">◇</span><span>Projet</span></button></div><div class="muted small" style="margin-top:10px">Les opérations réelles seront activées avec le moteur de transactions.</div></div>`
+}
+
+function renderRuleList(type){
+  manageSection=type;headerSub.textContent=ruleLabels[type]+" · Phase 2";
+  const rules=activeRules(type);
+  view.innerHTML=`<div class="card"><div class="section-head"><div><button class="btn ghost" id="backManage">← Gérer</button></div><button class="btn" id="addRule">+ Ajouter</button></div><div class="title">${ruleLabels[type]}</div>
+    <div class="list">${rules.length?rules.map(r=>`<button class="item" data-rule="${r.id}" style="width:100%;text-align:left;color:inherit"><div class="row"><div><div class="name">${safeText(r.name)}</div><div class="meta">${safeText(ruleMeta(r))}</div><div class="status-line">${statusBadge(r)}</div></div><div class="amount">${money(r.amount,ruleCurrency(r))}</div></div></button>`).join(""):'<div class="empty">Aucun élément. Utilisez « + Ajouter ».</div>'}</div>
+  </div>`;
+  document.getElementById("backManage").onclick=()=>{manageSection=null;renderManage()};
+  document.getElementById("addRule").onclick=()=>{if(!activeAccounts().length){alert("Créez d'abord au moins un compte.");return}openModal("Ajouter · "+ruleLabels[type],ruleForm(type));bindRuleForm(type,null)};
+  document.querySelectorAll("[data-rule]").forEach(b=>b.onclick=()=>{const r=state.rules.find(x=>x.id===b.dataset.rule);if(r)openRuleEditor(r)})
+}
+function renderManage(){
+  if(manageSection){renderRuleList(manageSection);return}
+  headerSub.textContent="Gérer mes finances · Phase 2";
+  const accounts=activeAccounts();
+  const branch=(type)=>`<div class="tree-row"><div class="tree-main"><button class="tree-open" data-section="${type}"><strong>${ruleLabels[type]}</strong><div class="count">${ruleCount(type)} élément(s)</div></button></div><button class="btn alt" data-add="${type}">+ Ajouter</button></div>`;
+  view.innerHTML=`<div class="card"><div class="title">Gérer mes finances</div><div class="tree">
+    <div class="tree-row"><div class="tree-main"><strong>Comptes</strong><div class="count">${accounts.length} actif(s)</div></div><button class="btn alt" id="addAccountManage">+ Ajouter</button></div>
+    ${branch("fixed_income")}${branch("debit")}${branch("reserved_budget")}${branch("transfer")}
+    <div class="tree-row"><div class="tree-main"><strong>Projets</strong><div class="count">Phase suivante</div></div><span class="muted">›</span></div>
+  </div></div>
+  <div class="card"><div class="title">Mes comptes</div><div class="list">${accounts.length?accounts.map(a=>`<button class="item" data-account="${a.id}" style="width:100%;text-align:left;color:inherit"><div class="row"><div><div class="name">${safeText(a.name)}</div><div class="meta">${a.currency} · ${a.role==="primary_spending"?"Compte principal":a.role==="protected_savings"?"Épargne protégée":"Suivi seulement"}</div></div><div class="amount">${money(a.balance,a.currency)}</div></div></button>`).join(""):'<div class="empty">Aucun compte actif.</div>'}</div></div>`;
+  document.getElementById("addAccountManage").onclick=()=>{openModal("Ajouter un compte",accountForm());bindAccountForm(null)};
+  document.querySelectorAll("[data-section]").forEach(b=>b.onclick=()=>renderRuleList(b.dataset.section));
+  document.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{const type=b.dataset.add;if(!activeAccounts().length){alert("Créez d'abord un compte.");return}openModal("Ajouter · "+ruleLabels[type],ruleForm(type));bindRuleForm(type,null)});
+  document.querySelectorAll("[data-account]").forEach(btn=>btn.onclick=()=>{const acc=state.accounts.find(a=>a.id===btn.dataset.account);if(!acc)return;openModal("Modifier le compte",`${accountForm(acc)}<div class="hr"></div><button class="btn bad" id="archiveAccount">Archiver le compte</button>`);bindAccountForm(acc);document.getElementById("archiveAccount").onclick=async()=>{if(!confirm("Archiver ce compte ?"))return;acc.archived=true;await putOne(STORE_ACCOUNTS,acc);if(state.settings?.primaryAccountId===acc.id){state.settings.primaryAccountId=null;await putOne(STORE_META,{key:"settings",value:state.settings})}await loadState();closeModal();render()}})
+}
+function renderPlaceholder(title,text){headerSub.textContent=title+" · Phase 2";view.innerHTML=`<div class="card"><div class="title">${title}</div><div class="empty">${text}</div></div>`}
+function renderMore(){
+  const s=state.settings||defaultSettings;headerSub.textContent="Plus · Phase 2";
+  view.innerHTML=`<div class="card"><div class="title">Paramètres de base</div><form id="editSettings"><label>Jour de clôture</label><input id="editCycleDay" type="number" min="1" max="28" value="${s.cycleDay}"><label>Devise principale</label><select id="editCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option ${s.mainCurrency===c?"selected":""}>${c}</option>`).join("")}</select><label>Réserve de sécurité</label><input id="editReserve" type="number" min="0" step="0.01" value="${s.safetyReserve}"><div class="form-actions"><button class="btn" type="submit">Enregistrer</button></div></form></div><div class="card"><div class="title">Données</div><div class="note">Les règles de Phase 2 sont stockées dans IndexedDB avec les comptes. Export / Import viendra après validation.</div></div>`;
+  document.getElementById("editSettings").onsubmit=async e=>{e.preventDefault();s.cycleDay=Math.max(1,Math.min(28,Number(document.getElementById("editCycleDay").value)||2));s.mainCurrency=document.getElementById("editCurrency").value;s.safetyReserve=Math.max(0,Number(document.getElementById("editReserve").value)||0);await putOne(STORE_META,{key:"settings",value:s});state.settings=s;render()}
+}
+function render(){
+  if(!state.onboardingComplete){renderOnboarding();return}
+  nav.hidden=false;nav.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+  if(page==="home")renderHome();
+  else if(page==="manage")renderManage();
+  else if(page==="history")renderPlaceholder("Historique","Les opérations réelles et statuts Prévu / Exécuté / Confirmé seront activés avec le moteur de transactions.");
+  else if(page==="projects")renderPlaceholder("Projets","Simulation et gestion des projets arrivent dans une phase dédiée.");
+  else if(page==="more")renderMore()
+}
+nav.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{page=b.dataset.page;manageSection=null;render()}));
+
+async function boot(){
+  try{
+    db=await openDB();await loadState();
+    if(!state.settings){state.settings={...defaultSettings};await putOne(STORE_META,{key:"settings",value:state.settings})}
+    render()
+  }catch(err){
+    console.error(err);
+    view.innerHTML='<div class="card"><div class="title">Erreur de stockage local</div><div class="note">IndexedDB n’a pas pu être ouvert sur ce navigateur.</div></div>'
+  }
+}
+boot();
+})();
+</script>
+</body>
+</html>
