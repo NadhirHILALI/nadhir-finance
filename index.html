@@ -1,0 +1,2768 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08131f">
+<title>Nadhir Finance V2 — Phase 3O</title>
+<style>
+:root{
+  --bg:#07111c;--panel:#0c1927;--panel2:#102236;--card:#0f2134;--line:#213a52;
+  --text:#f4f7fb;--muted:#8ea4b9;--blue:#2e8cff;--blue2:#6ab5ff;
+  --good:#2ac37d;--warn:#f1b84b;--bad:#ef6472;--shadow:0 12px 28px rgba(0,0,0,.26)
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:560px;margin:0 auto;min-height:100vh;padding-bottom:90px}
+header{position:sticky;top:0;z-index:10;padding:18px 16px 12px;background:rgba(7,17,28,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.04)}
+.brand{font-size:24px;font-weight:900}.brand span{color:var(--blue)}.sub{font-size:12px;color:var(--muted);margin-top:3px}
+main{padding:14px}
+.card{background:linear-gradient(180deg,var(--card),var(--panel));border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#0d3f76,#125fae 52%,#2287de);border-color:#2c78bc}
+.title{font-size:16px;font-weight:850;margin-bottom:10px}.eyebrow{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:800;color:#afd2f1}
+.big{font-size:38px;font-weight:900;margin:5px 0}.muted{color:var(--muted)}.small{font-size:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{min-width:0;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}
+.kpi .value{font-size:21px;font-weight:900;margin-top:4px;overflow-wrap:anywhere}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:800;background:#14324d;border:1px solid #2b5273;color:#c4e3ff}
+.badge.good{background:#113928;border-color:#245c44;color:#c3f3d9}.badge.warn{background:#4b3915;border-color:#705821;color:#ffe4a7}.badge.bad{background:#4e2029;border-color:#7a2e3a;color:#ffdce2}
+.btn{border:0;border-radius:13px;background:var(--blue);color:#fff;padding:12px 14px;font-weight:850}
+.btn.alt{background:#17334e;border:1px solid #2d526f;color:#dcefff}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn.bad{background:#57212b;border:1px solid #7a2e3a;color:#ffdde2}.btn:disabled{opacity:.45;cursor:not-allowed}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+label{display:block;margin:10px 0 5px;font-size:12px;color:#b0c4d5}
+input,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#091725;color:var(--text);padding:12px;font-size:16px;outline:none}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(46,140,255,.14)}
+.list{display:flex;flex-direction:column;gap:9px}.item{border:1px solid var(--line);border-radius:15px;background:#0b1b2a;padding:12px}
+.item .name{font-weight:850}.item .meta{font-size:12px;color:var(--muted);margin-top:3px}.item .amount{font-weight:900}
+.note{padding:11px;border-radius:14px;border:1px solid #34516b;background:#0c2134;color:#c7d7e6;font-size:12px}
+.empty{text-align:center;padding:18px;border:1px dashed #31506a;border-radius:16px;color:var(--muted)}
+.steps{display:flex;gap:6px;margin-bottom:14px}.step{height:5px;flex:1;background:#183149;border-radius:999px}.step.on{background:var(--blue)}
+.tree{display:flex;flex-direction:column;gap:8px}.tree-row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);background:#0d2031;border-radius:15px;padding:13px}
+.tree-row strong{font-size:14px}.tree-row .count{font-size:12px;color:var(--muted)}
+.tree-main{flex:1;min-width:0}.tree-open{border:0;background:transparent;color:var(--text);padding:0;text-align:left;width:100%}
+.actions3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.action{min-height:72px;border:1px solid var(--line);border-radius:18px;background:#0e2336;color:var(--text);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;font-weight:850}
+.action .symbol{font-size:26px;color:var(--blue2)}
+.status-line{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.rule-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.home-collapse{padding:0;overflow:hidden}
+.home-collapse-toggle{width:100%;border:0;background:transparent;color:inherit;padding:15px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left}
+.home-collapse-toggle:focus-visible{outline:2px solid var(--blue);outline-offset:-3px}
+.home-collapse-heading{min-width:0;flex:1}
+.home-collapse-title{font-size:16px;font-weight:850}
+.home-collapse-summary{font-size:12px;color:var(--muted);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.home-collapse-right{display:flex;align-items:center;gap:9px;flex-shrink:0}
+.home-collapse-chevron{font-size:22px;color:var(--blue2);line-height:1;transition:transform .18s ease}
+.home-collapse.open .home-collapse-chevron{transform:rotate(180deg)}
+.home-collapse-content{border-top:1px solid var(--line);padding:14px 16px 16px}
+.home-collapse-content[hidden]{display:none!important}
+.home-collapse-content>.card{margin:0;padding:0;border:0;box-shadow:none;background:transparent}
+.home-collapse-content>.card+.card{margin-top:12px}
+.top-status{padding:12px 14px}
+.progress-track{height:9px;border-radius:999px;background:#142b40;overflow:hidden;margin-top:8px;border:1px solid #244159}
+.progress-fill{height:100%;background:var(--blue)}
+.metric-positive{color:#8fe4b8}
+.metric-negative{color:#ffc0c7}
+.bilan-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+
+.top-status .title{margin:0}
+
+.calendar-day{font-size:12px;font-weight:850;color:#9fc7e8;margin:13px 2px 6px}
+.event{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);background:#0b1b2a;border-radius:15px;padding:12px}
+.event-name{font-weight:850}.event-meta{font-size:12px;color:var(--muted);margin-top:3px}.event-amount{font-weight:900;white-space:nowrap}.event-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.btn.mini{padding:7px 10px;border-radius:10px;font-size:11px}
+.event-amount.in{color:#8fe4b8}.event-amount.out{color:#ffc0c7}
+nav[hidden]{display:none!important}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(560px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(8,19,31,.97);border-top:1px solid var(--line);padding:8px 8px max(8px,env(safe-area-inset-bottom));z-index:20}
+nav button{border:0;background:transparent;color:#788fa6;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:18px}
+nav button.active{color:var(--blue2)}nav .lab{font-size:10px}
+dialog{width:min(500px,94vw);border:0;padding:0;background:transparent;color:var(--text)}dialog::backdrop{background:rgba(0,0,0,.67);backdrop-filter:blur(2px)}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.close{border:0;background:transparent;color:var(--muted);font-size:26px;padding:3px 8px}.hr{height:1px;background:var(--line);margin:14px 0}
+.inline-check{display:flex;align-items:center;gap:9px;margin-top:12px}.inline-check input{width:auto;transform:scale(1.15)}
+@media (max-width:390px){.grid2,.actions3{grid-template-columns:1fr}.big{font-size:32px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">Nadhir <span>Finance</span></div><div class="sub" id="headerSub">V2 · Phase 3O</div></header>
+<main id="view"></main>
+<nav id="nav" hidden>
+  <button data-page="home" class="active">⌂<span class="lab">Accueil</span></button>
+  <button data-page="history">≡<span class="lab">Historique</span></button>
+  <button data-page="manage">⌘<span class="lab">Gérer</span></button>
+  <button data-page="projects">◇<span class="lab">Projets</span></button>
+  <button data-page="more">•••<span class="lab">Plus</span></button>
+</nav>
+</div>
+<dialog id="dlg">
+  <div class="modal">
+    <div class="modal-head"><div class="title" id="dlgTitle"></div><button class="close" id="dlgClose" aria-label="Fermer">×</button></div>
+    <div id="dlgBody"></div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+"use strict";
+
+const DB_NAME="nadhir_finance_v2";
+const DB_VERSION=6;
+const STORE_ACCOUNTS="accounts";
+const STORE_META="meta";
+const STORE_RULES="rules";
+const STORE_EVENTS="events";
+const STORE_TRANSACTIONS="transactions";
+const STORE_CLOSURES="closures";
+const STORE_PROJECTS="projects";
+const STORE_DEBTS="debts";
+const BACKUP_FORMAT_VERSION=1;
+const BACKUP_STORES=[
+  STORE_ACCOUNTS,STORE_META,STORE_RULES,STORE_EVENTS,
+  STORE_TRANSACTIONS,STORE_CLOSURES,STORE_PROJECTS,STORE_DEBTS
+];
+
+const defaultSettings={
+  cycleDay:2,
+  mainCurrency:"CAD",
+  safetyReserve:0,
+  primaryAccountId:null,
+  balanceReferenceDate:null,
+  activeCycleStart:null,
+  dataVersion:6
+};
+
+const ruleLabels={
+  fixed_income:"Revenus fixes",
+  debit:"Prélèvements",
+  reserved_budget:"Budgets réservés",
+  transfer:"Virements programmés"
+};
+
+let db=null,page="home",manageSection=null,onboardingStep=1;
+const homeExpandedSections=new Set();
+const state={accounts:[],rules:[],eventRecords:[],transactions:[],closures:[],projects:[],debts:[],settings:null,onboardingComplete:false,reserveInit:null,reserveCarry:null};
+const view=document.getElementById("view"),nav=document.getElementById("nav"),dlg=document.getElementById("dlg"),
+dlgTitle=document.getElementById("dlgTitle"),dlgBody=document.getElementById("dlgBody"),dlgClose=document.getElementById("dlgClose"),
+headerSub=document.getElementById("headerSub");
+
+function uid(){return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():"id-"+Date.now()+"-"+Math.random().toString(16).slice(2)}
+function safeText(str=""){return String(str).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function digitsFor(currency){return currency==="TND"?3:2}
+function money(n,currency="CAD"){const d=digitsFor(currency);return new Intl.NumberFormat("fr-CA",{style:"currency",currency,minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(n||0))}
+function maxDayInMonth(y,m){return new Date(y,m+1,0).getDate()}
+function fmtDate(d){return new Intl.DateTimeFormat("fr-CA",{day:"2-digit",month:"short",year:"numeric"}).format(d)}
+function fmtDay(d){return new Intl.DateTimeFormat("fr-CA",{weekday:"short",day:"2-digit",month:"short"}).format(d)}
+function localToday(){const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate(),12)}
+function isoLocal(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function dateFromISO(s){return s?new Date(s+"T12:00:00"):null}
+function sameDay(a,b){return a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}
+
+function cycleRange(day){
+  const now=localToday(),y=now.getFullYear(),m=now.getMonth(),thisDay=Math.min(day,maxDayInMonth(y,m));
+  let start,end;
+  if(now.getDate()>=thisDay){
+    start=new Date(y,m,thisDay,12);
+    const nm=m===11?0:m+1,ny=m===11?y+1:y;
+    end=new Date(ny,nm,Math.min(day,maxDayInMonth(ny,nm)),12)
+  }else{
+    const pm=m===0?11:m-1,py=m===0?y-1:y;
+    start=new Date(py,pm,Math.min(day,maxDayInMonth(py,pm)),12);
+    end=new Date(y,m,thisDay,12)
+  }
+  return{start,end}
+}
+
+function nextCycleBoundary(start,day=(state.settings||defaultSettings).cycleDay||2){
+  let y=start.getFullYear(),m=start.getMonth()+1;if(m>11){m=0;y++}
+  return new Date(y,m,Math.min(day,maxDayInMonth(y,m)),12)
+}
+function activeCycleRange(){
+  const s=state.settings||defaultSettings;
+  const start=s.activeCycleStart?dateFromISO(s.activeCycleStart):cycleRange(s.cycleDay||2).start;
+  return {start,end:nextCycleBoundary(start,s.cycleDay||2)}
+}
+function closureDue(){
+  const r=activeCycleRange(),today=localToday();return today>=r.end
+}
+function reserveCarryMetaKey(range=activeCycleRange()){return `reserveCarry:${isoLocal(range.start)}`}
+
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=e=>{
+      const d=e.target.result;
+      if(!d.objectStoreNames.contains(STORE_ACCOUNTS))d.createObjectStore(STORE_ACCOUNTS,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_META))d.createObjectStore(STORE_META,{keyPath:"key"});
+      if(!d.objectStoreNames.contains(STORE_RULES))d.createObjectStore(STORE_RULES,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_EVENTS))d.createObjectStore(STORE_EVENTS,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_TRANSACTIONS))d.createObjectStore(STORE_TRANSACTIONS,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_CLOSURES))d.createObjectStore(STORE_CLOSURES,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_PROJECTS))d.createObjectStore(STORE_PROJECTS,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_DEBTS))d.createObjectStore(STORE_DEBTS,{keyPath:"id"});
+    };
+    req.onsuccess=e=>resolve(e.target.result);
+    req.onerror=()=>reject(req.error)
+  })
+}
+function store(name,mode="readonly"){return db.transaction(name,mode).objectStore(name)}
+function getAll(name){return new Promise((resolve,reject)=>{const r=store(name).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)})}
+function getOne(name,key){return new Promise((resolve,reject)=>{const r=store(name).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
+
+function putOne(name,value){return new Promise((resolve,reject)=>{const r=store(name,"readwrite").put(value);r.onsuccess=()=>resolve(value);r.onerror=()=>reject(r.error)})}
+
+function backupFilename(){
+  const n=new Date(),p=v=>String(v).padStart(2,"0");
+  return `nadhir-finance-backup-${n.getFullYear()}-${p(n.getMonth()+1)}-${p(n.getDate())}-${p(n.getHours())}${p(n.getMinutes())}.json`
+}
+async function buildBackupPayload(){
+  const data={};
+  for(const name of BACKUP_STORES)data[name]=await getAll(name);
+  const settingsRow=(data[STORE_META]||[]).find(x=>x?.key==="settings");
+  return {
+    app:"Nadhir Finance",
+    backupFormatVersion:BACKUP_FORMAT_VERSION,
+    dbName:DB_NAME,
+    dbVersion:DB_VERSION,
+    dataVersion:Number(settingsRow?.value?.dataVersion||DB_VERSION),
+    exportedAt:new Date().toISOString(),
+    cycleStart:settingsRow?.value?.activeCycleStart||null,
+    summary:Object.fromEntries(BACKUP_STORES.map(name=>[name,(data[name]||[]).length])),
+    data
+  }
+}
+async function exportBackup(){
+  try{
+    const payload=await buildBackupPayload();
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download=backupFilename();document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    return payload
+  }catch(err){
+    console.error(err);alert("La sauvegarde n’a pas pu être créée.")
+  }
+}
+function normalizeBackupPayload(raw){
+  if(!raw||typeof raw!=="object")throw new Error("Fichier JSON invalide.");
+  if(raw.app!=="Nadhir Finance")throw new Error("Ce fichier n’est pas une sauvegarde Nadhir Finance.");
+  if(Number(raw.backupFormatVersion)!==BACKUP_FORMAT_VERSION)throw new Error("Format de sauvegarde non pris en charge.");
+  if(Number(raw.dbVersion)>DB_VERSION)throw new Error("Cette sauvegarde provient d’une version plus récente de l’application.");
+  if(!raw.data||typeof raw.data!=="object")throw new Error("La sauvegarde ne contient pas de données.");
+  const normalized={...raw,data:{}};
+  for(const name of BACKUP_STORES){
+    const rows=raw.data[name];
+    normalized.data[name]=Array.isArray(rows)?rows:[]
+  }
+  return normalized
+}
+function backupCountsHTML(payload){
+  const d=payload.data||{},count=n=>(d[n]||[]).length;
+  return `<div class="grid2" style="margin-top:12px">
+    <div class="kpi"><div class="muted small">Comptes</div><div class="value">${count(STORE_ACCOUNTS)}</div></div>
+    <div class="kpi"><div class="muted small">Règles</div><div class="value">${count(STORE_RULES)}</div></div>
+    <div class="kpi"><div class="muted small">Opérations</div><div class="value">${count(STORE_TRANSACTIONS)}</div></div>
+    <div class="kpi"><div class="muted small">Événements</div><div class="value">${count(STORE_EVENTS)}</div></div>
+    <div class="kpi"><div class="muted small">Projets</div><div class="value">${count(STORE_PROJECTS)}</div></div>
+    <div class="kpi"><div class="muted small">Dettes</div><div class="value">${count(STORE_DEBTS)}</div></div>
+    <div class="kpi"><div class="muted small">Clôtures</div><div class="value">${count(STORE_CLOSURES)}</div></div>
+    <div class="kpi"><div class="muted small">Métadonnées</div><div class="value">${count(STORE_META)}</div></div>
+  </div>`
+}
+function replaceDatabaseFromBackup(payload){
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction(BACKUP_STORES,"readwrite");
+    tx.oncomplete=()=>resolve();
+    tx.onerror=()=>reject(tx.error||new Error("Erreur IndexedDB pendant la restauration."));
+    tx.onabort=()=>reject(tx.error||new Error("Restauration annulée."));
+    for(const name of BACKUP_STORES){
+      const os=tx.objectStore(name);
+      os.clear();
+      for(const row of payload.data[name]||[])os.put(row)
+    }
+  })
+}
+async function restoreBackup(payload){
+  await replaceDatabaseFromBackup(payload);
+  await loadState();
+  if(state.onboardingComplete&&state.settings?.balanceReferenceDate){
+    await syncDueEvents();await loadState();
+    await syncProjectCycleReservations();await loadState()
+  }
+  page="home";manageSection=null;render()
+}
+function openBackupImportPreview(payload,fileName=""){
+  const exported=payload.exportedAt?new Date(payload.exportedAt):null;
+  openModal("Importer une sauvegarde",`
+    <div class="note">Fichier : <strong>${safeText(fileName||"sauvegarde JSON")}</strong><br>
+    Exporté : ${exported&&!Number.isNaN(exported.getTime())?safeText(exported.toLocaleString("fr-CA")):"date inconnue"} · DB v${Number(payload.dbVersion)||"?"}</div>
+    ${backupCountsHTML(payload)}
+    <div class="note" style="margin-top:12px">L’import <strong>remplacera toutes les données locales actuelles</strong> de Nadhir Finance sur ce navigateur. L’opération IndexedDB est atomique : si elle échoue, le remplacement n’est pas validé.</div>
+    <div class="note" style="margin-top:10px">Conseil : exportez d’abord l’état actuel si vous souhaitez pouvoir revenir en arrière.</div>
+    <div class="form-actions">
+      <button class="btn alt" id="exportBeforeRestore">Exporter l’état actuel</button>
+      <button class="btn bad" id="confirmRestoreBackup">Remplacer mes données</button>
+      <button class="btn ghost" id="cancelRestoreBackup">Annuler</button>
+    </div>`);
+  document.getElementById("exportBeforeRestore")?.addEventListener("click",exportBackup);
+  document.getElementById("cancelRestoreBackup")?.addEventListener("click",closeModal);
+  document.getElementById("confirmRestoreBackup")?.addEventListener("click",async()=>{
+    if(!confirm("Confirmer le remplacement complet des données locales par cette sauvegarde ?"))return;
+    const btn=document.getElementById("confirmRestoreBackup");
+    if(btn){btn.disabled=true;btn.textContent="Restauration…"}
+    try{
+      await restoreBackup(payload);closeModal();alert("Sauvegarde restaurée avec succès.")
+    }catch(err){
+      console.error(err);alert("La restauration a échoué. Les données n’ont pas été remplacées.")
+    }
+  })
+}
+async function handleBackupFile(file){
+  if(!file)return;
+  try{
+    const raw=JSON.parse(await file.text());
+    const payload=normalizeBackupPayload(raw);
+    openBackupImportPreview(payload,file.name)
+  }catch(err){
+    console.error(err);alert(err?.message||"Impossible de lire cette sauvegarde.")
+  }
+}
+
+
+async function loadState(){
+  state.accounts=await getAll(STORE_ACCOUNTS);
+  state.rules=await getAll(STORE_RULES);
+  state.eventRecords=await getAll(STORE_EVENTS);
+  state.transactions=await getAll(STORE_TRANSACTIONS);
+  state.closures=await getAll(STORE_CLOSURES);
+  state.projects=await getAll(STORE_PROJECTS);
+  state.debts=await getAll(STORE_DEBTS);
+  const s=await getOne(STORE_META,"settings"),o=await getOne(STORE_META,"onboardingComplete");
+  state.settings=s?s.value:null;
+  state.onboardingComplete=!!(o&&o.value);
+  state.reserveInit=null;state.reserveCarry=null;
+  if(state.settings){
+    const rr=activeCycleRange();
+    const ri=await getOne(STORE_META,`reserveInit:${isoLocal(rr.start)}`);
+    const rc=await getOne(STORE_META,reserveCarryMetaKey(rr));
+    state.reserveInit=ri?ri.value:null;
+    state.reserveCarry=rc?rc.value:null
+  }
+}
+function activeAccounts(){return state.accounts.filter(a=>!a.archived)}
+function primaryAccount(){const id=state.settings?.primaryAccountId;return activeAccounts().find(a=>a.id===id)||activeAccounts().find(a=>a.role==="primary_spending")||null}
+function accountById(id){return state.accounts.find(a=>a.id===id)||null}
+function activeRules(type=null){return state.rules.filter(r=>!r.archived&&r.status!=="frozen"&&(!type||r.type===type))}
+function visibleRules(type=null){return state.rules.filter(r=>!r.archived&&(!type||r.type===type))}
+function ruleCount(type){return visibleRules(type).length}
+function statusBadge(rule){return rule.status==="frozen"?'<span class="badge warn">Gelé</span>':'<span class="badge good">Actif</span>'}
+function openModal(title,html){dlgTitle.textContent=title;dlgBody.innerHTML=html;dlg.showModal()}
+function closeModal(){dlg.close()}
+dlgClose.addEventListener("click",closeModal);
+
+function frequencyFields(rule={}){
+  const f=rule.frequency||"monthly";
+  let extra="";
+  if(f==="weekly"){
+    extra=`<label>Jour de la semaine</label><select id="ruleWeekday">${["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"].map((n,i)=>`<option value="${i}" ${Number(rule.weekday)===i?"selected":""}>${n}</option>`).join("")}</select>`;
+  }else if(f==="biweekly"){
+    extra=`<label>Date de référence</label><input id="ruleReferenceDate" type="date" value="${rule.referenceDate||""}" required><div class="muted small">Le rythme de 14 jours part de cette date.</div>`;
+  }else if(f==="monthly"){
+    extra=`<label>Jour du mois</label><input id="ruleMonthDay" type="number" min="1" max="28" value="${rule.monthDay||1}" required>`;
+  }else if(f==="annual"){
+    extra=`<label>Date annuelle</label><input id="ruleAnnualDate" type="date" value="${rule.annualDate||""}" required><div class="muted small">L'année de cette date sert seulement de référence; le mois et le jour se répètent chaque année.</div>`;
+  }
+  return extra;
+}
+function scheduleSummary(r){
+  if(r.frequency==="weekly") return "Hebdomadaire · "+(["dim.","lun.","mar.","mer.","jeu.","ven.","sam."][Number(r.weekday)||0]);
+  if(r.frequency==="biweekly") return "Aux 2 semaines · réf. "+(r.referenceDate||"—");
+  if(r.frequency==="monthly") return "Mensuel · le "+r.monthDay;
+  if(r.frequency==="annual"){
+    const d=r.annualDate?dateFromISO(r.annualDate):null;
+    return "Annuel · "+(d?new Intl.DateTimeFormat("fr-CA",{day:"2-digit",month:"short"}).format(d):"—");
+  }
+  return r.frequency||"—"
+}
+function executionSummary(r){return r.executionMode==="confirm"?"À confirmer":"Automatique"}
+
+function accountForm(account=null,onboarding=false){
+  const hasPrimary=activeAccounts().some(a=>a.role==="primary_spending"&&a.id!==account?.id);
+  const chosenRole=account?.role||(hasPrimary?"protected_savings":"primary_spending");
+  return `<form id="accountForm">
+    <label>Nom du compte</label><input id="accName" required maxlength="60" value="${safeText(account?.name||"")}" placeholder="Ex. EOP">
+    <label>Type</label><select id="accType">
+      <option value="current" ${account?.type==="current"?"selected":""}>Compte courant</option>
+      <option value="savings" ${account?.type==="savings"?"selected":""}>Épargne</option>
+      <option value="tracking" ${account?.type==="tracking"?"selected":""}>Suivi seulement</option>
+      <option value="other" ${account?.type==="other"?"selected":""}>Autre</option>
+    </select>
+    <label>Devise</label><select id="accCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option value="${c}" ${(account?.currency||"CAD")===c?"selected":""}>${c}</option>`).join("")}</select>
+    <label>Solde actuel</label><input id="accBalance" type="number" step="${(account?.currency||"CAD")==="TND"?"0.001":"0.01"}" required value="${account?.balance??""}" placeholder="${(account?.currency||"CAD")==="TND"?"0.000":"0.00"}">
+    <label>Rôle</label><select id="accRole">
+      <option value="primary_spending" ${chosenRole==="primary_spending"?"selected":""}>Compte principal de dépenses</option>
+      <option value="protected_savings" ${chosenRole==="protected_savings"?"selected":""}>Épargne protégée</option>
+      <option value="tracking_only" ${chosenRole==="tracking_only"?"selected":""}>Suivi seulement</option>
+    </select>
+    <div class="note" style="margin-top:10px">Le compte principal servira au moteur Safe to Spend.</div>
+    <div class="form-actions"><button class="btn" type="submit">${account?"Enregistrer":"Ajouter le compte"}</button>${onboarding?"":'<button type="button" class="btn ghost" id="cancelAcc">Annuler</button>'}</div>
+  </form>`
+}
+async function saveAccount(existing=null){
+  const name=document.getElementById("accName").value.trim(),
+        type=document.getElementById("accType").value,
+        currency=document.getElementById("accCurrency").value,
+        balance=Number(document.getElementById("accBalance").value),
+        role=document.getElementById("accRole").value;
+  if(!name||!Number.isFinite(balance)){alert("Vérifiez le nom et le solde.");return}
+  if(role==="primary_spending"){
+    for(const a of state.accounts){
+      if(a.id!==existing?.id&&a.role==="primary_spending"&&!a.archived){
+        a.role="protected_savings";
+        await putOne(STORE_ACCOUNTS,a)
+      }
+    }
+  }
+  const obj={id:existing?.id||uid(),name,type,currency,balance,role,archived:existing?.archived||false,createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};
+  await putOne(STORE_ACCOUNTS,obj);
+  await loadState();
+  if(role==="primary_spending"){
+    state.settings={...defaultSettings,...(state.settings||{}),primaryAccountId:obj.id,dataVersion:6};
+    await putOne(STORE_META,{key:"settings",value:state.settings})
+  }
+  closeModal();render()
+}
+function bindAccountForm(existing=null){
+  const form=document.getElementById("accountForm");if(!form)return;
+  const currencySelect=document.getElementById("accCurrency"),balanceInput=document.getElementById("accBalance");
+  function updatePrecision(){const tnd=currencySelect?.value==="TND";if(balanceInput){balanceInput.step=tnd?"0.001":"0.01";balanceInput.placeholder=tnd?"0.000":"0.00"}}
+  currencySelect?.addEventListener("change",updatePrecision);updatePrecision();
+  form.addEventListener("submit",e=>{e.preventDefault();saveAccount(existing)});
+  document.getElementById("cancelAcc")?.addEventListener("click",closeModal)
+}
+
+function commonRuleFields(rule={}){
+  const accountOptions=activeAccounts().map(a=>`<option value="${a.id}" ${rule.accountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("");
+  return `
+    <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(rule.name||"")}">
+    <label>Montant</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${rule.amount??""}">
+    <label>Fréquence</label><select id="ruleFrequency">
+      <option value="weekly" ${rule.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+      <option value="biweekly" ${rule.frequency==="biweekly"?"selected":""}>Aux 2 semaines</option>
+      <option value="monthly" ${(!rule.frequency||rule.frequency==="monthly")?"selected":""}>Mensuelle</option>
+      <option value="annual" ${rule.frequency==="annual"?"selected":""}>Annuelle</option>
+    </select>
+    <div id="frequencyExtra">${frequencyFields(rule.frequency?rule:{...rule,frequency:"monthly"})}</div>
+    <label>Compte</label><select id="ruleAccount">${accountOptions}</select>
+  `
+}
+function ruleForm(type,rule=null){
+  const r=rule||{type,status:"active",executionMode:"auto",frequency:"monthly"};
+  if(type==="fixed_income"||type==="debit"){
+    const roleLabel=type==="fixed_income"?"Compte destination":"Compte source";
+    return `<form id="ruleForm">${commonRuleFields(r).replace("<label>Compte</label>",`<label>${roleLabel}</label>`)}
+      <label>Mode d’exécution</label><select id="ruleExecution">
+        <option value="auto" ${r.executionMode!=="confirm"?"selected":""}>Automatique</option>
+        <option value="confirm" ${r.executionMode==="confirm"?"selected":""}>À confirmer</option>
+      </select>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  if(type==="reserved_budget"){
+    return `<form id="ruleForm">
+      <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(r.name||"")}">
+      <label>Montant réservé</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${r.amount??""}">
+      <label>Fréquence</label><select id="ruleFrequency">
+        <option value="weekly" ${r.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+        <option value="monthly" ${(!r.frequency||r.frequency==="monthly")?"selected":""}>Mensuelle</option>
+        <option value="annual" ${r.frequency==="annual"?"selected":""}>Annuelle</option>
+      </select>
+      <div id="frequencyExtra">${r.frequency==="annual"?frequencyFields(r):""}</div>
+      <label>Compte à protéger</label><select id="ruleAccount">${activeAccounts().map(a=>`<option value="${a.id}" ${r.accountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label class="inline-check"><input id="ruleRollover" type="checkbox" ${r.rollover?"checked":""}> Reporter le reste au cycle suivant</label>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  if(type==="transfer"){
+    const accounts=activeAccounts();
+    return `<form id="ruleForm">
+      <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(r.name||"")}">
+      <label>Compte source</label><select id="ruleSource">${accounts.map(a=>`<option value="${a.id}" ${r.sourceAccountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label>Montant prévu à débiter</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${r.amount??""}">
+      <label>Compte destination</label><select id="ruleDestination">${accounts.map(a=>`<option value="${a.id}" ${r.destinationAccountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label>Fréquence</label><select id="ruleFrequency">
+        <option value="weekly" ${r.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+        <option value="biweekly" ${r.frequency==="biweekly"?"selected":""}>Aux 2 semaines</option>
+        <option value="monthly" ${(!r.frequency||r.frequency==="monthly")?"selected":""}>Mensuelle</option>
+        <option value="annual" ${r.frequency==="annual"?"selected":""}>Annuelle</option>
+      </select>
+      <div id="frequencyExtra">${frequencyFields(r.frequency?r:{...r,frequency:"monthly"})}</div>
+      <label>Mode d’exécution</label><select id="ruleExecution">
+        <option value="auto" ${r.executionMode!=="confirm"?"selected":""}>Automatique</option>
+        <option value="confirm" ${r.executionMode==="confirm"?"selected":""}>À confirmer</option>
+      </select>
+      <div class="note" style="margin-top:10px">Si les deux comptes n’ont pas la même devise, le montant réellement crédité sera saisi lors de l’exécution. Aucun taux de change n’est inventé.</div>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  return ""
+}
+function readSchedule(){
+  const frequency=document.getElementById("ruleFrequency").value;
+  const out={frequency};
+  if(frequency==="weekly") out.weekday=Number(document.getElementById("ruleWeekday").value);
+  if(frequency==="biweekly") out.referenceDate=document.getElementById("ruleReferenceDate").value;
+  if(frequency==="monthly") out.monthDay=Math.max(1,Math.min(28,Number(document.getElementById("ruleMonthDay").value)||1));
+  if(frequency==="annual") out.annualDate=document.getElementById("ruleAnnualDate").value;
+  return out
+}
+async function saveRule(type,existing=null){
+  const name=document.getElementById("ruleName").value.trim(),amount=Number(document.getElementById("ruleAmount").value);
+  if(!name||!Number.isFinite(amount)||amount<0){alert("Vérifiez le nom et le montant.");return}
+  let schedule;
+  if(type==="reserved_budget"){
+    const frequency=document.getElementById("ruleFrequency").value;
+    schedule={frequency};
+    if(frequency==="annual")schedule.annualDate=document.getElementById("ruleAnnualDate")?.value||"";
+  }else schedule=readSchedule();
+
+  if(schedule.frequency==="biweekly"&&!schedule.referenceDate){alert("Ajoutez une date de référence.");return}
+  if(schedule.frequency==="annual"&&!schedule.annualDate){alert("Ajoutez la date annuelle.");return}
+
+  const base={id:existing?.id||uid(),type,name,amount,status:existing?.status||"active",archived:false,createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString(),...schedule};
+
+  if(type==="fixed_income"||type==="debit"){
+    base.accountId=document.getElementById("ruleAccount").value;
+    base.executionMode=document.getElementById("ruleExecution").value
+  }else if(type==="reserved_budget"){
+    base.accountId=document.getElementById("ruleAccount").value;
+    base.rollover=document.getElementById("ruleRollover").checked
+  }else if(type==="transfer"){
+    base.sourceAccountId=document.getElementById("ruleSource").value;
+    base.destinationAccountId=document.getElementById("ruleDestination").value;
+    if(base.sourceAccountId===base.destinationAccountId){alert("Le compte source et destination doivent être différents.");return}
+    base.executionMode=document.getElementById("ruleExecution").value
+  }
+  await putOne(STORE_RULES,base);await loadState();await syncDueEvents();await loadState();closeModal();render()
+}
+function bindRuleForm(type,existing=null){
+  document.getElementById("cancelRule")?.addEventListener("click",closeModal);
+  const freq=document.getElementById("ruleFrequency"),box=document.getElementById("frequencyExtra");
+  if(freq&&box){
+    freq.addEventListener("change",()=>{
+      if(type==="reserved_budget"&&freq.value!=="annual"){box.innerHTML="";return}
+      box.innerHTML=frequencyFields({frequency:freq.value})
+    })
+  }
+  document.getElementById("ruleForm")?.addEventListener("submit",e=>{e.preventDefault();saveRule(type,existing)})
+}
+function ruleMeta(r){
+  if(r.type==="transfer"){
+    const s=accountById(r.sourceAccountId),d=accountById(r.destinationAccountId);
+    return `${scheduleSummary(r)} · ${s?.name||"?"} → ${d?.name||"?"} · ${executionSummary(r)}`
+  }
+  const a=accountById(r.accountId);
+  if(r.type==="reserved_budget"){
+    let freqLabel=r.frequency==="weekly"?"Hebdomadaire":r.frequency==="annual"?scheduleSummary(r):"Mensuel";
+    return `${freqLabel} · ${a?.name||"?"} · Reste ${r.rollover?"reporté":"libéré"}`
+  }
+  return `${scheduleSummary(r)} · ${a?.name||"?"} · ${executionSummary(r)}`
+}
+function ruleCurrency(r){
+  if(r.type==="transfer")return accountById(r.sourceAccountId)?.currency||state.settings?.mainCurrency||"CAD";
+  return accountById(r.accountId)?.currency||state.settings?.mainCurrency||"CAD"
+}
+function openRuleEditor(rule){
+  openModal("Modifier · "+ruleLabels[rule.type],ruleForm(rule.type,rule)+`
+    <div class="hr"></div>
+    <div class="rule-actions">
+      <button class="btn alt" id="toggleRule">${rule.status==="frozen"?"Réactiver":"Geler"}</button>
+      <button class="btn bad" id="archiveRule">Supprimer</button>
+    </div>`);
+  bindRuleForm(rule.type,rule);
+  document.getElementById("toggleRule").onclick=async()=>{
+    rule.status=rule.status==="frozen"?"active":"frozen";
+    rule.updatedAt=new Date().toISOString();
+    await putOne(STORE_RULES,rule);await loadState();closeModal();render()
+  };
+  document.getElementById("archiveRule").onclick=async()=>{
+    if(!confirm("Supprimer cette règle de la configuration actuelle ?"))return;
+    rule.archived=true;rule.updatedAt=new Date().toISOString();
+    await putOne(STORE_RULES,rule);await loadState();closeModal();render()
+  }
+}
+
+/* ===== Phase 3O : calendrier + EOP calculé ===== */
+function occurrenceDates(rule,start,end){
+  const out=[];
+  const pushIf=d=>{if(d>=start&&d<end)out.push(d)};
+  if(rule.frequency==="weekly"){
+    const d=new Date(start);
+    while(d.getDay()!==Number(rule.weekday))d.setDate(d.getDate()+1);
+    for(;d<end;d.setDate(d.getDate()+7))pushIf(new Date(d))
+  }else if(rule.frequency==="biweekly"){
+    const ref=dateFromISO(rule.referenceDate);
+    if(!ref)return out;
+    let d=new Date(ref);
+    if(d<start){
+      const days=Math.floor((start-d)/86400000);
+      const jumps=Math.floor(days/14);
+      d.setDate(d.getDate()+jumps*14);
+      while(d<start)d.setDate(d.getDate()+14)
+    }
+    for(;d<end;d.setDate(d.getDate()+14))pushIf(new Date(d))
+  }else if(rule.frequency==="monthly"){
+    let y=start.getFullYear(),m=start.getMonth();
+    while(new Date(y,m,1,12)<end){
+      const day=Math.min(Number(rule.monthDay)||1,maxDayInMonth(y,m));
+      pushIf(new Date(y,m,day,12));
+      m++;if(m>11){m=0;y++}
+    }
+  }else if(rule.frequency==="annual"){
+    const ref=dateFromISO(rule.annualDate);
+    if(!ref)return out;
+    for(let y=start.getFullYear();y<=end.getFullYear();y++){
+      const d=new Date(y,ref.getMonth(),Math.min(ref.getDate(),maxDayInMonth(y,ref.getMonth())),12);
+      pushIf(d)
+    }
+  }
+  return out
+}
+
+function ruleToEvent(r,d){
+  let direction="out",accountId=null,destinationId=null;
+  if(r.type==="fixed_income"){direction="in";accountId=r.accountId}
+  else if(r.type==="debit"){direction="out";accountId=r.accountId}
+  else {direction="out";accountId=r.sourceAccountId;destinationId=r.destinationAccountId}
+  return {
+    id:`${r.id}__${isoLocal(d)}`,
+    ruleId:r.id,
+    type:r.type,
+    name:r.name,
+    amount:Number(r.amount)||0,
+    currency:ruleCurrency(r),
+    destinationCurrency:destinationId?accountById(destinationId)?.currency||null:null,
+    date:d,
+    dateISO:isoLocal(d),
+    direction,
+    accountId,
+    destinationId,
+    executionMode:r.executionMode||"auto"
+  }
+}
+
+function snapshotToEvent(rec){
+  return {
+    id:rec.id,ruleId:rec.ruleId,type:rec.type,name:rec.name,
+    amount:Number(rec.plannedAmount??rec.amount??0),currency:rec.currency||state.settings?.mainCurrency||"CAD",
+    destinationCurrency:rec.destinationCurrency||null,date:dateFromISO(rec.dateISO),dateISO:rec.dateISO,
+    direction:rec.direction||"out",accountId:rec.accountId||null,destinationId:rec.destinationId||null,
+    executionMode:rec.executionMode||"auto",record:rec
+  }
+}
+
+function generateEventsBetween(start,end){
+  const ref=dateFromISO(state.settings?.balanceReferenceDate);
+  const events=[];
+  for(const r of activeRules()){
+    if(!["fixed_income","debit","transfer"].includes(r.type))continue;
+    for(const d of occurrenceDates(r,start,end)){
+      if(ref&&d<=ref)continue;
+      events.push(ruleToEvent(r,d))
+    }
+  }
+  events.sort((a,b)=>{
+    const dd=a.date-b.date;
+    if(dd!==0)return dd;
+    if(a.direction!==b.direction)return a.direction==="out"?-1:1;
+    return a.name.localeCompare(b.name,"fr")
+  });
+  return events
+}
+
+function generateCycleEvents(){
+  const s=state.settings||defaultSettings;
+  const range=activeCycleRange();
+  const ref=dateFromISO(s.balanceReferenceDate);
+  if(!ref)return {range,reference:null,events:[]};
+  const generated=generateEventsBetween(range.start,range.end);
+  const map=new Map(generated.map(e=>[e.id,e]));
+  for(const rec of state.eventRecords){
+    const d=dateFromISO(rec.dateISO);
+    if(!d||d<range.start||d>=range.end)continue;
+    if(d<=ref&&!rec.afterReference&&rec.status!=="included_baseline")continue;
+    map.set(rec.id,snapshotToEvent(rec)); // snapshots historiques et pont de clôture
+  }
+  const events=[...map.values()].sort((a,b)=>{
+    const dd=a.date-b.date;
+    if(dd!==0)return dd;
+    if(a.direction!==b.direction)return a.direction==="out"?-1:1;
+    return a.name.localeCompare(b.name,"fr")
+  });
+  return {range,reference:ref,events}
+}
+
+function eventRecordById(id){return state.eventRecords.find(r=>r.id===id)||null}
+function eventSnapshot(e,status){
+  return {
+    id:e.id,ruleId:e.ruleId,type:e.type,name:e.name,plannedAmount:Number(e.amount)||0,currency:e.currency,
+    destinationCurrency:e.destinationCurrency||null,dateISO:e.dateISO,direction:e.direction,accountId:e.accountId||null,
+    destinationId:e.destinationId||null,executionMode:e.executionMode||"auto",status,
+    createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()
+  }
+}
+
+async function syncDueEvents(){
+  const s=state.settings||defaultSettings,ref=dateFromISO(s.balanceReferenceDate);
+  if(!ref)return;
+  const today=localToday(),tomorrow=new Date(today);tomorrow.setDate(tomorrow.getDate()+1);
+  const range=activeCycleRange();
+  const end=tomorrow<range.end?tomorrow:range.end;
+  const start=new Date(ref);start.setDate(start.getDate()+1);
+  if(start>=end)return;
+  const existing=new Set(state.eventRecords.map(r=>r.id));
+  const due=generateEventsBetween(start,end);
+  let changed=false;
+  for(const e of due){
+    if(existing.has(e.id))continue;
+    const rec=eventSnapshot(e,e.executionMode==="confirm"?"pending":"calculated");
+    await putOne(STORE_EVENTS,rec);existing.add(e.id);changed=true
+  }
+  if(changed)state.eventRecords=await getAll(STORE_EVENTS)
+}
+
+function effectiveEventState(e){
+  const rec=e.record||eventRecordById(e.id),today=localToday();
+  if(rec?.status==="cancelled")return {status:"cancelled",apply:false,record:rec,amount:0};
+  if(rec?.status==="included_baseline")return {status:"included_baseline",apply:false,record:rec,amount:Number(rec.actualAmount??rec.plannedAmount??0)};
+  if(rec?.status==="confirmed")return {status:"confirmed",apply:true,record:rec,amount:Number(rec.actualAmount??e.amount)};
+  if(rec?.status==="corrected")return {status:"corrected",apply:true,record:rec,amount:Number(rec.actualAmount??e.amount)};
+  if(rec?.status==="calculated")return {status:"calculated",apply:true,record:rec,amount:Number(rec.plannedAmount??e.amount)};
+  if(rec?.status==="pending")return {status:"pending",apply:false,record:rec,amount:0};
+  if(e.date>today)return {status:"planned",apply:false,record:null,amount:Number(e.amount)};
+  if(e.executionMode==="confirm")return {status:"pending",apply:false,record:null,amount:0};
+  return {status:"calculated",apply:true,record:null,amount:Number(e.amount)}
+}
+
+function recordImpactOnPrimary(rec){
+  const pa=primaryAccount();if(!pa)return 0;
+  const status=rec.status;
+  if(status==="pending"||status==="cancelled"||status==="included_baseline")return 0;
+  const amount=(status==="confirmed"||status==="corrected")?Number(rec.actualAmount??rec.plannedAmount??0):Number(rec.plannedAmount??0);
+  if(rec.type==="fixed_income"&&rec.accountId===pa.id)return amount;
+  if(rec.type==="debit"&&rec.accountId===pa.id)return -amount;
+  if(rec.type==="transfer"){
+    let impact=0;
+    if(rec.accountId===pa.id)impact-=amount;
+    if(rec.destinationId===pa.id){
+      const destAmount=Number(rec.actualDestinationAmount);
+      if(Number.isFinite(destAmount))impact+=destAmount;
+      else if(rec.currency===pa.currency)impact+=amount;
+    }
+    return impact
+  }
+  return 0
+}
+
+function activeTransactions(){
+  return state.transactions.filter(t=>t.status!=="cancelled")
+}
+function transactionImpactOnPrimary(t){
+  const pa=primaryAccount();if(!pa||t.status==="cancelled")return 0;
+  const amount=Number(t.amount)||0;
+  if(t.type==="expense"&&t.sourceAccountId===pa.id)return -amount;
+  if(t.type==="income"&&t.destinationAccountId===pa.id)return amount;
+  return 0
+}
+function transactionsSinceReference(){
+  const ref=dateFromISO(state.settings?.balanceReferenceDate),today=localToday();
+  if(!ref)return [];
+  const range=activeCycleRange();
+  return activeTransactions().filter(t=>{
+    const d=dateFromISO(t.dateISO);
+    return d&&d>=ref&&d<=today&&d>=range.start&&d<range.end
+  })
+}
+function budgetSpentSinceReference(ruleId){
+  return transactionsSinceReference()
+    .filter(t=>t.type==="expense"&&t.budgetRuleId===ruleId)
+    .reduce((sum,t)=>sum+(Number(t.amount)||0),0)
+}
+function calculateEOP(){
+  const pa=primaryAccount(),s=state.settings||defaultSettings,ref=dateFromISO(s.balanceReferenceDate),today=localToday();
+  if(!pa||!ref)return {available:false,calculated:null,baseline:pa?.balance??null,impact:0,eventImpact:0,transactionImpact:0,pending:0};
+  let eventImpact=0,pending=0,applied=0;
+  const range=activeCycleRange();
+  for(const rec of state.eventRecords){
+    const d=dateFromISO(rec.dateISO);if(!d||d>today||d<range.start||d>=range.end)continue;
+    if(d<=ref&&!rec.afterReference)continue;
+    if(rec.status==="pending")pending++;
+    const v=recordImpactOnPrimary(rec);eventImpact+=v;if(v!==0)applied++
+  }
+  const transactionImpact=transactionsSinceReference().reduce((sum,t)=>sum+transactionImpactOnPrimary(t),0);
+  const impact=eventImpact+transactionImpact;
+  return {available:true,baseline:Number(pa.balance)||0,calculated:(Number(pa.balance)||0)+impact,impact,eventImpact,transactionImpact,pending,applied,reference:ref,currency:pa.currency}
+}
+
+
+
+/* ===== Phase 3O : Module Accord D / dette ===== */
+function activeDebts(){return state.debts.filter(d=>!d.archived)}
+function debtById(id){return state.debts.find(d=>d.id===id)||null}
+function primaryDebt(){return activeDebts()[0]||null}
+function debtRule(debt){return debt?.monthlyRuleId?state.rules.find(r=>r.id===debt.monthlyRuleId&&!r.archived)||null:null}
+function dayDiff(a,b){return Math.max(0,Math.floor((b-a)/86400000))}
+function addMonthsDate(d,n){const x=new Date(d);const day=x.getDate();x.setDate(1);x.setMonth(x.getMonth()+n);x.setDate(Math.min(day,maxDayInMonth(x.getFullYear(),x.getMonth())));return x}
+
+function debtPaymentEntries(debt,through=localToday()){
+  if(!debt)return [];
+  const ref=dateFromISO(debt.referenceDate);if(!ref)return [];
+  const rows=[];
+  if(debt.monthlyRuleId){
+    for(const rec of state.eventRecords){
+      if(rec.ruleId!==debt.monthlyRuleId)continue;
+      const d=dateFromISO(rec.dateISO);if(!d||d<ref||d>through)continue;
+      if(d.getTime()===ref.getTime()&&!rec.afterReference)continue;
+      if(["pending","cancelled","included_baseline"].includes(rec.status))continue;
+      const amount=(rec.status==="confirmed"||rec.status==="corrected")
+        ?Number(rec.actualAmount??rec.plannedAmount??0)
+        :Number(rec.plannedAmount??0);
+      if(amount>0)rows.push({id:rec.id,date:d,dateISO:rec.dateISO,amount,kind:"scheduled",label:rec.name||"Paiement programmé"})
+    }
+  }
+  for(const t of activeTransactions()){
+    if(t.type!=="expense"||t.debtId!==debt.id)continue;
+    const d=dateFromISO(t.dateISO);if(!d||d<ref||d>through)continue;
+    const amount=Number(t.amount)||0;
+    if(amount>0)rows.push({id:t.id,date:d,dateISO:t.dateISO,amount,kind:"extra",label:t.description||"Paiement extra"})
+  }
+  rows.sort((a,b)=>a.date-b.date||a.kind.localeCompare(b.kind));
+  return rows
+}
+
+function estimateDebtAt(debt,target=localToday()){
+  if(!debt)return {available:false};
+  const ref=dateFromISO(debt.referenceDate),start=Number(debt.referenceBalance),rate=Math.max(0,Number(debt.annualRate)||0);
+  if(!ref||!Number.isFinite(start))return {available:false};
+  const daily=rate/100/365;
+  let balance=Math.max(0,start),last=new Date(ref),interest=0,totalPayments=0,scheduled=0,extra=0;
+  const payments=debtPaymentEntries(debt,target);
+  for(const p of payments){
+    const days=dayDiff(last,p.date);
+    if(days>0&&balance>0&&daily>0){
+      const before=balance;
+      balance=balance*Math.pow(1+daily,days);
+      interest+=balance-before
+    }
+    balance=Math.max(0,balance-p.amount);
+    totalPayments+=p.amount;
+    if(p.kind==="extra")extra+=p.amount;else scheduled+=p.amount;
+    last=new Date(p.date)
+  }
+  const finalDays=dayDiff(last,target);
+  if(finalDays>0&&balance>0&&daily>0){
+    const before=balance;
+    balance=balance*Math.pow(1+daily,finalDays);
+    interest+=balance-before
+  }
+  return {
+    available:true,currency:debt.currency||"CAD",
+    referenceBalance:start,referenceDate:ref,
+    estimatedBalance:roundCurrency(balance,debt.currency||"CAD"),
+    estimatedInterest:roundCurrency(interest,debt.currency||"CAD"),
+    totalPayments:roundCurrency(totalPayments,debt.currency||"CAD"),
+    scheduledPayments:roundCurrency(scheduled,debt.currency||"CAD"),
+    extraPayments:roundCurrency(extra,debt.currency||"CAD"),
+    payments
+  }
+}
+
+function debtPayoffForecast(debt){
+  const est=estimateDebtAt(debt),r=debtRule(debt);
+  if(!est.available||!r)return {available:false,reason:"Liez un prélèvement mensuel pour calculer la projection."};
+  const payment=Number(r.amount)||0,monthly=Math.max(0,Number(debt.annualRate)||0)/100/12;
+  let balance=est.estimatedBalance,months=0,totalInterest=0;
+  if(balance<=0)return {available:true,paid:true,months:0,payment,payoffDate:localToday(),totalInterest:0};
+  if(payment<=0)return {available:false,reason:"Le paiement programmé doit être supérieur à 0."};
+  if(monthly>0&&payment<=balance*monthly)return {available:false,reason:"Le paiement programmé ne couvre pas les intérêts mensuels estimés."};
+  while(balance>0.01&&months<600){
+    const interest=balance*monthly;
+    totalInterest+=interest;
+    balance=Math.max(0,balance+interest-payment);
+    months++
+  }
+  if(months>=600)return {available:false,reason:"Projection trop longue avec le paiement actuel."};
+  return {
+    available:true,paid:false,months,payment,
+    payoffDate:addMonthsDate(localToday(),months),
+    totalInterest:roundCurrency(totalInterest,debt.currency||"CAD")
+  }
+}
+
+function debtSetupFormHTML(debt=null){
+  const rules=visibleRules("debit");
+  const guessed=debt?.monthlyRuleId || rules.find(r=>String(r.name||"").toLowerCase().includes("accord"))?.id || "";
+  return `<form id="debtSetupForm">
+    <label>Nom</label><input id="debtName" required maxlength="60" value="${safeText(debt?.name||"Accord D")}">
+    <label>Solde réel de référence</label><input id="debtBalance" type="number" min="0" step="0.01" required value="${debt?.referenceBalance??""}" placeholder="Solde affiché par Desjardins">
+    <label>Date de ce solde réel</label><input id="debtReferenceDate" type="date" required value="${debt?.referenceDate||isoLocal(localToday())}">
+    <label>Taux annuel (%)</label><input id="debtRate" type="number" min="0" step="0.01" required value="${debt?.annualRate??""}" placeholder="Ex. 12.99">
+    <label>Prélèvement mensuel lié</label>
+    <select id="debtMonthlyRule">
+      <option value="">Aucun</option>
+      ${rules.map(r=>`<option value="${r.id}" ${guessed===r.id?"selected":""}>${safeText(r.name)} · ${money(r.amount,ruleCurrency(r))} · ${scheduleSummary(r)}</option>`).join("")}
+    </select>
+    <div class="note" style="margin-top:12px">Le prélèvement lié continue d’être géré par vos règles normales : il ne sera jamais déduit deux fois de EOP. Le module dette l’utilise seulement pour suivre les paiements et estimer la durée de remboursement.</div>
+    <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelDebtSetup">Annuler</button></div>
+  </form>`
+}
+function bindDebtSetupForm(existing=null){
+  document.getElementById("cancelDebtSetup")?.addEventListener("click",closeModal);
+  document.getElementById("debtSetupForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const balance=Number(document.getElementById("debtBalance").value),
+          rate=Number(document.getElementById("debtRate").value),
+          referenceDate=document.getElementById("debtReferenceDate").value;
+    if(!Number.isFinite(balance)||balance<0||!Number.isFinite(rate)||rate<0||!referenceDate){alert("Vérifiez le solde, la date et le taux.");return}
+    const obj={
+      id:existing?.id||uid(),
+      name:document.getElementById("debtName").value.trim()||"Accord D",
+      currency:primaryAccount()?.currency||state.settings?.mainCurrency||"CAD",
+      referenceBalance:roundCurrency(balance,primaryAccount()?.currency||"CAD"),
+      referenceDate,
+      annualRate:rate,
+      monthlyRuleId:document.getElementById("debtMonthlyRule").value||null,
+      archived:false,
+      createdAt:existing?.createdAt||new Date().toISOString(),
+      updatedAt:new Date().toISOString()
+    };
+    await putOne(STORE_DEBTS,obj);await loadState();closeModal();render()
+  })
+}
+function openDebtSetup(debt=null){openModal(debt?"Modifier Accord D":"Configurer Accord D",debtSetupFormHTML(debt));bindDebtSetupForm(debt)}
+
+function debtPaymentsHTML(debt){
+  const st=estimateDebtAt(debt),currency=debt.currency||"CAD";
+  if(!st.available||!st.payments.length)return '<div class="empty">Aucun paiement enregistré depuis le solde réel de référence.</div>';
+  return `<div class="list">${[...st.payments].reverse().map(p=>`<div class="item"><div class="row"><div><div class="name">${safeText(p.label)}</div><div class="meta">${fmtDate(p.date)} · ${p.kind==="extra"?"Extra":"Programmé"}</div></div><div class="amount">${money(p.amount,currency)}</div></div></div>`).join("")}</div>`
+}
+function debtSummaryCardHTML(){
+  const debt=primaryDebt();
+  if(!debt)return `<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Accord D</div><div class="muted small">Suivi séparé de la dette et des paiements.</div></div><button class="btn alt" id="configureDebtHome">Configurer</button></div><div class="note" style="margin-top:12px">Le solde réel de la dette reste indépendant de EOP. Les paiements sont déjà des sorties EOP via les prélèvements ou les dépenses réelles.</div></div>`;
+  const st=estimateDebtAt(debt),forecast=debtPayoffForecast(debt),r=debtRule(debt),currency=debt.currency||"CAD";
+  return `<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">${safeText(debt.name)}</div><div class="muted small">Solde réel de référence : ${money(debt.referenceBalance,currency)} · ${fmtDate(dateFromISO(debt.referenceDate))}</div></div><button class="btn alt" id="openDebtHome">Ouvrir</button></div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="kpi"><div class="muted small">Solde estimé aujourd’hui</div><div class="value">${st.available?money(st.estimatedBalance,currency):"—"}</div><div class="small muted">Estimation, pas un solde bancaire</div></div>
+      <div class="kpi"><div class="muted small">Paiement programmé</div><div class="value">${r?money(r.amount,ruleCurrency(r)):"—"}</div><div class="small muted">${r?safeText(r.name):"Aucune règle liée"}</div></div>
+    </div>
+    <div class="small muted" style="margin-top:10px">${forecast.available?`À paiement constant : environ ${forecast.months} mois · échéance estimée ${fmtDate(forecast.payoffDate)}.`:safeText(forecast.reason||"Projection indisponible")}</div>
+  </div>`
+}
+function debtDetailHTML(debt){
+  const st=estimateDebtAt(debt),fc=debtPayoffForecast(debt),r=debtRule(debt),currency=debt.currency||"CAD";
+  return `<div class="note">Le <strong>solde réel</strong> saisi depuis Desjardins reste la source de vérité. Le solde estimé ci-dessous utilise une approximation quotidienne des intérêts entre les paiements.</div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="kpi"><div class="muted small">Solde réel de référence</div><div class="value">${money(debt.referenceBalance,currency)}</div><div class="small muted">${fmtDate(dateFromISO(debt.referenceDate))}</div></div>
+      <div class="kpi"><div class="muted small">Solde estimé aujourd’hui</div><div class="value">${st.available?money(st.estimatedBalance,currency):"—"}</div><div class="small muted">Approximation</div></div>
+      <div class="kpi"><div class="muted small">Taux annuel</div><div class="value">${Number(debt.annualRate||0).toFixed(2)} %</div></div>
+      <div class="kpi"><div class="muted small">Paiements depuis référence</div><div class="value">${st.available?money(st.totalPayments,currency):"—"}</div><div class="small muted">Programmé ${st.available?money(st.scheduledPayments,currency):"—"} · Extra ${st.available?money(st.extraPayments,currency):"—"}</div></div>
+    </div>
+    <div class="card" style="margin-top:14px"><div class="title">Projection de remboursement</div>
+      ${fc.available?`<div class="grid2"><div class="kpi"><div class="muted small">Paiement mensuel utilisé</div><div class="value">${money(fc.payment,currency)}</div></div><div class="kpi"><div class="muted small">Durée estimée</div><div class="value">${fc.months} mois</div><div class="small muted">Vers ${fmtDate(fc.payoffDate)}</div></div></div><div class="muted small" style="margin-top:10px">Intérêts futurs estimés avec ce paiement : ${money(fc.totalInterest,currency)}. Les paiements extra futurs ne sont pas supposés tant qu’ils ne sont pas enregistrés.</div>`:`<div class="note">${safeText(fc.reason||"Projection indisponible")}</div>`}
+    </div>
+    <div class="title" style="margin-top:16px">Paiements enregistrés</div>${debtPaymentsHTML(debt)}
+    <div class="form-actions"><button class="btn alt" id="editDebt">Modifier / nouveau solde réel</button></div>`
+}
+function openDebtDetail(debt){openModal(safeText(debt.name),debtDetailHTML(debt));document.getElementById("editDebt")?.addEventListener("click",()=>openDebtSetup(debt))}
+function bindDebtHomeButtons(){
+  document.getElementById("configureDebtHome")?.addEventListener("click",()=>openDebtSetup(null));
+  document.getElementById("openDebtHome")?.addEventListener("click",()=>{const d=primaryDebt();if(d)openDebtDetail(d)})
+}
+
+
+/* ===== Phase 3O : Dépenses réelles ===== */
+function expenseBudgetOptions(accountId,selected=""){
+  const rules=activeRules("reserved_budget").filter(r=>r.accountId===accountId&&r.frequency!=="annual");
+  return `<option value="">Aucun budget réservé</option>`+rules.map(r=>`<option value="${r.id}" ${selected===r.id?"selected":""}>${safeText(r.name)}</option>`).join("")
+}
+function expenseDebtOptions(accountId,selected=""){
+  const a=accountById(accountId);
+  const debts=activeDebts().filter(d=>!a||!d.currency||d.currency===a.currency);
+  return `<option value="">Aucune dette</option>`+debts.map(d=>`<option value="${d.id}" ${selected===d.id?"selected":""}>${safeText(d.name)} · paiement</option>`).join("")
+}
+function expenseFormHTML(){
+  if(closureDue())return `<div class="note">Clôturez d’abord le cycle avant d’enregistrer un nouveau dépense. Les mouvements du jour de clôture appartiennent au nouveau cycle.</div><div class="form-actions"><button type="button" class="btn ghost" onclick="document.getElementById(\'dlg\').close()">Fermer</button></div>`;
+  const pa=primaryAccount(),ref=state.settings?.balanceReferenceDate||isoLocal(localToday()),today=isoLocal(localToday());
+  const accounts=activeAccounts();
+  const defaultId=pa?.id||accounts[0]?.id||"";
+  const defaultAcc=accountById(defaultId);
+  return `<form id="expenseForm">
+    <label>Description</label>
+    <input id="expenseName" required maxlength="80" placeholder="Ex. Épicerie">
+    <label>Montant</label>
+    <input id="expenseAmount" type="number" min="0.01" step="${defaultAcc?.currency==="TND"?"0.001":"0.01"}" required placeholder="0.00">
+    <label>Date</label>
+    <input id="expenseDate" type="date" min="${ref}" max="${today}" value="${today}" required>
+    <label>Compte source</label>
+    <select id="expenseAccount">${accounts.map(a=>`<option value="${a.id}" ${a.id===defaultId?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+    <label>Budget réservé (optionnel)</label>
+    <select id="expenseBudget">${expenseBudgetOptions(defaultId)}</select>
+    <div class="muted small" style="margin-top:6px">Si la dépense était déjà protégée, elle consommera ce budget sans réduire le Safe une deuxième fois.</div>
+    <label>Paiement de dette (optionnel)</label>
+    <select id="expenseDebt">${expenseDebtOptions(defaultId)}</select>
+    <div class="muted small" style="margin-top:6px">Vous pouvez sélectionner Accord D en plus d’un budget réservé, par exemple « ACCORD D EXTRA ».</div>
+    <label>Note (optionnel)</label>
+    <input id="expenseNote" maxlength="140" placeholder="Détail facultatif">
+    <div class="note" style="margin-top:12px">Une dépense peut être liée à un budget réservé, à Accord D, aux deux, ou à aucun. Le paiement de dette n’est jamais déduit une deuxième fois de EOP : il reste une seule dépense réelle.</div>
+    <div class="form-actions"><button class="btn" type="submit">Enregistrer la dépense</button><button class="btn ghost" type="button" id="cancelExpense">Annuler</button></div>
+  </form>`
+}
+function bindExpenseForm(){
+  const acc=document.getElementById("expenseAccount"),budget=document.getElementById("expenseBudget"),debt=document.getElementById("expenseDebt"),amount=document.getElementById("expenseAmount");
+  function refreshBudget(){
+    const a=accountById(acc.value);
+    budget.innerHTML=expenseBudgetOptions(acc.value);
+    if(debt)debt.innerHTML=expenseDebtOptions(acc.value);
+    if(amount)amount.step=a?.currency==="TND"?"0.001":"0.01"
+  }
+  acc?.addEventListener("change",refreshBudget);
+  document.getElementById("cancelExpense")?.addEventListener("click",closeModal);
+  document.getElementById("expenseForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const source=accountById(acc.value),value=Number(amount.value),dateISO=document.getElementById("expenseDate").value;
+    const ref=state.settings?.balanceReferenceDate||"";
+    if(!source||!Number.isFinite(value)||value<=0){alert("Vérifiez le montant et le compte.");return}
+    if(ref&&dateISO<ref){alert("La dépense ne peut pas être antérieure au solde de référence.");return}
+    if(dateISO>isoLocal(localToday())){alert("Une dépense réelle ne peut pas être datée dans le futur.");return}
+    const tx={
+      id:uid(),type:"expense",description:document.getElementById("expenseName").value.trim()||"Dépense",
+      amount:roundCurrency(value,source.currency),currency:source.currency,sourceAccountId:source.id,
+      budgetRuleId:budget.value||null,debtId:debt?.value||null,dateISO,status:"confirmed",
+      note:document.getElementById("expenseNote").value.trim(),
+      createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()
+    };
+    await putOne(STORE_TRANSACTIONS,tx);
+    await loadState();closeModal();render()
+  })
+}
+
+function incomeFormHTML(){
+  if(closureDue())return `<div class="note">Clôturez d’abord le cycle avant d’enregistrer un nouveau revenu. Les mouvements du jour de clôture appartiennent au nouveau cycle.</div><div class="form-actions"><button type="button" class="btn ghost" onclick="document.getElementById(\'dlg\').close()">Fermer</button></div>`;
+  const pa=primaryAccount(),ref=state.settings?.balanceReferenceDate||isoLocal(localToday()),today=isoLocal(localToday());
+  const accounts=activeAccounts();
+  const defaultId=pa?.id||accounts[0]?.id||"";
+  const defaultAcc=accountById(defaultId);
+  return `<form id="incomeForm">
+    <label>Description</label>
+    <input id="incomeName" required maxlength="80" placeholder="Ex. Remboursement, vente, prime">
+    <label>Montant</label>
+    <input id="incomeAmount" type="number" min="0.01" step="${defaultAcc?.currency==="TND"?"0.001":"0.01"}" required placeholder="0.00">
+    <label>Date</label>
+    <input id="incomeDate" type="date" min="${ref}" max="${today}" value="${today}" required>
+    <label>Compte destination</label>
+    <select id="incomeAccount">${accounts.map(a=>`<option value="${a.id}" ${a.id===defaultId?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+    <label>Note (optionnel)</label>
+    <input id="incomeNote" maxlength="140" placeholder="Détail facultatif">
+    <div class="note" style="margin-top:12px">Un revenu ponctuel versé sur le compte principal augmente EOP calculé. Il ne crée aucune règle récurrente.</div>
+    <div class="form-actions"><button class="btn" type="submit">Enregistrer le revenu</button><button class="btn ghost" type="button" id="cancelIncome">Annuler</button></div>
+  </form>`
+}
+function bindIncomeForm(){
+  const acc=document.getElementById("incomeAccount"),amount=document.getElementById("incomeAmount");
+  function refreshPrecision(){
+    const a=accountById(acc.value);
+    if(amount)amount.step=a?.currency==="TND"?"0.001":"0.01"
+  }
+  acc?.addEventListener("change",refreshPrecision);
+  refreshPrecision();
+  document.getElementById("cancelIncome")?.addEventListener("click",closeModal);
+  document.getElementById("incomeForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const destination=accountById(acc.value),value=Number(amount.value),dateISO=document.getElementById("incomeDate").value;
+    const ref=state.settings?.balanceReferenceDate||"";
+    if(!destination||!Number.isFinite(value)||value<=0){alert("Vérifiez le montant et le compte.");return}
+    if(ref&&dateISO<ref){alert("Le revenu ne peut pas être antérieur au solde de référence.");return}
+    if(dateISO>isoLocal(localToday())){alert("Un revenu réel ne peut pas être daté dans le futur.");return}
+    const tx={
+      id:uid(),type:"income",description:document.getElementById("incomeName").value.trim()||"Revenu",
+      amount:roundCurrency(value,destination.currency),currency:destination.currency,destinationAccountId:destination.id,
+      budgetRuleId:null,dateISO,status:"confirmed",
+      note:document.getElementById("incomeNote").value.trim(),
+      createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()
+    };
+    await putOne(STORE_TRANSACTIONS,tx);
+    await loadState();closeModal();render()
+  })
+}
+
+function transactionRows(){
+  const range=activeCycleRange();
+  const rows=state.transactions.filter(t=>{
+    const d=dateFromISO(t.dateISO);return d&&d>=range.start&&d<range.end
+  }).sort((a,b)=>String(b.dateISO).localeCompare(String(a.dateISO))||String(b.createdAt).localeCompare(String(a.createdAt)));
+  if(!rows.length)return '<div class="empty">Aucune opération réelle enregistrée dans ce cycle.</div>';
+  return `<div class="list">${rows.map(t=>{
+    const acc=accountById(t.sourceAccountId||t.destinationAccountId),r=t.budgetRuleId?state.rules.find(x=>x.id===t.budgetRuleId):null,d=t.debtId?debtById(t.debtId):null;
+    const cancelled=t.status==="cancelled";
+    return `<button class="item" data-tx="${t.id}" style="width:100%;text-align:left;color:inherit;opacity:${cancelled?".58":"1"}"><div class="row"><div><div class="name">${safeText(t.description||"Dépense")}</div><div class="meta">${fmtDate(dateFromISO(t.dateISO))} · ${safeText(acc?.name||"?")}${r?` · ${safeText(r.name)}`:""}${d?` · ${safeText(d.name)}`:""}${cancelled?" · Annulée":""}</div></div><div class="amount" style="color:${cancelled?"var(--muted)":t.type==="income"?"#8fe4b8":"#ffc0c7"}">${t.type==="expense"?"−":"+"}${money(t.amount,t.currency)}</div></div></button>`
+  }).join("")}</div>`
+}
+function bindTransactionActions(){
+  document.querySelectorAll("[data-tx]").forEach(btn=>btn.onclick=()=>{
+    const t=state.transactions.find(x=>x.id===btn.dataset.tx);if(!t)return;
+    const acc=accountById(t.sourceAccountId||t.destinationAccountId),r=t.budgetRuleId?state.rules.find(x=>x.id===t.budgetRuleId):null,d=t.debtId?debtById(t.debtId):null;
+    openModal("Opération réelle",`<div class="item"><div class="name">${safeText(t.description||"Dépense")}</div><div class="meta">${fmtDate(dateFromISO(t.dateISO))} · ${safeText(acc?.name||"?")}${r?` · ${safeText(r.name)}`:""}${d?` · ${safeText(d.name)}`:""}</div><div class="amount" style="font-size:24px;margin-top:10px;color:${t.type==="income"?"#8fe4b8":"#ffc0c7"}">${t.type==="expense"?"−":"+"}${money(t.amount,t.currency)}</div>${t.note?`<div class="note" style="margin-top:10px">${safeText(t.note)}</div>`:""}</div>${t.status!=="cancelled"?'<div class="form-actions"><button class="btn bad" id="cancelTransaction">Annuler cette opération</button></div>':'<div class="note" style="margin-top:12px">Cette opération est annulée et n’affecte plus les calculs.</div>'}`);
+    document.getElementById("cancelTransaction")?.addEventListener("click",async()=>{
+      if(!confirm("Annuler cette opération ? EOP, Réservé et Safe seront recalculés."))return;
+      t.status="cancelled";t.cancelledAt=new Date().toISOString();t.updatedAt=new Date().toISOString();
+      await putOne(STORE_TRANSACTIONS,t);await loadState();closeModal();render()
+    })
+  })
+}
+
+/* ===== Phase 3O : Réservé ===== */
+function roundCurrency(n,currency="CAD"){
+  const d=digitsFor(currency),m=Math.pow(10,d);return Math.round((Number(n)||0)*m)/m
+}
+function reserveMetaKey(range=activeCycleRange()){
+  return `reserveInit:${isoLocal(range.start)}`
+}
+function nextAnnualDue(rule,from=localToday()){
+  const ref=dateFromISO(rule.annualDate);if(!ref)return null;
+  let y=from.getFullYear();
+  let d=new Date(y,ref.getMonth(),Math.min(ref.getDate(),maxDayInMonth(y,ref.getMonth())),12);
+  if(d<=from){y++;d=new Date(y,ref.getMonth(),Math.min(ref.getDate(),maxDayInMonth(y,ref.getMonth())),12)}
+  return d
+}
+function cycleSlotsUntil(due,range=activeCycleRange()){
+  if(!due)return 0;
+  const day=(state.settings||defaultSettings).cycleDay||2;
+  let d=new Date(range.start),count=0,guard=0;
+  while(d<due&&guard<240){
+    count++;guard++;
+    let y=d.getFullYear(),m=d.getMonth()+1;if(m>11){m=0;y++}
+    d=new Date(y,m,Math.min(day,maxDayInMonth(y,m)),12)
+  }
+  return Math.max(1,count)
+}
+function reserveInitializationRequired(){
+  const s=state.settings||defaultSettings,range=activeCycleRange(),ref=dateFromISO(s.balanceReferenceDate),pa=primaryAccount();
+  if(!pa||!ref||state.reserveInit)return false;
+  const hasNonAnnual=activeRules("reserved_budget").some(r=>r.accountId===pa.id&&r.frequency!=="annual");
+  return hasNonAnnual&&ref>range.start&&ref<range.end
+}
+
+function visibleProjects(){return state.projects.filter(p=>!p.archived)}
+function priorityRank(p){return p.priority==="high"?0:p.priority==="low"?2:1}
+function projectStatusLabel(p){return p.status==="paused"?"En pause":p.status==="funded"?"Financé":"Actif"}
+function projectCycleKey(){return isoLocal(activeCycleRange().start)}
+function projectCycleReserved(p,key=projectCycleKey()){
+  return Math.max(0,Number(p.cycleReservations?.[key])||0)
+}
+function projectRemainingBeforeCycle(p){
+  const target=Math.max(0,Number(p.targetAmount)||0),funded=Math.max(0,Number(p.alreadyFunded)||0),carry=Math.max(0,Number(p.reservedCarry)||0);
+  return Math.max(0,target-funded-carry)
+}
+function projectCycleSlots(p){
+  const due=dateFromISO(p.targetDate);if(!due)return 1;
+  return Math.max(1,cycleSlotsUntil(due,activeCycleRange()))
+}
+function projectRequiredContribution(p){
+  const rem=projectRemainingBeforeCycle(p);if(rem<=0)return 0;
+  return rem/projectCycleSlots(p)
+}
+function projectAllocationPlan(extraProject=null,options={}){
+  const pa=primaryAccount();
+  if(!pa)return {ready:false,currency:(state.settings||defaultSettings).mainCurrency||"CAD",capacity:0,carryTotal:0,totalContribution:0,allocations:{},projects:[]};
+  const {respectFixed=true}=options;
+  const currency=pa.currency,key=projectCycleKey();
+  const baseSafe=calculateSafe(false),baseMargin=calculateCycleMargin(false);
+  const existing=visibleProjects();
+  const carryTotal=roundCurrency(existing.reduce((sum,p)=>sum+(Number(p.reservedCarry)||0),0),currency);
+  const grossCapacity=(baseSafe.available&&baseMargin.available)?Math.max(0,Math.min(baseSafe.safe,baseMargin.margin)):0;
+  let capacity=roundCurrency(Math.max(0,grossCapacity-carryTotal),currency);
+  const allocations={},rows=[];
+
+  // En usage quotidien, les contributions déjà décidées restent fixes pour éviter
+  // qu'une dépense ordinaire ne redistribue silencieusement les projets.
+  if(respectFixed){
+    for(const p of existing){
+      const hasFixed=Object.prototype.hasOwnProperty.call(p.cycleReservations||{},key);
+      if(hasFixed){
+        const fixed=roundCurrency(projectCycleReserved(p,key),currency);
+        allocations[p.id]=fixed;
+        capacity=roundCurrency(Math.max(0,capacity-fixed),currency)
+      }
+    }
+  }
+
+  // Lors d'un changement structurel (création, priorité, date, pause, annulation),
+  // on peut ignorer les anciennes réservations du cycle et recalculer toute la file.
+  const schedulable=[...existing.filter(p=>p.status!=="funded"&&(!respectFixed||!Object.prototype.hasOwnProperty.call(p.cycleReservations||{},key)))];
+  if(extraProject)schedulable.push(extraProject);
+  schedulable.sort((a,b)=>priorityRank(a)-priorityRank(b)||String(a.targetDate||"").localeCompare(String(b.targetDate||""))||String(a.createdAt||"").localeCompare(String(b.createdAt||"")));
+  for(const p of schedulable){
+    const remaining=projectRemainingBeforeCycle(p),slots=projectCycleSlots(p),required=roundCurrency(slots?remaining/slots:remaining,currency);
+    let contribution=0;
+    if(p.status!=="paused"&&remaining>0&&capacity>0){
+      contribution=roundCurrency(Math.min(required,capacity,remaining),currency);
+      capacity=roundCurrency(Math.max(0,capacity-contribution),currency)
+    }
+    allocations[p.id]=contribution
+  }
+
+  const allForRows=[...existing];if(extraProject)allForRows.push(extraProject);
+  for(const p of allForRows){
+    const remaining=projectRemainingBeforeCycle(p),slots=projectCycleSlots(p),required=roundCurrency(slots?remaining/slots:remaining,currency),contribution=roundCurrency(Number(allocations[p.id])||0,currency);
+    rows.push({project:p,remaining,slots,required,contribution})
+  }
+  return {ready:baseSafe.available&&baseMargin.available,currency,grossCapacity,carryTotal,capacity,totalContribution:roundCurrency(rows.reduce((s,x)=>s+x.contribution,0),currency),allocations,projects:rows}
+}
+async function syncProjectCycleReservations(){
+  const key=projectCycleKey(),plan=projectAllocationPlan();let changed=false;
+  for(const p of visibleProjects()){
+    if(p.status==="funded")continue;
+    const map={...(p.cycleReservations||{})};
+    if(!Object.prototype.hasOwnProperty.call(map,key)){
+      map[key]=p.status==="paused"?0:roundCurrency(Number(plan.allocations[p.id])||0,plan.currency);
+      p.cycleReservations=map;p.updatedAt=new Date().toISOString();await putOne(STORE_PROJECTS,p);changed=true
+    }
+  }
+  if(changed)state.projects=await getAll(STORE_PROJECTS)
+}
+async function reallocateProjectCycleReservations(){
+  const key=projectCycleKey(),plan=projectAllocationPlan(null,{respectFixed:false});let changed=false;
+  for(const p of visibleProjects()){
+    const map={...(p.cycleReservations||{})};
+    const next=p.status==="funded"||p.status==="paused"?0:roundCurrency(Number(plan.allocations[p.id])||0,plan.currency);
+    if(roundCurrency(Number(map[key])||0,plan.currency)!==next||!Object.prototype.hasOwnProperty.call(map,key)){
+      map[key]=next;p.cycleReservations=map;p.updatedAt=new Date().toISOString();await putOne(STORE_PROJECTS,p);changed=true
+    }
+  }
+  if(changed)state.projects=await getAll(STORE_PROJECTS);
+  return plan
+}
+function addCyclesFromCurrent(count){
+  const day=(state.settings||defaultSettings).cycleDay||2;let d=new Date(activeCycleRange().end);let n=Math.max(0,count-1);
+  while(n-->0){let y=d.getFullYear(),m=d.getMonth()+1;if(m>11){m=0;y++}d=new Date(y,m,Math.min(day,maxDayInMonth(y,m)),12)}
+  return d
+}
+function simulateProjectInput(input){
+  const pa=primaryAccount(),currency=pa?.currency||(state.settings||defaultSettings).mainCurrency||"CAD";
+  const tmp={id:"__simulation__",name:input.name||"Nouveau projet",targetAmount:Number(input.targetAmount)||0,targetDate:input.targetDate,alreadyFunded:Number(input.alreadyFunded)||0,reservedCarry:0,cycleReservations:{},priority:input.priority||"normal",status:"active",createdAt:new Date().toISOString()};
+  const before=projectAllocationPlan(),after=projectAllocationPlan(tmp,{respectFixed:false}),row=after.projects.find(x=>x.project.id===tmp.id);
+  const contribution=row?.contribution||0,required=row?.required||0,remaining=row?.remaining||0;
+  const feasible=remaining<=0?"green":contribution+0.009>=required?"green":contribution>0?"orange":"red";
+  let estimatedDate=null;
+  if(remaining<=0)estimatedDate=localToday();
+  else if(contribution>0)estimatedDate=addCyclesFromCurrent(Math.ceil(remaining/contribution));
+  const beforeProtected=roundCurrency(before.carryTotal+before.totalContribution,currency),afterProtected=roundCurrency(after.carryTotal+after.totalContribution,currency);
+  const netImpact=roundCurrency(Math.max(0,afterProtected-beforeProtected),currency);
+  return {tmp,currency,remaining,required,contribution,feasible,estimatedDate,netImpact,before,after}
+}
+function projectReserveItems(){
+  const pa=primaryAccount();if(!pa)return [];
+  const plan=projectAllocationPlan(),currency=pa.currency,rows=[];
+  for(const p of visibleProjects()){
+    const carry=roundCurrency(Number(p.reservedCarry)||0,currency);
+    const contribution=p.status==="funded"?0:roundCurrency(Number(plan.allocations[p.id])||0,currency);
+    const amount=roundCurrency(carry+contribution,currency);
+    if(amount<=0&&p.status==="funded")continue;
+    const meta=p.status==="paused"
+      ?`Projet en pause · ${money(carry,currency)} déjà réservé`
+      :p.status==="funded"
+        ?`Objectif entièrement couvert · ${money(carry,currency)} réservé`
+        :`${money(carry,currency)} accumulé + ${money(contribution,currency)} ce cycle · cible ${p.targetDate?fmtDate(dateFromISO(p.targetDate)):"—"}`;
+    rows.push({kind:"project",projectId:p.id,name:p.name||"Projet",amount,carry,contribution,meta})
+  }
+  return rows
+}
+function reserveBreakdown(includeProjects=true){
+  const s=state.settings||defaultSettings,pa=primaryAccount(),range=activeCycleRange(),currency=pa?.currency||s.mainCurrency||"CAD";
+  if(!pa)return {ready:false,currency,total:0,items:[],reason:"Compte principal requis"};
+  const initRequired=reserveInitializationRequired();
+  const initAmounts=state.reserveInit?.amounts||{};
+  const items=[];
+  const safety=roundCurrency(Number(s.safetyReserve)||0,currency);
+  if(safety>0)items.push({kind:"safety",name:"Réserve de sécurité",amount:safety,meta:"Protection permanente"});
+  for(const r of activeRules("reserved_budget").filter(r=>r.accountId===pa.id)){
+    if(r.frequency==="annual"){
+      const due=nextAnnualDue(r,range.start),slots=cycleSlotsUntil(due,range);
+      const carry=roundCurrency(Number(state.reserveCarry?.annual?.[r.id])||0,currency);
+      const target=roundCurrency(Number(r.amount)||0,currency);
+      const remaining=roundCurrency(Math.max(0,target-carry),currency);
+      const contribution=roundCurrency(remaining/slots,currency);
+      const amount=roundCurrency(Math.min(target,carry+contribution),currency);
+      const meta=carry>0
+        ?`Provision cumulée · ${money(carry,currency)} reporté + ${money(contribution,currency)} ce cycle · échéance ${due?fmtDate(due):"—"}`
+        :`Provision du cycle · échéance ${due?fmtDate(due):"—"} · ${slots} cycle(s) restant(s)`;
+      items.push({kind:"annual",ruleId:r.id,name:r.name,amount,carry,contribution,dueISO:due?isoLocal(due):null,meta});
+    }else{
+      let amount;
+      let baseAmount;
+      const carry=(r.rollover?roundCurrency(Number(state.reserveCarry?.budgets?.[r.id])||0,currency):0);
+      if(Object.prototype.hasOwnProperty.call(initAmounts,r.id))baseAmount=roundCurrency(initAmounts[r.id],currency);
+      else if(initRequired)baseAmount=null;
+      else baseAmount=roundCurrency((Number(r.amount)||0)+carry,currency);
+      if(baseAmount===null)amount=null;
+      else{
+        const spent=roundCurrency(budgetSpentSinceReference(r.id),currency);
+        amount=roundCurrency(Math.max(0,baseAmount-spent),currency);
+      }
+      const spent=roundCurrency(budgetSpentSinceReference(r.id),currency);
+      const metaBase=r.frequency==="weekly"?"Budget hebdomadaire protégé":"Budget mensuel protégé";
+      const carryText=carry>0?` · ${money(carry,currency)} reporté du cycle précédent`:"";
+      items.push({kind:"budget",ruleId:r.id,name:r.name,amount,spent,baseAmount,carry,meta:(spent>0?`${metaBase} · ${money(spent,currency)} utilisé depuis la référence`:metaBase)+carryText});
+    }
+  }
+  const ready=!items.some(x=>x.kind==="budget"&&x.amount===null);
+  if(includeProjects&&ready)items.push(...projectReserveItems());
+  const total=roundCurrency(items.reduce((a,x)=>a+(x.amount===null?0:Number(x.amount)||0),0),currency);
+  return {ready,currency,total,items,initRequired,range}
+}
+function reserveBreakdownHTML(b){
+  if(!b.items.length)return '<div class="empty">Aucune réserve configurée sur le compte principal.</div>';
+  return `<div class="list">${b.items.map(x=>`<div class="item"><div class="row"><div><div class="name">${safeText(x.name)}</div><div class="meta">${safeText(x.meta)}</div></div><div class="amount">${x.amount===null?"À initialiser":money(x.amount,b.currency)}</div></div></div>`).join("")}</div>`
+}
+function reserveInitFormHTML(){
+  const pa=primaryAccount(),rules=activeRules("reserved_budget").filter(r=>r.accountId===pa?.id&&r.frequency!=="annual");
+  if(!rules.length)return "";
+  return `<div class="card"><div class="title">Initialiser les budgets du cycle</div><div class="note">Le solde EOP a été confirmé en cours de cycle. Pour éviter de réserver une deuxième fois ce qui a déjà été payé ou consommé, indiquez seulement ce qu’il reste à protéger jusqu’à la prochaine clôture. Mettez 0 si un budget est déjà entièrement utilisé ou payé.</div><form id="reserveInitForm">${rules.map(r=>`<label>${safeText(r.name)} · restant à protéger</label><input data-reserve-rule="${r.id}" type="number" min="0" step="0.01" value="${(Number(r.amount)||0)+(r.rollover?(Number(state.reserveCarry?.budgets?.[r.id])||0):0)}" required>`).join("")}<div class="form-actions"><button class="btn" type="submit">Confirmer les réserves restantes</button></div></form></div>`
+}
+async function saveReserveInitialization(){
+  const amounts={};
+  for(const el of document.querySelectorAll("[data-reserve-rule]")){
+    const v=Number(el.value);if(!Number.isFinite(v)||v<0){alert("Vérifiez les montants réservés.");return}
+    amounts[el.dataset.reserveRule]=v
+  }
+  const range=activeCycleRange();
+  const value={cycleStart:isoLocal(range.start),cycleEnd:isoLocal(range.end),referenceDate:state.settings?.balanceReferenceDate||null,amounts,createdAt:new Date().toISOString()};
+  await putOne(STORE_META,{key:reserveMetaKey(range),value});
+  await loadState();render()
+}
+
+
+
+/* ===== Phase 3O : Clôture & Réconciliation ===== */
+function generateRuleEventsRaw(start,end){
+  const events=[];
+  for(const r of activeRules()){
+    if(!["fixed_income","debit","transfer"].includes(r.type))continue;
+    for(const d of occurrenceDates(r,start,end))events.push(ruleToEvent(r,d))
+  }
+  events.sort((a,b)=>{const dd=a.date-b.date;if(dd!==0)return dd;if(a.direction!==b.direction)return a.direction==="out"?-1:1;return a.name.localeCompare(b.name,"fr")});
+  return events
+}
+function closureBridgeEvents(preview=false){
+  const range=activeCycleRange(),today=localToday();
+  let end;
+  if(preview&&today<range.end){end=new Date(range.end);end.setDate(end.getDate()+1)}
+  else {end=new Date(today);end.setDate(end.getDate()+1)}
+  return generateRuleEventsRaw(range.end,end)
+}
+function oldCyclePendingCount(){
+  const range=activeCycleRange();
+  return state.eventRecords.filter(r=>{
+    const d=dateFromISO(r.dateISO);return d&&d>=range.start&&d<range.end&&r.status==="pending"
+  }).length
+}
+function closureStatus(){
+  const range=activeCycleRange(),today=localToday(),due=today>=range.end;
+  const late=due?Math.max(0,Math.floor((today-range.end)/86400000)):0;
+  return {range,today,due,late}
+}
+function closurePreviewHTML(){
+  const st=closureStatus(),margin=calculateCycleMargin(),pending=oldCyclePendingCount();
+  if(!st.due){
+    return `<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Clôture du cycle</div><div class="muted small">Prévue le ${fmtDate(st.range.end)}</div></div><span class="badge good">À venir</span></div>
+      <div class="grid2" style="margin-top:12px"><div class="kpi"><div class="muted small">EOP prévu à la clôture</div><div class="value">${margin.available?money(margin.projectedEOP,margin.currency):"—"}</div></div><div class="kpi"><div class="muted small">Réconciliation</div><div class="value">Le jour J</div><div class="small muted">Solde réel comparé au calculé</div></div></div>
+      <div class="form-actions"><button class="btn ghost" id="previewClosure">Aperçu du processus</button></div></div>`
+  }
+  const lateText=st.late>0?`Fermeture en retard de ${st.late} jour(s)`:`Fermeture à faire aujourd’hui`;
+  return `<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Clôture du cycle</div><div class="muted small">${lateText}</div></div><span class="badge ${st.late>0?"bad":"warn"}">${st.late>0?"En retard":"À fermer"}</span></div>
+    ${pending?`<div class="note" style="margin-top:12px">Il reste ${pending} confirmation(s) en attente dans le cycle. Résolvez-les dans Historique avant de clôturer.</div>`:""}
+    <div class="form-actions"><button class="btn" id="closeCycle" ${pending?"disabled":""}>Clôturer le cycle</button><button class="btn ghost" id="previewClosure">Aperçu</button></div></div>`
+}
+function closureEventRows(events,preview=false){
+  if(!events.length)return '<div class="empty">Aucun mouvement programmé au début du nouveau cycle avant le solde de référence.</div>';
+  return `<div class="list">${events.map((e,i)=>{
+    const def=e.executionMode==="confirm"?"no":"yes";
+    return `<div class="item" data-bridge-wrap="${i}"><div class="row"><div><div class="name">${safeText(e.name)}</div><div class="meta">${fmtDay(e.date)} · ${safeText(eventTypeLabel(e))} · ${safeText(eventAccountLabel(e))}</div></div><div class="amount">${e.direction==="in"?"+":"−"}${money(e.amount,e.currency)}</div></div>
+      <label>Déjà inclus dans le solde réel saisi ?</label><select data-bridge-included="${i}" ${preview?"disabled":""}><option value="yes" ${def==="yes"?"selected":""}>Oui, déjà inclus</option><option value="no" ${def==="no"?"selected":""}>Non, pas encore exécuté</option></select>
+      <label>Montant réel inclus / attendu</label><input data-bridge-amount="${i}" type="number" min="0" step="0.01" value="${Number(e.amount)||0}" ${preview?"disabled":""}>
+    </div>`
+  }).join("")}</div>`
+}
+function openClosureDialog(preview=false){
+  const st=closureStatus(),pa=primaryAccount(),eop=calculateEOP(),events=closureBridgeEvents(preview),margin=calculateCycleMargin();
+  const accounts=activeAccounts(),debts=activeDebts();
+  const refDate=preview&&st.today<st.range.end?st.range.end:st.today;
+  const expectedPreview=(preview&&!st.due&&margin.available)?margin.projectedEOP:(eop.available?eop.calculated:null);
+  const expectedCurrency=margin.available?margin.currency:(eop.currency||pa?.currency||state.settings?.mainCurrency||"CAD");
+  const title=preview?"Aperçu de clôture":"Clôturer le cycle";
+  openModal(title,`<div class="note">Cycle à clôturer : ${fmtDate(st.range.start)} → ${fmtDate(st.range.end)}. Le solde calculé attendu avant les mouvements du nouveau cycle est ${expectedPreview!==null?money(expectedPreview,expectedCurrency):"—"}.</div>
+    ${preview&&st.today<st.range.end?'<div class="note" style="margin-top:10px">Aperçu seulement : aucune donnée ne sera enregistrée avant le jour de clôture.</div>':""}
+    <form id="closureForm">
+      <div class="title" style="margin-top:16px">Soldes réels</div>
+      <div class="muted small">Le jour J, entrez manuellement les soldes réellement affichés par vos comptes. Les champs restent volontairement vides pour éviter de confondre une projection avec un solde réel.</div>
+      ${accounts.map(a=>{
+        const hint=a.id===pa?.id&&expectedPreview!==null
+          ?`À saisir · attendu ${money(expectedPreview,a.currency)}`
+          :"À saisir le jour J";
+        return `<label>${safeText(a.name)} · ${a.currency}${a.id===pa?.id?" · principal":""}</label>
+          <input data-close-account="${a.id}" type="number" step="${a.currency==="TND"?"0.001":"0.01"}" value="" placeholder="${safeText(hint)}" ${preview?"disabled":""} required>`
+      }).join("")}
+      ${debts.length?`<div class="title" style="margin-top:18px">Soldes réels des dettes</div>
+        <div class="muted small">Entrez le solde réellement affiché par le prêteur. Il deviendra la nouvelle référence du module dette.</div>
+        ${debts.map(d=>{const est=estimateDebtAt(d);return `<label>${safeText(d.name)} · ${d.currency||"CAD"}</label><input data-close-debt="${d.id}" type="number" min="0" step="0.01" value="" placeholder="${est.available?`À saisir · estimé ${money(est.estimatedBalance,d.currency||"CAD")}`:"À saisir le jour J"}" ${preview?"disabled":""} required>`}).join("")}`:""}
+      <div class="title" style="margin-top:18px">Mouvements du nouveau cycle jusqu’au ${fmtDate(refDate)}</div>
+      <div class="note">Ces mouvements appartiennent au nouveau cycle. Indiquez s’ils sont déjà compris dans les soldes réels ci-dessus pour éviter tout double comptage.</div>
+      <div style="margin-top:10px">${closureEventRows(events,preview)}</div>
+      ${preview?'<div class="form-actions"><button type="button" class="btn ghost" id="closePreview">Fermer l’aperçu</button></div>':'<div class="form-actions"><button class="btn" type="submit">Confirmer et ouvrir le nouveau cycle</button><button type="button" class="btn ghost" id="cancelClosure">Annuler</button></div>'}
+    </form>`);
+  document.getElementById("closePreview")?.addEventListener("click",closeModal);
+  document.getElementById("cancelClosure")?.addEventListener("click",closeModal);
+  if(!preview)document.getElementById("closureForm")?.addEventListener("submit",e=>{e.preventDefault();performCycleClosure(events)})
+}
+function buildNextReserveCarry(oldReserve,oldRange){
+  const annual={},budgets={};
+  for(const item of oldReserve.items){
+    if(item.kind==="annual"){
+      const due=item.dueISO?dateFromISO(item.dueISO):null;
+      annual[item.ruleId]=(due&&due<oldRange.end)?0:Number(item.amount||0)
+    }else if(item.kind==="budget"){
+      const r=state.rules.find(x=>x.id===item.ruleId);
+      if(r?.rollover)budgets[item.ruleId]=Number(item.amount||0)
+    }
+  }
+  return {annual,budgets,createdAt:new Date().toISOString(),fromCycleStart:isoLocal(oldRange.start)}
+}
+
+async function rollProjectsAtClosure(){
+  const pa=primaryAccount();if(!pa)return;
+  const currency=pa.currency,key=projectCycleKey();
+  for(const p of visibleProjects()){
+    if(p.status==="funded")continue;
+    const add=roundCurrency(projectCycleReserved(p,key),currency),remaining=Math.max(0,(Number(p.targetAmount)||0)-(Number(p.alreadyFunded)||0)-(Number(p.reservedCarry)||0));
+    p.reservedCarry=roundCurrency((Number(p.reservedCarry)||0)+Math.min(add,remaining),currency);
+    if((Number(p.alreadyFunded)||0)+(Number(p.reservedCarry)||0)+0.009>=(Number(p.targetAmount)||0))p.status="funded";
+    p.lastClosedCycle=isoLocal(activeCycleRange().start);p.updatedAt=new Date().toISOString();await putOne(STORE_PROJECTS,p)
+  }
+}
+async function performCycleClosure(bridgeEvents){
+  const st=closureStatus();if(!st.due){alert("La clôture n’est pas encore disponible.");return}
+  await syncDueEvents();await loadState();
+  if(oldCyclePendingCount()>0){alert("Résolvez d’abord les confirmations en attente du cycle.");closeModal();render();return}
+  const range=activeCycleRange(),pa=primaryAccount(),eop=calculateEOP(),reserved=reserveBreakdown(),safe=calculateSafe(),margin=calculateCycleMargin();
+  if(!pa||!eop.available||!reserved.ready){alert("La clôture ne peut pas être calculée pour le moment.");return}
+  const balances={};
+  for(const el of document.querySelectorAll("[data-close-account]")){
+    const a=accountById(el.dataset.closeAccount),v=Number(el.value);
+    if(!a||!Number.isFinite(v)){alert("Vérifiez tous les soldes réels.");return}
+    balances[a.id]=roundCurrency(v,a.currency)
+  }
+  const debtBalances={};
+  for(const el of document.querySelectorAll("[data-close-debt]")){
+    const d=debtById(el.dataset.closeDebt),v=Number(el.value);
+    if(!d||!Number.isFinite(v)||v<0){alert("Vérifiez tous les soldes réels des dettes.");return}
+    debtBalances[d.id]=roundCurrency(v,d.currency||pa.currency)
+  }
+  const primaryReal=balances[pa.id];
+  let includedPrimaryImpact=0;
+  const bridgeSnapshots=[];
+  for(let i=0;i<bridgeEvents.length;i++){
+    const e=bridgeEvents[i],included=document.querySelector(`[data-bridge-included="${i}"]`)?.value==="yes";
+    const actual=Number(document.querySelector(`[data-bridge-amount="${i}"]`)?.value);
+    const amt=Number.isFinite(actual)?actual:Number(e.amount)||0;
+    let primaryImpact=0;
+    if(e.type==="fixed_income"&&e.accountId===pa.id)primaryImpact=amt;
+    else if(e.type==="debit"&&e.accountId===pa.id)primaryImpact=-amt;
+    else if(e.type==="transfer"&&e.accountId===pa.id)primaryImpact=-amt;
+    if(included)includedPrimaryImpact=roundCurrency(includedPrimaryImpact+primaryImpact,pa.currency);
+    const rec=eventSnapshot(e,included?"included_baseline":(e.executionMode==="confirm"?"pending":"calculated"));
+    rec.actualAmount=amt;rec.afterReference=!included;rec.baselineIncluded=included;rec.closedBridge=true;rec.updatedAt=new Date().toISOString();
+    bridgeSnapshots.push(rec)
+  }
+  const adjustedOldReal=roundCurrency(primaryReal-includedPrimaryImpact,pa.currency);
+  const gap=roundCurrency(adjustedOldReal-eop.calculated,pa.currency);
+  const closure={
+    id:isoLocal(range.start),cycleStart:isoLocal(range.start),cycleEnd:isoLocal(range.end),closedAt:new Date().toISOString(),referenceDate:isoLocal(localToday()),
+    currency:pa.currency,expectedEOP:eop.calculated,enteredPrimaryReal:primaryReal,includedNewCycleImpact:includedPrimaryImpact,adjustedOldCycleReal:adjustedOldReal,reconciliationGap:gap,
+    reservedAtClose:reserved.total,safeAtClose:safe.available?safe.safe:null,marginProjectedAtClose:margin.available?margin.margin:null,
+    accountBalances:balances,debtBalances,reserveItems:reserved.items.map(x=>({kind:x.kind,ruleId:x.ruleId||null,name:x.name,amount:x.amount})),bridgeEvents:bridgeSnapshots.map(x=>({id:x.id,name:x.name,dateISO:x.dateISO,status:x.status,afterReference:!!x.afterReference,actualAmount:x.actualAmount})),
+    analytics:analyticsSnapshot()
+  };
+  const nextStart=range.end,carry=buildNextReserveCarry(reserved,range);
+  await rollProjectsAtClosure();
+  await putOne(STORE_CLOSURES,closure);
+  await putOne(STORE_META,{key:`reserveCarry:${isoLocal(nextStart)}`,value:carry});
+  for(const rec of bridgeSnapshots)await putOne(STORE_EVENTS,rec);
+  for(const a of state.accounts){if(Object.prototype.hasOwnProperty.call(balances,a.id)){a.balance=balances[a.id];a.updatedAt=new Date().toISOString();await putOne(STORE_ACCOUNTS,a)}}
+  for(const d of activeDebts()){
+    if(Object.prototype.hasOwnProperty.call(debtBalances,d.id)){
+      d.referenceBalance=debtBalances[d.id];
+      d.referenceDate=isoLocal(localToday());
+      d.updatedAt=new Date().toISOString();
+      await putOne(STORE_DEBTS,d)
+    }
+  }
+  const newSettings={...state.settings,activeCycleStart:isoLocal(nextStart),balanceReferenceDate:isoLocal(localToday()),dataVersion:6};
+  await putOne(STORE_META,{key:"settings",value:newSettings});
+  await loadState();closeModal();await syncDueEvents();await loadState();await syncProjectCycleReservations();await loadState();render()
+}
+function closuresHistoryHTML(){
+  const rows=[...state.closures].sort((a,b)=>String(b.cycleStart).localeCompare(String(a.cycleStart)));
+  if(!rows.length)return '<div class="empty">Aucune clôture enregistrée pour le moment.</div>';
+  return `<div class="list">${rows.map(c=>`<div class="item"><div class="row"><div><div class="name">${fmtDate(dateFromISO(c.cycleStart))} → ${fmtDate(dateFromISO(c.cycleEnd))}</div><div class="meta">Clôturé ${new Intl.DateTimeFormat("fr-CA",{day:"2-digit",month:"short",year:"numeric"}).format(new Date(c.closedAt))}</div></div><span class="badge ${Math.abs(Number(c.reconciliationGap)||0)<0.01?"good":"warn"}">${(Number(c.reconciliationGap)||0)>=0?"+":""}${money(c.reconciliationGap,c.currency)}</span></div><div class="grid2" style="margin-top:10px"><div class="kpi"><div class="muted small">EOP attendu</div><div class="value" style="font-size:17px">${money(c.expectedEOP,c.currency)}</div></div><div class="kpi"><div class="muted small">EOP réel ajusté</div><div class="value" style="font-size:17px">${money(c.adjustedOldCycleReal,c.currency)}</div></div></div></div>`).join("")}</div>`
+}
+
+/* ===== Phase 3O : Safe to Spend ===== */
+function projectedImpactOnPrimary(e){
+  const pa=primaryAccount();if(!pa)return {impact:0,uncertain:false};
+  const rec=e.record||eventRecordById(e.id),st=effectiveEventState(e);
+  if(st.status==="cancelled")return {impact:0,uncertain:false};
+  const amount=(st.status==="confirmed"||st.status==="corrected")?Number(st.amount||0):Number(e.amount||0);
+  if(e.type==="fixed_income"&&e.accountId===pa.id)return {impact:amount,uncertain:false};
+  if(e.type==="debit"&&e.accountId===pa.id)return {impact:-amount,uncertain:false};
+  if(e.type==="transfer"){
+    let impact=0,uncertain=false;
+    if(e.accountId===pa.id)impact-=amount;
+    if(e.destinationId===pa.id){
+      const actualDest=Number(rec?.actualDestinationAmount);
+      if(Number.isFinite(actualDest))impact+=actualDest;
+      else if(e.currency===pa.currency)impact+=amount;
+      else uncertain=true; // entrée multidevise non connue : on ne la compte pas dans le Safe
+    }
+    return {impact,uncertain}
+  }
+  return {impact:0,uncertain:false}
+}
+function safeProjectionEvents(){
+  const cal=generateCycleEvents(),today=localToday(),rows=[];
+  for(const e of cal.events){
+    const rec=e.record||eventRecordById(e.id),st=effectiveEventState(e);
+    if(st.status==="cancelled")continue;
+    let include=false;
+    if(e.date>today)include=true;
+    else if(!rec)include=true; // sécurité si la synchro d'une échéance n'a pas encore créé son snapshot
+    else if(st.status==="pending")include=true; // dû mais pas encore appliqué à EOP
+    if(!include)continue;
+    const p=projectedImpactOnPrimary(e);
+    if(p.impact===0&&!p.uncertain)continue;
+    rows.push({...e,projectionImpact:p.impact,projectionUncertain:p.uncertain})
+  }
+  rows.sort((a,b)=>{
+    const dd=a.date-b.date;if(dd!==0)return dd;
+    if(a.projectionImpact!==b.projectionImpact)return a.projectionImpact-b.projectionImpact; // sorties avant entrées
+    return a.name.localeCompare(b.name,"fr")
+  });
+  return rows
+}
+function calculateSafe(includeProjects=true){
+  const eop=calculateEOP(),reserved=reserveBreakdown(includeProjects),pa=primaryAccount();
+  if(!pa||!eop.available)return {available:false,reason:"EOP calculé indisponible"};
+  if(!reserved.ready)return {available:false,reason:"Réserves du cycle à initialiser"};
+  const currency=pa.currency,currentFree=roundCurrency(eop.calculated-reserved.total,currency);
+  let running=currentFree,minFree=currentFree,limitingEvent=null,uncertain=false;
+  const timeline=[];
+  for(const e of safeProjectionEvents()){
+    uncertain=uncertain||!!e.projectionUncertain;
+    running=roundCurrency(running+Number(e.projectionImpact||0),currency);
+    timeline.push({event:e,balance:running});
+    if(running<minFree){minFree=running;limitingEvent=e}
+  }
+  const safe=roundCurrency(Math.max(0,minFree),currency);
+  return {available:true,currency,eop:eop.calculated,reserved:reserved.total,currentFree,safe,minFree,limitingEvent,timeline,uncertain}
+}
+
+function calculateCycleMargin(includeProjects=true){
+  const pa=primaryAccount(),eop=calculateEOP(),reserved=reserveBreakdown(includeProjects);
+  if(!pa||!eop.available)return {available:false,reason:"EOP calculé indisponible"};
+  if(!reserved.ready)return {available:false,reason:"Réserves du cycle à initialiser"};
+  const currency=pa.currency;
+  const future=safeProjectionEvents();
+  let futureNet=0,uncertain=false;
+  for(const e of future){
+    futureNet=roundCurrency(futureNet+Number(e.projectionImpact||0),currency);
+    uncertain=uncertain||!!e.projectionUncertain
+  }
+  const projectedEOP=roundCurrency(eop.calculated+futureNet,currency);
+  const margin=roundCurrency(projectedEOP-reserved.total,currency);
+  const range=activeCycleRange();
+  return {
+    available:true,currency,
+    currentEOP:eop.calculated,
+    futureNet,
+    projectedEOP,
+    reserved:reserved.total,
+    margin,
+    endDate:range.end,
+    uncertain
+  }
+}
+function cycleMarginHTML(calc){
+  if(!calc.available){
+    return `<div class="card"><div class="title">Marge prévue du cycle</div><div class="note">${safeText(calc.reason||"Calcul indisponible")}</div></div>`
+  }
+  const badge=calc.margin<0
+    ?'<span class="badge bad">Déficit prévu</span>'
+    :calc.uncertain
+      ?'<span class="badge warn">Projection conservatrice</span>'
+      :'<span class="badge good">Projection positive</span>';
+  return `<div class="card">
+    <div class="row">
+      <div>
+        <div class="title" style="margin-bottom:3px">Marge prévue du cycle</div>
+        <div class="muted small">Projection au ${fmtDate(calc.endDate)} après les événements prévus et en gardant les réserves protégées.</div>
+      </div>
+      ${badge}
+    </div>
+    <div class="big" style="font-size:32px;margin-top:12px">${money(calc.margin,calc.currency)}</div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="kpi">
+        <div class="muted small">EOP prévu à la clôture</div>
+        <div class="value">${money(calc.projectedEOP,calc.currency)}</div>
+        <div class="small muted">${calc.futureNet>=0?"+":""}${money(calc.futureNet,calc.currency)} d’événements futurs</div>
+      </div>
+      <div class="kpi">
+        <div class="muted small">Réservé protégé</div>
+        <div class="value">${money(calc.reserved,calc.currency)}</div>
+        <div class="small muted">Exclu de la marge</div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:12px">Les restes de budgets qui seront libérés à la clôture pourront augmenter la marge réelle. Cette projection suppose que les règles actuellement configurées restent inchangées.</div>
+    ${calc.uncertain?'<div class="note" style="margin-top:10px">Une entrée multidevise future non confirmée n’est pas comptée afin de garder la projection conservatrice.</div>':""}
+  </div>`
+}
+
+function safeControlHTML(calc){
+  if(!calc.available)return `<div class="card"><div class="title">Contrôle du Safe</div><div class="note">${safeText(calc.reason||"Calcul indisponible")}</div></div>`;
+  const limit=calc.limitingEvent?`${fmtDay(calc.limitingEvent.date)} · après ${safeText(calc.limitingEvent.name)}`:"Aujourd’hui";
+  return `<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Contrôle du Safe</div><div class="muted small">Le Safe est le plus petit solde libre projeté jusqu’à la clôture.</div></div><span class="badge good">${calc.uncertain?"Conservateur":"Actif"}</span></div>
+    <div class="grid2" style="margin-top:12px"><div class="kpi"><div class="muted small">Libre maintenant</div><div class="value">${money(calc.currentFree,calc.currency)}</div><div class="small muted">EOP calculé − Réservé</div></div><div class="kpi"><div class="muted small">Point limitant</div><div class="value">${money(calc.minFree,calc.currency)}</div><div class="small muted">${limit}</div></div></div>
+    ${calc.uncertain?'<div class="note" style="margin-top:12px">Une entrée multidevise future n’a pas de montant de destination confirmé. Elle est ignorée dans le Safe pour rester conservateur.</div>':""}
+  </div>`
+}
+
+
+function projectPriorityLabel(p){return p.priority==="high"?"Haute":p.priority==="low"?"Basse":"Normale"}
+function projectProgress(p,includeCurrent=true){
+  const plan=projectAllocationPlan(),current=includeCurrent?(Number(plan.allocations[p.id])||0):0;
+  const funded=Math.max(0,Number(p.alreadyFunded)||0),carry=Math.max(0,Number(p.reservedCarry)||0),target=Math.max(0,Number(p.targetAmount)||0);
+  const covered=Math.min(target,funded+carry+current),pct=target>0?Math.min(100,(covered/target)*100):100;
+  return {target,funded,carry,current,covered,pct,remaining:Math.max(0,target-covered)}
+}
+function projectSimulationFormHTML(){
+  const minDate=isoLocal(localToday());
+  return `<form id="projectSimulationForm">
+    <label>Nom du projet (optionnel)</label><input id="projectName" maxlength="70" placeholder="Ex. Voyage, achat, travaux">
+    <label>Montant cible</label><input id="projectTarget" type="number" min="0.01" step="0.01" required placeholder="0.00">
+    <label>Date cible</label><input id="projectTargetDate" type="date" min="${minDate}" required>
+    <label>Déjà financé / déjà affecté</label><input id="projectFunded" type="number" min="0" step="0.01" value="0" required>
+    <div class="muted small">Montant déjà mis de côté ailleurs. Il ne sera pas retiré une deuxième fois du Safe.</div>
+    <label>Priorité</label><select id="projectPriority"><option value="high">Haute</option><option value="normal" selected>Normale</option><option value="low">Basse</option></select>
+    <div class="form-actions"><button class="btn" type="submit">Simuler</button><button class="btn ghost" type="button" id="cancelProjectSimulation">Annuler</button></div>
+  </form>`
+}
+function bindProjectSimulationForm(){
+  document.getElementById("cancelProjectSimulation")?.addEventListener("click",closeModal);
+  document.getElementById("projectSimulationForm")?.addEventListener("submit",e=>{e.preventDefault();
+    const input={name:document.getElementById("projectName").value.trim(),targetAmount:Number(document.getElementById("projectTarget").value),targetDate:document.getElementById("projectTargetDate").value,alreadyFunded:Number(document.getElementById("projectFunded").value)||0,priority:document.getElementById("projectPriority").value};
+    if(!Number.isFinite(input.targetAmount)||input.targetAmount<=0||!input.targetDate){alert("Vérifiez le montant cible et la date.");return}
+    if(input.alreadyFunded<0){alert("Le montant déjà financé ne peut pas être négatif.");return}
+    const sim=simulateProjectInput(input),status=sim.feasible==="green"?"Réalisable":sim.feasible==="orange"?"Partiellement soutenable":"Non soutenable maintenant",cls=sim.feasible==="green"?"good":sim.feasible==="orange"?"warn":"bad";
+    dlgBody.innerHTML=`<div class="note">Simulation seulement : aucun montant n’est encore réservé.</div>
+      <div class="grid2" style="margin-top:12px"><div class="kpi"><div class="muted small">Reste à financer</div><div class="value">${money(sim.remaining,sim.currency)}</div></div><div class="kpi"><div class="muted small">Cycles disponibles</div><div class="value">${projectCycleSlots(sim.tmp)}</div></div><div class="kpi"><div class="muted small">Contribution requise / cycle</div><div class="value">${money(sim.required,sim.currency)}</div></div><div class="kpi"><div class="muted small">Contribution soutenable maintenant</div><div class="value">${money(sim.contribution,sim.currency)}</div></div></div>
+      <div class="row" style="margin-top:12px"><span class="badge ${cls}">${status}</span><span class="muted small">Impact net sur Safe ce cycle : ${money(sim.netImpact,sim.currency)}</span></div>
+      <div class="note" style="margin-top:12px">${sim.feasible==="green"?`La cadence actuelle permet d’atteindre la date cible.`:sim.estimatedDate?`À capacité comparable, date réaliste estimée : ${fmtDate(sim.estimatedDate)}.`:`Aucune contribution n’est soutenable ce cycle sans réduire la protection existante.`}</div>
+      <div class="form-actions"><button class="btn" id="createProjectFromSimulation">${sim.feasible==="green"?"Créer le projet":"Créer quand même"}</button><button class="btn ghost" id="backProjectSimulation">Modifier</button></div>`;
+    document.getElementById("backProjectSimulation").onclick=()=>{dlgBody.innerHTML=projectSimulationFormHTML();bindProjectSimulationForm()};
+    document.getElementById("createProjectFromSimulation").onclick=async()=>{
+      const newId=uid();const p={...sim.tmp,id:newId,name:sim.tmp.name||"Nouveau projet",reservedCarry:0,cycleReservations:{},status:sim.remaining<=0?"funded":"active",archived:false,createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+      await putOne(STORE_PROJECTS,p);await loadState();await reallocateProjectCycleReservations();await loadState();closeModal();render()
+    }
+  })
+}
+function openProjectSimulation(){openModal("Simuler un nouveau projet",projectSimulationFormHTML());bindProjectSimulationForm()}
+
+function distributionTestCapacity(){
+  const s=calculateSafe(false),m=calculateCycleMargin(false),pa=primaryAccount();
+  const currency=pa?.currency||(state.settings||defaultSettings).mainCurrency||"CAD";
+  if(!s.available||!m.available)return {ready:false,currency,capacity:0};
+  return {ready:true,currency,capacity:roundCurrency(Math.max(0,Math.min(s.safe,m.margin)),currency)}
+}
+function distributionTestFormHTML(){
+  const cap=distributionTestCapacity(),defaultDate=isoLocal(activeCycleRange().end);
+  return `<form id="distributionTestForm">
+    <div class="note">Mode test uniquement : aucun projet ne sera créé et aucune donnée ne sera enregistrée. Le test utilise la même règle de priorité que le moteur réel.</div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="kpi"><div class="muted small">Capacité disponible pour le test</div><div class="value">${cap.ready?money(cap.capacity,cap.currency):"—"}</div></div>
+      <div class="kpi"><div class="muted small">Ordre appliqué</div><div class="value" style="font-size:15px">Haute → Normale → Basse</div><div class="small muted">Puis date cible la plus proche</div></div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div class="title">Projet A</div>
+      <label>Montant à financer</label><input id="testAAmount" type="number" min="0.01" step="0.01" value="800" required>
+      <label>Date cible</label><input id="testADate" type="date" min="${isoLocal(localToday())}" value="${defaultDate}" required>
+      <label>Priorité</label><select id="testAPriority"><option value="high">Haute</option><option value="normal">Normale</option><option value="low" selected>Basse</option></select>
+    </div>
+
+    <div class="card">
+      <div class="title">Projet B</div>
+      <label>Montant à financer</label><input id="testBAmount" type="number" min="0.01" step="0.01" value="800" required>
+      <label>Date cible</label><input id="testBDate" type="date" min="${isoLocal(localToday())}" value="${defaultDate}" required>
+      <label>Priorité</label><select id="testBPriority"><option value="high" selected>Haute</option><option value="normal">Normale</option><option value="low">Basse</option></select>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn" type="submit">Tester la répartition</button>
+      <button class="btn ghost" type="button" id="cancelDistributionTest">Fermer</button>
+    </div>
+  </form>`
+}
+function simulateDistributionTest(inputs){
+  const cap=distributionTestCapacity(),currency=cap.currency;
+  if(!cap.ready)return {ready:false,currency,capacity:0,rows:[]};
+
+  const projects=inputs.map((x,i)=>({
+    id:`__test_${i}__`,
+    name:x.name,
+    targetAmount:Number(x.amount)||0,
+    targetDate:x.targetDate,
+    alreadyFunded:0,
+    reservedCarry:0,
+    cycleReservations:{},
+    priority:x.priority,
+    status:"active",
+    createdAt:new Date(Date.now()+i).toISOString()
+  }));
+
+  projects.sort((a,b)=>
+    priorityRank(a)-priorityRank(b) ||
+    String(a.targetDate||"").localeCompare(String(b.targetDate||"")) ||
+    String(a.createdAt||"").localeCompare(String(b.createdAt||""))
+  );
+
+  let remainingCapacity=cap.capacity;
+  const rows=[];
+  for(const p of projects){
+    const remaining=Math.max(0,Number(p.targetAmount)||0);
+    const slots=projectCycleSlots(p);
+    const required=roundCurrency(slots?remaining/slots:remaining,currency);
+    const allocated=roundCurrency(Math.min(required,remainingCapacity,remaining),currency);
+    remainingCapacity=roundCurrency(Math.max(0,remainingCapacity-allocated),currency);
+    rows.push({project:p,remaining,slots,required,allocated})
+  }
+  return {ready:true,currency,capacity:cap.capacity,remainingCapacity,rows}
+}
+function distributionTestResultHTML(result){
+  if(!result.ready)return `<div class="note">Le moteur ne peut pas calculer la capacité de test actuellement.</div>`;
+  return `<div class="note">Résultat de simulation seulement : aucune écriture dans IndexedDB.</div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="kpi"><div class="muted small">Capacité initiale</div><div class="value">${money(result.capacity,result.currency)}</div></div>
+      <div class="kpi"><div class="muted small">Capacité restante</div><div class="value">${money(result.remainingCapacity,result.currency)}</div></div>
+    </div>
+    <div class="list" style="margin-top:12px">
+      ${result.rows.map((r,idx)=>`<div class="item">
+        <div class="row">
+          <div>
+            <div class="name">${idx+1}. ${safeText(r.project.name)}</div>
+            <div class="meta">Priorité ${projectPriorityLabel(r.project)} · cible ${fmtDate(dateFromISO(r.project.targetDate))} · ${r.slots} cycle(s)</div>
+          </div>
+          <span class="badge ${r.allocated+0.009>=r.required?"good":r.allocated>0?"warn":"bad"}">${money(r.allocated,result.currency)}</span>
+        </div>
+        <div class="meta" style="margin-top:7px">Requis ce cycle : ${money(r.required,result.currency)} · reste total : ${money(r.remaining,result.currency)}</div>
+      </div>`).join("")}
+    </div>
+    <div class="note" style="margin-top:12px">Le premier projet affiché a réellement reçu la capacité en premier. Pour vérifier le moteur, inversez simplement les priorités et relancez le test.</div>
+    <div class="form-actions"><button class="btn ghost" id="backDistributionTest">Modifier le test</button><button class="btn" id="closeDistributionResult">Fermer</button></div>`
+}
+function bindDistributionTestForm(){
+  document.getElementById("cancelDistributionTest")?.addEventListener("click",closeModal);
+  document.getElementById("distributionTestForm")?.addEventListener("submit",e=>{
+    e.preventDefault();
+    const inputs=[
+      {name:"Projet A",amount:Number(document.getElementById("testAAmount").value),targetDate:document.getElementById("testADate").value,priority:document.getElementById("testAPriority").value},
+      {name:"Projet B",amount:Number(document.getElementById("testBAmount").value),targetDate:document.getElementById("testBDate").value,priority:document.getElementById("testBPriority").value}
+    ];
+    if(inputs.some(x=>!Number.isFinite(x.amount)||x.amount<=0||!x.targetDate)){alert("Vérifiez les montants et les dates.");return}
+    const result=simulateDistributionTest(inputs);
+    dlgBody.innerHTML=distributionTestResultHTML(result);
+    document.getElementById("backDistributionTest")?.addEventListener("click",()=>{dlgBody.innerHTML=distributionTestFormHTML();bindDistributionTestForm()});
+    document.getElementById("closeDistributionResult")?.addEventListener("click",closeModal)
+  })
+}
+function openDistributionTest(){openModal("Test de répartition",distributionTestFormHTML());bindDistributionTestForm()}
+function projectCardHTML(p){
+  const pr=projectProgress(p),status=p.status==="paused"?'<span class="badge warn">En pause</span>':p.status==="funded"?'<span class="badge good">Financé</span>':'<span class="badge good">Actif</span>';
+  return `<button class="item" data-project="${p.id}" style="width:100%;text-align:left;color:inherit"><div class="row"><div><div class="name">${safeText(p.name||"Projet")}</div><div class="meta">Cible ${p.targetDate?fmtDate(dateFromISO(p.targetDate)):"—"} · priorité ${projectPriorityLabel(p)}</div><div class="status-line">${status}</div></div><div class="amount">${money(pr.covered,primaryAccount()?.currency||"CAD")} / ${money(pr.target,primaryAccount()?.currency||"CAD")}</div></div><div style="height:7px;background:#183149;border-radius:999px;margin-top:10px;overflow:hidden"><div style="height:100%;width:${pr.pct}%;background:var(--blue);border-radius:999px"></div></div><div class="meta" style="margin-top:7px">Réservé dans EOP : ${money(pr.carry+pr.current,primaryAccount()?.currency||"CAD")} · contribution ce cycle : ${money(pr.current,primaryAccount()?.currency||"CAD")}</div></button>`
+}
+function projectEditFormHTML(p){
+  return `<form id="projectEditForm">
+    <label>Nom</label><input id="editProjectName" maxlength="70" value="${safeText(p.name||"")}">
+    <label>Montant cible</label><input id="editProjectTarget" type="number" min="0.01" step="0.01" value="${Number(p.targetAmount)||0}" required>
+    <label>Date cible</label><input id="editProjectTargetDate" type="date" value="${p.targetDate||""}" required>
+    <label>Déjà financé / déjà affecté</label><input id="editProjectFunded" type="number" min="0" step="0.01" value="${Number(p.alreadyFunded)||0}" required>
+    <label>Priorité</label><select id="editProjectPriority"><option value="high" ${p.priority==="high"?"selected":""}>Haute</option><option value="normal" ${p.priority!=="high"&&p.priority!=="low"?"selected":""}>Normale</option><option value="low" ${p.priority==="low"?"selected":""}>Basse</option></select>
+    <div class="note" style="margin-top:12px">Modifier ces paramètres déclenche une nouvelle répartition de la capacité du cycle entre tous les projets : priorité Haute → Normale → Basse, puis date cible la plus proche.</div>
+    <div class="form-actions"><button class="btn" type="submit">Enregistrer et réallouer</button><button class="btn ghost" type="button" id="cancelProjectEdit">Annuler</button></div>
+  </form>`
+}
+function bindProjectEditForm(p){
+  document.getElementById("cancelProjectEdit")?.addEventListener("click",()=>openProjectDetail(p));
+  document.getElementById("projectEditForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const target=Number(document.getElementById("editProjectTarget").value),funded=Number(document.getElementById("editProjectFunded").value)||0,date=document.getElementById("editProjectTargetDate").value;
+    if(!Number.isFinite(target)||target<=0||funded<0||!date){alert("Vérifiez les paramètres du projet.");return}
+    p.name=document.getElementById("editProjectName").value.trim()||"Projet";
+    p.targetAmount=target;p.targetDate=date;p.alreadyFunded=funded;p.priority=document.getElementById("editProjectPriority").value;
+    const coveredBase=(Number(p.alreadyFunded)||0)+(Number(p.reservedCarry)||0);
+    if(target<=coveredBase+0.009)p.status="funded";else if(p.status==="funded")p.status="active";
+    p.updatedAt=new Date().toISOString();
+    await putOne(STORE_PROJECTS,p);await loadState();await reallocateProjectCycleReservations();await loadState();closeModal();render()
+  })
+}
+function openProjectDetail(p){
+  const pr=projectProgress(p),currency=primaryAccount()?.currency||(state.settings||defaultSettings).mainCurrency||"CAD",req=roundCurrency(projectRequiredContribution(p),currency),plan=projectAllocationPlan(),current=roundCurrency(Number(plan.allocations[p.id])||0,currency);
+  openModal(p.name||"Projet",`<div class="grid2"><div class="kpi"><div class="muted small">Objectif</div><div class="value">${money(pr.target,currency)}</div></div><div class="kpi"><div class="muted small">Couvert actuellement</div><div class="value">${money(pr.covered,currency)}</div></div><div class="kpi"><div class="muted small">Déjà financé ailleurs</div><div class="value">${money(pr.funded,currency)}</div></div><div class="kpi"><div class="muted small">Réservé dans EOP</div><div class="value">${money(pr.carry+pr.current,currency)}</div></div><div class="kpi"><div class="muted small">Requis / cycle</div><div class="value">${money(req,currency)}</div></div><div class="kpi"><div class="muted small">Alloué ce cycle</div><div class="value">${money(current,currency)}</div></div></div><div class="note" style="margin-top:12px">Cible : ${p.targetDate?fmtDate(dateFromISO(p.targetDate)):"—"} · priorité ${projectPriorityLabel(p)}. Les montants déjà financés ailleurs ne réduisent pas le Safe une seconde fois.</div><div class="form-actions"><button class="btn ghost" id="editProject">Modifier</button>${p.status!=="funded"?`<button class="btn alt" id="toggleProject">${p.status==="paused"?"Réactiver":"Mettre en pause"}</button>`:""}<button class="btn bad" id="archiveProject">Annuler le projet</button></div>`);
+  document.getElementById("editProject")?.addEventListener("click",()=>{dlgBody.innerHTML=projectEditFormHTML(p);bindProjectEditForm(p)});
+  document.getElementById("toggleProject")?.addEventListener("click",async()=>{p.status=p.status==="paused"?"active":"paused";p.updatedAt=new Date().toISOString();await putOne(STORE_PROJECTS,p);await loadState();await reallocateProjectCycleReservations();await loadState();closeModal();render()});
+  document.getElementById("archiveProject")?.addEventListener("click",async()=>{if(!confirm(`Annuler ce projet ? ${money(pr.carry,currency)} déjà accumulé dans EOP sera libéré du Réservé.`))return;p.archived=true;p.updatedAt=new Date().toISOString();await putOne(STORE_PROJECTS,p);await loadState();await reallocateProjectCycleReservations();await loadState();closeModal();render()})
+}
+function renderProjects(){
+  headerSub.textContent="Projets · Phase 3O";const rows=visibleProjects();
+  view.innerHTML=`<div class="card"><div class="section-head"><div><div class="title" style="margin-bottom:3px">Projets</div><div class="muted small">Chaque projet passe d’abord par une simulation.</div></div><button class="btn" id="newProject">Simuler un nouveau projet</button></div>${rows.length?`<div class="list">${rows.map(projectCardHTML).join("")}</div>`:'<div class="empty">Aucun projet pour le moment.</div>'}</div>
+    <div class="card"><div class="section-head"><div><div class="title" style="margin-bottom:3px">Test de répartition</div><div class="muted small">Vérifie les priorités sans créer aucun projet.</div></div><button class="btn alt" id="distributionTest">Tester</button></div><div class="note">Le test est isolé : il utilise la capacité actuelle, applique Haute → Normale → Basse puis la date cible, mais n’enregistre rien dans IndexedDB.</div></div>
+    <div class="card"><div class="title">Logique de financement</div><div class="note">Les contributions restent dans EOP mais sont protégées du Safe. Une création, modification, pause, réactivation ou annulation déclenche une réallocation du cycle : priorité Haute → Normale → Basse, puis date cible la plus proche. Les dépenses quotidiennes, elles, ne réallouent pas silencieusement les projets.</div></div>`;
+  document.getElementById("newProject").onclick=openProjectSimulation;
+  document.getElementById("distributionTest").onclick=openDistributionTest;
+  document.querySelectorAll("[data-project]").forEach(b=>b.onclick=()=>{const p=state.projects.find(x=>x.id===b.dataset.project);if(p)openProjectDetail(p)})
+}
+function eventTypeLabel(e){return e.type==="fixed_income"?"Revenu fixe":e.type==="debit"?"Prélèvement":"Virement"}
+function eventAccountLabel(e){
+  const a=accountById(e.accountId);
+  if(e.type!=="transfer")return a?.name||"?";
+  const d=accountById(e.destinationId);return `${a?.name||"?"} → ${d?.name||"?"}`
+}
+function eventStatusBadge(e){
+  const st=effectiveEventState(e).status;
+  if(st==="pending")return '<span class="badge warn">À confirmer</span>';
+  if(st==="confirmed")return '<span class="badge good">Confirmé</span>';
+  if(st==="corrected")return '<span class="badge warn">Corrigé</span>';
+  if(st==="cancelled")return '<span class="badge bad">Annulé</span>';
+  if(st==="calculated")return '<span class="badge good">Calculé</span>';
+  if(st==="included_baseline")return '<span class="badge good">Inclus dans le solde</span>';
+  return '<span class="badge good">Prévu</span>'
+}
+function eventActionHTML(e){
+  const st=effectiveEventState(e).status;
+  if(st==="pending")return `<div class="event-actions"><button class="btn mini" data-event-confirm="${e.id}">Confirmer</button></div>`;
+  if(["calculated","confirmed","corrected","cancelled"].includes(st))return `<div class="event-actions"><button class="btn mini alt" data-event-manage="${e.id}">Gérer</button></div>`;
+  return ""
+}
+function displayEventAmount(e){
+  const st=effectiveEventState(e),amount=(st.status==="confirmed"||st.status==="corrected")?st.amount:Number(e.amount);
+  const sign=e.direction==="in"?"+":"−";
+  return `${sign}${money(amount,e.currency)}`
+}
+function eventRows(events,limit=null){
+  const rows=(limit?events.slice(0,limit):events);
+  if(!rows.length)return '<div class="empty">Aucun événement prévu après le solde de référence dans ce cycle.</div>';
+  let last="",html="";
+  for(const e of rows){
+    if(e.dateISO!==last){html+=`<div class="calendar-day">${safeText(fmtDay(e.date))}</div>`;last=e.dateISO}
+    html+=`<div class="event"><div><div class="event-name">${safeText(e.name)}</div><div class="event-meta">${eventTypeLabel(e)} · ${safeText(eventAccountLabel(e))}</div><div class="status-line">${eventStatusBadge(e)}</div>${eventActionHTML(e)}</div><div class="event-amount ${e.direction==="in"?"in":"out"}">${displayEventAmount(e)}</div></div>`
+  }
+  return html
+}
+
+function crossCurrency(e){
+  const src=accountById(e.accountId),dst=accountById(e.destinationId);
+  return e.type==="transfer"&&src&&dst&&src.currency!==dst.currency
+}
+function openEventManager(e,mode="manage"){
+  const rec=e.record||eventRecordById(e.id),st=effectiveEventState(e),isCross=crossCurrency(e),dst=accountById(e.destinationId);
+  const actualDefault=(rec?.actualAmount??e.amount);
+  const destDefault=rec?.actualDestinationAmount??"";
+  const confirmMode=mode==="confirm"||st.status==="pending";
+  openModal(confirmMode?"Confirmer l’opération":"Gérer l’événement",`<div class="note">${safeText(e.name)} · ${fmtDay(e.date)}<br>Montant prévu : ${money(e.amount,e.currency)}</div>
+    <form id="eventForm">
+      <label>${e.direction==="in"?"Montant réel reçu":"Débit réel"} (${e.currency})</label>
+      <input id="eventActual" type="number" min="0" step="${e.currency==="TND"?"0.001":"0.01"}" required value="${actualDefault}">
+      ${isCross?`<label>Crédit réel destination (${dst?.currency||e.destinationCurrency||""})</label><input id="eventDestinationActual" type="number" min="0" step="${(dst?.currency||e.destinationCurrency)==="TND"?"0.001":"0.01"}" required value="${destDefault}">`:""}
+      <div class="form-actions"><button class="btn" type="submit">${confirmMode?"Confirmer":"Enregistrer la correction"}</button><button class="btn ghost" type="button" id="cancelEventForm">Fermer</button></div>
+    </form>
+    <div class="hr"></div><button class="btn bad" id="cancelOccurrence">Annuler cette occurrence</button>`);
+  document.getElementById("cancelEventForm").onclick=closeModal;
+  document.getElementById("eventForm").onsubmit=async ev=>{
+    ev.preventDefault();
+    const actual=Number(document.getElementById("eventActual").value);if(!Number.isFinite(actual)||actual<0)return alert("Montant réel invalide.");
+    let dstActual=null;
+    if(isCross){dstActual=Number(document.getElementById("eventDestinationActual").value);if(!Number.isFinite(dstActual)||dstActual<0)return alert("Crédit destination invalide.")}
+    const base=rec?{...rec}:eventSnapshot(e,e.executionMode==="confirm"?"pending":"calculated");
+    base.status=confirmMode?"confirmed":"corrected";base.actualAmount=actual;
+    if(isCross)base.actualDestinationAmount=dstActual;
+    base.updatedAt=new Date().toISOString();if(confirmMode)base.confirmedAt=new Date().toISOString();
+    await putOne(STORE_EVENTS,base);await loadState();closeModal();render()
+  };
+  document.getElementById("cancelOccurrence").onclick=async()=>{
+    if(!confirm("Annuler seulement cette occurrence ? La règle future reste active."))return;
+    const base=rec?{...rec}:eventSnapshot(e,"cancelled");base.status="cancelled";base.updatedAt=new Date().toISOString();
+    await putOne(STORE_EVENTS,base);await loadState();closeModal();render()
+  }
+}
+function bindEventActions(){
+  document.querySelectorAll("[data-event-confirm]").forEach(b=>b.onclick=()=>{const cal=generateCycleEvents(),e=cal.events.find(x=>x.id===b.dataset.eventConfirm);if(e)openEventManager(e,"confirm")});
+  document.querySelectorAll("[data-event-manage]").forEach(b=>b.onclick=()=>{const cal=generateCycleEvents(),e=cal.events.find(x=>x.id===b.dataset.eventManage);if(e)openEventManager(e,"manage")})
+}
+
+async function saveReferenceDate(value){
+  const d=dateFromISO(value);if(!d){alert("Choisissez une date valide.");return}
+  const s={...defaultSettings,...(state.settings||{}),balanceReferenceDate:value,dataVersion:6};
+  await putOne(STORE_META,{key:"settings",value:s});state.settings=s;await syncDueEvents();await loadState();render()
+}
+function referenceSetupCard(){
+  return `<div class="card"><div class="title">Initialiser le calcul EOP</div><div class="note">Le solde du compte principal est déjà un solde réel. Le moteur calcule seulement les événements après la date à laquelle ce solde a été vérifié, afin d’éviter tout double comptage.</div><form id="referenceForm"><label>Date de référence du solde</label><input id="referenceDate" type="date" required value="${isoLocal(localToday())}"><div class="muted small">Les événements de cette date et des jours précédents sont déjà inclus dans le solde réel.</div><div class="form-actions"><button class="btn" type="submit">Confirmer la date</button></div></form></div>`
+}
+
+/* ===== Onboarding / écrans ===== */
+function renderOnboarding(){
+  nav.hidden=true;headerSub.textContent="V2 · Configuration initiale";
+  if(onboardingStep===1){
+    view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step"></div><div class="step"></div></div><div class="eyebrow">Étape 1 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Créer mes comptes</div><div class="muted small" style="margin-bottom:14px">Ajoutez d'abord vos comptes réels. Rien n'est créé automatiquement.</div><div class="list">${activeAccounts().length?activeAccounts().map(a=>`<div class="item"><div class="row"><div><div class="name">${safeText(a.name)}</div><div class="meta">${a.currency} · ${a.role==="primary_spending"?"Compte principal":a.role==="protected_savings"?"Épargne protégée":"Suivi seulement"}</div></div><div class="amount">${money(a.balance,a.currency)}</div></div></div>`).join(""):'<div class="empty">Aucun compte pour le moment.</div>'}</div><div class="form-actions"><button class="btn" id="addOnboardAccount">+ Ajouter un compte</button><button class="btn alt" id="nextOnboard1" ${primaryAccount()?"":"disabled"}>Continuer</button></div>${primaryAccount()?"":'<div class="note" style="margin-top:10px">Il faut au moins un compte principal de dépenses pour continuer.</div>'}</div>`;
+    document.getElementById("addOnboardAccount").onclick=()=>{openModal("Ajouter un compte",accountForm(null,true));bindAccountForm(null)};
+    document.getElementById("nextOnboard1").onclick=()=>{onboardingStep=2;renderOnboarding()};return
+  }
+  if(onboardingStep===2){
+    const s=state.settings||defaultSettings;
+    view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step on"></div><div class="step"></div></div><div class="eyebrow">Étape 2 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Paramètres du cycle</div><form id="settingsForm"><label>Jour de clôture du cycle</label><input id="cycleDay" type="number" min="1" max="28" required value="${s.cycleDay||2}"><div class="muted small">Le jour est configurable.</div><label>Devise principale</label><select id="mainCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option value="${c}" ${(s.mainCurrency||"CAD")===c?"selected":""}>${c}</option>`).join("")}</select><label>Réserve de sécurité optionnelle</label><input id="safetyReserve" type="number" min="0" step="0.01" value="${s.safetyReserve||0}"><div class="form-actions"><button class="btn ghost" type="button" id="backOnboard">Retour</button><button class="btn" type="submit">Continuer</button></div></form></div>`;
+    document.getElementById("backOnboard").onclick=()=>{onboardingStep=1;renderOnboarding()};
+    document.getElementById("settingsForm").onsubmit=async e=>{
+      e.preventDefault();
+      const pa=primaryAccount();
+      state.settings={...defaultSettings,...(state.settings||{}),cycleDay:Math.max(1,Math.min(28,Number(document.getElementById("cycleDay").value)||2)),mainCurrency:document.getElementById("mainCurrency").value,safetyReserve:Math.max(0,Number(document.getElementById("safetyReserve").value)||0),primaryAccountId:pa?.id||null,dataVersion:6};
+      state.settings.activeCycleStart=isoLocal(cycleRange(state.settings.cycleDay).start);
+      await putOne(STORE_META,{key:"settings",value:state.settings});onboardingStep=3;renderOnboarding()
+    };return
+  }
+  const pa=primaryAccount(),s=state.settings||defaultSettings,range=cycleRange(s.cycleDay);
+  view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step on"></div><div class="step on"></div></div><div class="eyebrow">Étape 3 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Prêt à démarrer</div><div class="grid2"><div class="kpi"><div class="muted small">Compte principal</div><div class="value">${safeText(pa?.name||"—")}</div></div><div class="kpi"><div class="muted small">Solde actuel</div><div class="value">${pa?money(pa.balance,pa.currency):"—"}</div></div><div class="kpi"><div class="muted small">Cycle actuel</div><div class="value" style="font-size:15px">${fmtDate(range.start)} → ${fmtDate(range.end)}</div></div><div class="kpi"><div class="muted small">Réserve sécurité</div><div class="value">${money(s.safetyReserve,s.mainCurrency)}</div></div></div><div class="note" style="margin-top:14px">Phase 3O stabilise l’application et ajoute un diagnostic interne de cohérence sans modifier la logique financière.</div><div class="form-actions"><button class="btn ghost" id="backOnboard2">Retour</button><button class="btn" id="finishOnboard">Ouvrir Nadhir Finance</button></div></div>`;
+  document.getElementById("backOnboard2").onclick=()=>{onboardingStep=2;renderOnboarding()};
+  document.getElementById("finishOnboard").onclick=async()=>{await putOne(STORE_META,{key:"onboardingComplete",value:true});await loadState();page="home";render()}
+}
+
+
+/* ===== Phase 3O : Fiabilité, alertes et rappels ===== */
+function daysUntil(from,to){
+  const a=new Date(from.getFullYear(),from.getMonth(),from.getDate(),12);
+  const b=new Date(to.getFullYear(),to.getMonth(),to.getDate(),12);
+  return Math.round((b-a)/86400000)
+}
+function nextConfirmationEvent(){
+  const today=localToday(),cal=generateCycleEvents();
+  return cal.events
+    .filter(e=>{
+      if(e.executionMode!=="confirm")return false;
+      const st=effectiveEventState(e);
+      return ["planned","pending"].includes(st.status)&&e.date>=today
+    })
+    .sort((a,b)=>a.date-b.date)[0]||null
+}
+function financeHealth(){
+  const pa=primaryAccount(),s=state.settings||defaultSettings;
+  const eop=calculateEOP(),reserved=reserveBreakdown(),safe=calculateSafe(),margin=calculateCycleMargin(),closure=closureStatus();
+  const fatal=[],warnings=[],alerts=[],reminders=[];
+
+  if(!pa)fatal.push("Aucun compte principal de dépenses.");
+  if(!s.balanceReferenceDate)fatal.push("Date de référence du solde EOP manquante.");
+  if(!eop.available)fatal.push("EOP calculé indisponible.");
+  if(!reserved.ready)fatal.push("Réserves du cycle non initialisées.");
+  if(!safe.available)fatal.push(safe.reason||"Safe indisponible.");
+
+  if(closure.due){
+    const msg=closure.late>0
+      ?`Clôture en retard de ${closure.late} jour(s).`
+      :"Clôture du cycle à faire aujourd’hui.";
+    warnings.push(msg);
+    alerts.push({severity:closure.late>0?"bad":"warn",title:"Clôture du cycle",text:msg,action:"home"});
+  }
+
+  if(eop.pending>0){
+    const msg=`${eop.pending} confirmation(s) arrivée(s) à échéance n’ont pas encore été appliquées à EOP.`;
+    warnings.push(msg);
+    alerts.push({severity:"warn",title:"Confirmation requise",text:msg,action:"history"});
+  }
+
+  if(safe.available&&safe.uncertain){
+    const msg="Le Safe utilise une hypothèse conservatrice à cause d’un montant multidevise non confirmé.";
+    warnings.push(msg);
+    alerts.push({severity:"warn",title:"Projection conservatrice",text:msg,action:"history"});
+  }
+
+  if(safe.available&&safe.safe<=0){
+    alerts.push({severity:"bad",title:"Safe à 0 $",text:"Aucune dépense libre supplémentaire n’est recommandée avec les règles actuelles.",action:"home"});
+  }else if(safe.available&&safe.currentFree>0&&safe.safe<safe.currentFree*0.25){
+    alerts.push({severity:"warn",title:"Safe fortement limité",text:`Le Safe est de ${money(safe.safe,safe.currency)} alors que ${money(safe.currentFree,safe.currency)} sont libres maintenant. Un événement futur est limitant.`,action:"history"});
+  }
+
+  if(margin.available&&margin.margin<0){
+    alerts.push({severity:"bad",title:"Marge de cycle négative",text:`Projection à la clôture : ${money(margin.margin,margin.currency)}.`,action:"home"});
+  }
+
+  const nextConfirm=nextConfirmationEvent();
+  if(nextConfirm){
+    const d=daysUntil(localToday(),nextConfirm.date);
+    if(d>=0&&d<=7){
+      reminders.push({
+        severity:"info",
+        title:"Action à venir",
+        text:`${nextConfirm.name} devra être confirmé ${d===0?"aujourd’hui":d===1?"demain":`dans ${d} jours`} (${fmtDay(nextConfirm.date)}).`,
+        action:"history"
+      })
+    }
+  }
+
+  if(!closure.due){
+    const d=daysUntil(localToday(),closure.range.end);
+    if(d>=0&&d<=3){
+      reminders.push({
+        severity:"info",
+        title:"Clôture bientôt",
+        text:`La clôture du cycle est prévue ${d===0?"aujourd’hui":d===1?"demain":`dans ${d} jours`} (${fmtDate(closure.range.end)}).`,
+        action:"home"
+      })
+    }
+  }
+
+  let status="reliable",label="Fiable";
+  if(fatal.length){status="blocked";label="Non calculable"}
+  else if(warnings.length){status="provisional";label="Provisoire"}
+
+  return {status,label,fatal,warnings,alerts,reminders,eop,reserved,safe,margin,closure}
+}
+function healthBadge(h){
+  if(h.status==="blocked")return '<span class="badge bad">Non calculable</span>';
+  if(h.status==="provisional")return '<span class="badge warn">Provisoire</span>';
+  return '<span class="badge good">Fiable</span>'
+}
+function reliabilityCardHTML(h){
+  const detail=h.status==="reliable"
+    ?""
+    :h.status==="provisional"
+      ?h.warnings.join(" ")
+      :h.fatal.join(" ");
+  return `<div class="card top-status">
+    <div class="row">
+      <div><div class="title">Fiabilité des calculs</div>${detail?`<div class="muted small" style="margin-top:4px">${safeText(detail)}</div>`:'<div class="muted small" style="margin-top:4px">Safe, EOP et projections cohérents.</div>'}</div>
+      ${healthBadge(h)}
+    </div>
+  </div>`
+}
+function alertCenterHTML(h){
+  const items=[...h.alerts,...h.reminders];
+  if(!items.length)return "";
+  const alertCount=h.alerts.length,reminderCount=h.reminders.length;
+  return `<div class="card top-status">
+    <div class="row">
+      <div><div class="title">Centre de contrôle</div><div class="muted small">${alertCount} alerte(s) · ${reminderCount} rappel(s)</div></div>
+      <span class="badge ${h.alerts.some(x=>x.severity==="bad")?"bad":h.alerts.length?"warn":"good"}">${h.alerts.length?"À vérifier":"Rappel"}</span>
+    </div>
+    <div class="list" style="margin-top:10px">
+      ${items.map(x=>`<button class="item" data-health-action="${safeText(x.action||"home")}" style="width:100%;text-align:left;color:inherit;padding:10px 12px">
+        <div class="row">
+          <div><div class="name">${safeText(x.title)}</div><div class="meta">${safeText(x.text)}</div></div>
+          <span class="badge ${x.severity==="bad"?"bad":x.severity==="warn"?"warn":"good"}">${x.severity==="bad"?"Urgent":x.severity==="warn"?"À vérifier":"Rappel"}</span>
+        </div>
+      </button>`).join("")}
+    </div>
+  </div>`
+}
+function bindHealthActions(){
+  document.querySelectorAll("[data-health-action]").forEach(btn=>btn.addEventListener("click",()=>{
+    const target=btn.dataset.healthAction||"home";
+    if(target==="history"){page="history";manageSection=null;render()}
+    else if(target==="more"){page="more";manageSection=null;render()}
+    else window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"})
+  }))
+}
+
+
+function stripOuterCard(html){
+  const host=document.createElement("div");
+  host.innerHTML=String(html||"").trim();
+  const card=host.firstElementChild;
+  if(!card||!card.classList?.contains("card"))return String(html||"");
+
+  // The accordion header already carries the section title and status badge.
+  // Keep useful subtitles/actions, but remove duplicated heading text.
+  const directTitle=card.querySelector(":scope > .title");
+  if(directTitle)directTitle.remove();
+
+  const firstRow=card.querySelector(":scope > .row:first-child");
+  if(firstRow){
+    const duplicateTitle=firstRow.querySelector(".title");
+    if(duplicateTitle)duplicateTitle.remove();
+    const duplicateBadge=firstRow.querySelector(":scope > .badge");
+    if(duplicateBadge)duplicateBadge.remove();
+  }
+  return card.innerHTML
+}
+function homeCollapseHTML(id,title,summary,content,badge=""){
+  const open=homeExpandedSections.has(id);
+  return `<div class="card home-collapse ${open?"open":""}" data-home-collapse="${safeText(id)}">
+    <button class="home-collapse-toggle" type="button" data-home-toggle="${safeText(id)}" aria-expanded="${open?"true":"false"}">
+      <div class="home-collapse-heading">
+        <div class="home-collapse-title">${safeText(title)}</div>
+        <div class="home-collapse-summary">${summary}</div>
+      </div>
+      <div class="home-collapse-right">${badge}<span class="home-collapse-chevron">⌄</span></div>
+    </button>
+    <div class="home-collapse-content" data-home-content="${safeText(id)}" ${open?"":"hidden"}>${content}</div>
+  </div>`
+}
+function bindHomeCollapsibles(){
+  document.querySelectorAll("[data-home-toggle]").forEach(btn=>btn.addEventListener("click",()=>{
+    const id=btn.dataset.homeToggle,wrap=document.querySelector(`[data-home-collapse="${CSS.escape(id)}"]`),
+          content=document.querySelector(`[data-home-content="${CSS.escape(id)}"]`);
+    if(!wrap||!content)return;
+    const isOpen=btn.getAttribute("aria-expanded")==="true";
+    if(isOpen)homeExpandedSections.delete(id);else homeExpandedSections.add(id);
+    btn.setAttribute("aria-expanded",isOpen?"false":"true");
+    content.hidden=isOpen;
+    wrap.classList.toggle("open",!isOpen)
+  }))
+}
+function calendarCompactSummary(cal){
+  const today=localToday();
+  const next=cal.events.find(e=>{
+    const st=effectiveEventState(e);
+    return e.date>=today&&!["cancelled","included_baseline"].includes(st.status)
+  });
+  return next?`${cal.events.length} événement(s) · prochain ${fmtDay(next.date)} : ${safeText(next.name)}`:`${cal.events.length} événement(s) · aucun prochain mouvement`
+}
+function debtCompactSummary(){
+  const debt=primaryDebt();
+  if(!debt)return "Module non configuré";
+  const st=estimateDebtAt(debt),r=debtRule(debt),c=debt.currency||"CAD";
+  const bal=st.available?money(st.estimatedBalance,c):money(debt.referenceBalance,c);
+  return `${bal} estimé${r?` · ${money(r.amount,ruleCurrency(r))}/mois`:""}`
+}
+function closureCompactSummary(){
+  const st=closureStatus(),m=calculateCycleMargin();
+  if(st.due)return st.late>0?`En retard de ${st.late} jour(s)`:"À clôturer aujourd’hui";
+  return `${fmtDate(st.range.end)}${m.available?` · EOP prévu ${money(m.projectedEOP,m.currency)}`:""}`
+}
+
+
+/* ===== Phase 3O : Bilan analytique ===== */
+function analyticsEventAmount(rec){
+  if(!rec)return 0;
+  if(["confirmed","corrected","included_baseline"].includes(rec.status))
+    return Number(rec.actualAmount??rec.plannedAmount??0)||0;
+  return Number(rec.plannedAmount??0)||0
+}
+function currentCycleAnalytics(){
+  const pa=primaryAccount(),range=activeCycleRange(),today=localToday(),
+        ref=dateFromISO(state.settings?.balanceReferenceDate),reserved=reserveBreakdown(),
+        margin=calculateCycleMargin(),debt=primaryDebt();
+  const currency=pa?.currency||state.settings?.mainCurrency||"CAD";
+
+  const out={
+    available:!!(pa&&ref),
+    currency,range,reference:ref,today,
+    partial:!!(ref&&ref>range.start),
+    realized:{income:0,expenses:0,savingsOut:0,transferIn:0,debtPayments:0,debtExtra:0,net:0},
+    future:{income:0,expenses:0,savingsOut:0,transferIn:0,net:0},
+    budgets:[],projects:[],debt:null,
+    margin:margin.available?margin.margin:null,
+    projectedEOP:margin.available?margin.projectedEOP:null
+  };
+  if(!out.available)return out;
+
+  const debtRuleId=debt?.monthlyRuleId||null;
+
+  // Programmed movements already realized / included in the baseline bridge.
+  for(const rec of state.eventRecords){
+    const d=dateFromISO(rec.dateISO);
+    if(!d||d<range.start||d>=range.end||d>today)continue;
+    const eligible=(d>ref)||!!rec.afterReference||rec.status==="included_baseline";
+    if(!eligible||["pending","cancelled"].includes(rec.status))continue;
+    const amount=analyticsEventAmount(rec);
+    if(amount<=0)continue;
+
+    if(rec.type==="fixed_income"&&rec.accountId===pa.id)out.realized.income+=amount;
+    else if(rec.type==="debit"&&rec.accountId===pa.id){
+      out.realized.expenses+=amount;
+      if(debtRuleId&&rec.ruleId===debtRuleId)out.realized.debtPayments+=amount
+    }else if(rec.type==="transfer"){
+      if(rec.accountId===pa.id)out.realized.savingsOut+=amount;
+      if(rec.destinationId===pa.id){
+        const dest=Number(rec.actualDestinationAmount);
+        if(Number.isFinite(dest))out.realized.transferIn+=dest;
+        else if(rec.currency===currency)out.realized.transferIn+=amount
+      }
+    }
+  }
+
+  // Real operations entered manually.
+  for(const t of activeTransactions()){
+    const d=dateFromISO(t.dateISO);
+    if(!d||d<range.start||d>=range.end||d<ref||d>today)continue;
+    const amount=Number(t.amount)||0;
+    if(t.type==="income"&&t.destinationAccountId===pa.id)out.realized.income+=amount;
+    if(t.type==="expense"&&t.sourceAccountId===pa.id){
+      out.realized.expenses+=amount;
+      if(t.debtId){
+        out.realized.debtPayments+=amount;
+        out.realized.debtExtra+=amount
+      }
+    }
+  }
+
+  out.realized.income=roundCurrency(out.realized.income,currency);
+  out.realized.expenses=roundCurrency(out.realized.expenses,currency);
+  out.realized.savingsOut=roundCurrency(out.realized.savingsOut,currency);
+  out.realized.transferIn=roundCurrency(out.realized.transferIn,currency);
+  out.realized.debtPayments=roundCurrency(out.realized.debtPayments,currency);
+  out.realized.debtExtra=roundCurrency(out.realized.debtExtra,currency);
+  out.realized.net=roundCurrency(
+    out.realized.income+out.realized.transferIn-out.realized.expenses-out.realized.savingsOut,
+    currency
+  );
+
+  // Remaining programmed movements used by the Safe projection.
+  for(const e of safeProjectionEvents()){
+    const p=projectedImpactOnPrimary(e),amount=Number(e.amount)||0;
+    if(e.type==="fixed_income"&&e.accountId===pa.id)out.future.income+=amount;
+    else if(e.type==="debit"&&e.accountId===pa.id)out.future.expenses+=amount;
+    else if(e.type==="transfer"){
+      if(e.accountId===pa.id)out.future.savingsOut+=amount;
+      if(e.destinationId===pa.id&&p.impact>0)out.future.transferIn+=p.impact
+    }
+  }
+  out.future.income=roundCurrency(out.future.income,currency);
+  out.future.expenses=roundCurrency(out.future.expenses,currency);
+  out.future.savingsOut=roundCurrency(out.future.savingsOut,currency);
+  out.future.transferIn=roundCurrency(out.future.transferIn,currency);
+  out.future.net=roundCurrency(
+    out.future.income+out.future.transferIn-out.future.expenses-out.future.savingsOut,
+    currency
+  );
+
+  if(reserved.ready){
+    out.budgets=reserved.items
+      .filter(x=>x.kind==="budget")
+      .map(x=>{
+        const base=Math.max(0,Number(x.baseAmount)||0),spent=Math.max(0,Number(x.spent)||0),
+              remaining=Math.max(0,Number(x.amount)||0);
+        return {
+          ruleId:x.ruleId,name:x.name,base,spent,remaining,
+          pct:base>0?Math.min(100,(spent/base)*100):(spent>0?100:0)
+        }
+      });
+  }
+
+  const plan=projectAllocationPlan();
+  out.projects=visibleProjects().map(p=>({
+    id:p.id,name:p.name||"Projet",priority:projectPriorityLabel(p),
+    reserved:roundCurrency(Number(plan.allocations?.[p.id])||0,currency),
+    progress:projectProgress(p)
+  }));
+
+  if(debt){
+    const ds=estimateDebtAt(debt);
+    out.debt={
+      name:debt.name,
+      referenceBalance:Number(debt.referenceBalance)||0,
+      estimatedBalance:ds.available?ds.estimatedBalance:null,
+      payments:ds.available?ds.totalPayments:0,
+      extra:ds.available?ds.extraPayments:0
+    }
+  }
+
+  return out
+}
+function analyticsSnapshot(a=currentCycleAnalytics()){
+  return {
+    partial:!!a.partial,
+    referenceDate:a.reference?isoLocal(a.reference):null,
+    currency:a.currency,
+    income:a.realized.income,
+    expenses:a.realized.expenses,
+    savingsOut:a.realized.savingsOut,
+    transferIn:a.realized.transferIn,
+    debtPayments:a.realized.debtPayments,
+    debtExtra:a.realized.debtExtra,
+    net:a.realized.net,
+    projectedMargin:a.margin,
+    capturedAt:new Date().toISOString()
+  }
+}
+function previousAnalyticsClosure(){
+  const start=isoLocal(activeCycleRange().start);
+  return [...state.closures]
+    .filter(c=>String(c.cycleStart)<start&&c.analytics)
+    .sort((a,b)=>String(b.cycleStart).localeCompare(String(a.cycleStart)))[0]||null
+}
+function deltaBadge(current,previous,invert=false,currency="CAD"){
+  const delta=roundCurrency((Number(current)||0)-(Number(previous)||0),currency);
+  const favorable=invert?delta<=0:delta>=0;
+  return `<span class="badge ${Math.abs(delta)<0.01?"good":favorable?"good":"warn"}">${delta>=0?"+":""}${money(delta,currency)}</span>`
+}
+function budgetAnalyticsHTML(a){
+  const useful=a.budgets.filter(b=>(Number(b.base)||0)>0||(Number(b.spent)||0)>0||(Number(b.remaining)||0)>0);
+  if(!useful.length)return '<div class="empty">Aucun budget réservé consommable à analyser.</div>';
+  return `<div class="list">${useful.map(b=>`<div class="item">
+    <div class="row"><div><div class="name">${safeText(b.name)}</div><div class="meta">${money(b.spent,a.currency)} utilisé · ${money(b.remaining,a.currency)} restant</div></div><div class="amount">${Math.round(b.pct)} %</div></div>
+    <div class="progress-track"><div class="progress-fill" style="width:${Math.max(0,Math.min(100,b.pct))}%"></div></div>
+  </div>`).join("")}</div>`
+}
+function projectsAnalyticsHTML(a){
+  if(!a.projects.length)return '<div class="empty">Aucun projet actif.</div>';
+  return `<div class="list">${a.projects.map(p=>`<div class="item"><div class="row"><div><div class="name">${safeText(p.name)}</div><div class="meta">Priorité ${safeText(p.priority)} · ${Math.round(p.progress.pct)} % couvert</div></div><div class="amount">${money(p.reserved,a.currency)} réservé ce cycle</div></div><div class="progress-track"><div class="progress-fill" style="width:${Math.max(0,Math.min(100,p.progress.pct))}%"></div></div></div>`).join("")}</div>`
+}
+function comparisonAnalyticsHTML(a){
+  const prev=previousAnalyticsClosure();
+  if(!prev){
+    return `<div class="note">La comparaison avec le cycle précédent sera disponible après qu’au moins une clôture contenant un bilan analytique aura été enregistrée.</div>`
+  }
+  const p=prev.analytics,c=a.currency;
+  return `<div class="note">Comparaison avec ${fmtDate(dateFromISO(prev.cycleStart))} → ${fmtDate(dateFromISO(prev.cycleEnd))}${p.partial?" · bilan précédent partiel":""}.</div>
+    <div class="list" style="margin-top:12px">
+      <div class="item"><div class="row"><div><div class="name">Revenus réalisés</div><div class="meta">Cycle précédent ${money(p.income,c)}</div></div>${deltaBadge(a.realized.income,p.income,false,c)}</div></div>
+      <div class="item"><div class="row"><div><div class="name">Dépenses réalisées</div><div class="meta">Cycle précédent ${money(p.expenses,c)}</div></div>${deltaBadge(a.realized.expenses,p.expenses,true,c)}</div></div>
+      <div class="item"><div class="row"><div><div class="name">Épargne transférée</div><div class="meta">Cycle précédent ${money(p.savingsOut,c)}</div></div>${deltaBadge(a.realized.savingsOut,p.savingsOut,false,c)}</div></div>
+      <div class="item"><div class="row"><div><div class="name">Net de trésorerie</div><div class="meta">Cycle précédent ${money(p.net,c)}</div></div>${deltaBadge(a.realized.net,p.net,false,c)}</div></div>
+    </div>`
+}
+function renderBilan(){
+  const a=currentCycleAnalytics();
+  headerSub.textContent="Bilan analytique · Phase 3O";
+  if(!a.available){
+    view.innerHTML=`<div class="card"><div class="bilan-head"><button class="btn ghost" id="backBilan">← Plus</button></div><div class="empty">Le bilan n’est pas calculable sans compte principal et date de référence.</div></div>`;
+    document.getElementById("backBilan").onclick=()=>{page="more";render()};
+    return
+  }
+
+  const periodText=a.partial
+    ?`Bilan partiel : mouvements détaillés depuis le ${fmtDate(a.reference)}. Les opérations antérieures sont déjà incluses dans le solde réel de référence.`
+    :`Bilan du cycle depuis le ${fmtDate(a.range.start)}.`;
+
+  view.innerHTML=`<div class="card">
+    <div class="bilan-head"><div><div class="title" style="margin-bottom:3px">Bilan analytique</div><div class="muted small">${fmtDate(a.range.start)} → ${fmtDate(a.range.end)}</div></div><button class="btn ghost" id="backBilan">← Plus</button></div>
+    <div class="note">${safeText(periodText)}</div>
+  </div>
+
+  <div class="card"><div class="title">Réalisé depuis la référence</div>
+    <div class="grid2">
+      <div class="kpi"><div class="muted small">Revenus</div><div class="value metric-positive">${money(a.realized.income,a.currency)}</div></div>
+      <div class="kpi"><div class="muted small">Dépenses</div><div class="value metric-negative">${money(a.realized.expenses,a.currency)}</div></div>
+      <div class="kpi"><div class="muted small">Épargne transférée</div><div class="value">${money(a.realized.savingsOut,a.currency)}</div></div>
+      <div class="kpi"><div class="muted small">Net de trésorerie</div><div class="value ${a.realized.net>=0?"metric-positive":"metric-negative"}">${money(a.realized.net,a.currency)}</div></div>
+    </div>
+  </div>
+
+  <div class="card"><div class="title">Reste prévu jusqu’à la clôture</div>
+    <div class="grid2">
+      <div class="kpi"><div class="muted small">Revenus à venir</div><div class="value metric-positive">${money(a.future.income,a.currency)}</div></div>
+      <div class="kpi"><div class="muted small">Dépenses à venir</div><div class="value metric-negative">${money(a.future.expenses,a.currency)}</div></div>
+      <div class="kpi"><div class="muted small">Épargne à transférer</div><div class="value">${money(a.future.savingsOut,a.currency)}</div></div>
+      <div class="kpi"><div class="muted small">Marge prévue</div><div class="value">${a.margin===null?"—":money(a.margin,a.currency)}</div></div>
+    </div>
+    <div class="small muted" style="margin-top:10px">${a.projectedEOP===null?"":`EOP prévu à la clôture : ${money(a.projectedEOP,a.currency)}.`}</div>
+  </div>
+
+  <div class="card"><div class="title">Budgets réservés consommés</div>${budgetAnalyticsHTML(a)}</div>
+
+  <div class="card"><div class="title">Dette</div>
+    ${a.debt?`<div class="grid2">
+      <div class="kpi"><div class="muted small">${safeText(a.debt.name)} estimé</div><div class="value">${a.debt.estimatedBalance===null?"—":money(a.debt.estimatedBalance,a.currency)}</div></div>
+      <div class="kpi"><div class="muted small">Paiements depuis référence</div><div class="value">${money(a.debt.payments,a.currency)}</div><div class="small muted">Extra ${money(a.debt.extra,a.currency)}</div></div>
+    </div>`:'<div class="empty">Aucune dette suivie.</div>'}
+  </div>
+
+  <div class="card"><div class="title">Projets</div>${projectsAnalyticsHTML(a)}</div>
+
+  <div class="card"><div class="title">Comparaison au cycle précédent</div>${comparisonAnalyticsHTML(a)}</div>`;
+
+  document.getElementById("backBilan").onclick=()=>{page="more";render()}
+}
+
+function renderHome(){
+  const s=state.settings||defaultSettings,pa=primaryAccount(),range=activeCycleRange(),rulesReady=state.rules.filter(r=>!r.archived).length;
+  headerSub.textContent=`Cycle ${fmtDate(range.start)} → ${fmtDate(range.end)}`;
+  const cal=generateCycleEvents(),eop=calculateEOP(),reserved=reserveBreakdown(),safe=calculateSafe(),cycleMargin=calculateCycleMargin(),health=financeHealth();
+  const impactText=eop.available?(eop.impact===0?"Aucun mouvement appliqué depuis la référence":`${eop.impact>=0?"+":""}${money(eop.impact,eop.currency)} depuis la référence`):"Date de référence requise";
+  const safeValue=safe.available?money(safe.safe,safe.currency):"—";
+  const safeBadge=safe.available?healthBadge(health):'<span class="badge bad">Non calculable</span>';
+  const safeTextLine=safe.available?"Montant maximal dépensable aujourd’hui tout en gardant les réserves et les événements prévus couverts jusqu’à la clôture.":safeText(safe.reason||"Calcul indisponible");
+
+  const safeLimit=safe.available
+    ?`${money(safe.minFree,safe.currency)} · ${safe.limitingEvent?`${fmtDay(safe.limitingEvent.date)} après ${safeText(safe.limitingEvent.name)}`:"aujourd’hui"}`
+    :"Calcul indisponible";
+  const safeDetail=stripOuterCard(safeControlHTML(safe));
+
+  const marginBadge=cycleMargin.available
+    ?`<span class="badge ${cycleMargin.margin<0?"bad":cycleMargin.uncertain?"warn":"good"}">${cycleMargin.margin<0?"Déficit":cycleMargin.uncertain?"Conservatrice":"Positive"}</span>`
+    :"";
+  const marginSummary=cycleMargin.available?`${money(cycleMargin.margin,cycleMargin.currency)} · fin du cycle`:"Calcul indisponible";
+  const marginDetail=stripOuterCard(cycleMarginHTML(cycleMargin));
+
+  const reserveSummary=reserved.ready?`${money(reserved.total,reserved.currency)} · budgets + provisions + sécurité`:"Initialisation requise";
+  const reserveDetail=reserved.ready?`<div>${reserveBreakdownHTML(reserved)}</div>`:"";
+
+  const calendarDetail=s.balanceReferenceDate
+    ?`${eventRows(cal.events,6)}${cal.events.length>6?'<div class="muted small" style="margin-top:10px">Voir Historique pour la liste complète.</div>':""}`
+    :"";
+
+  const debt=primaryDebt(),debtBadge=debt?'<span class="badge good">Actif</span>':'<span class="badge warn">À configurer</span>';
+  const debtDetail=stripOuterCard(debtSummaryCardHTML());
+
+  const closeSt=closureStatus();
+  const closureBadge=`<span class="badge ${closeSt.due?(closeSt.late>0?"bad":"warn"):"good"}">${closeSt.due?(closeSt.late>0?"En retard":"À fermer"):"À venir"}</span>`;
+  const closureDetail=stripOuterCard(closurePreviewHTML());
+
+  view.innerHTML=`<div class="card hero"><div class="eyebrow">SAFE TO SPEND AUJOURD’HUI</div><div class="big">${safeValue}</div>${safeBadge}<div class="small" style="margin-top:10px;color:#d8ecff">${safeTextLine}</div></div>
+  ${reliabilityCardHTML(health)}
+  ${alertCenterHTML(health)}
+  <div class="grid2"><div class="card kpi"><div class="muted small">EOP réel de référence</div><div class="value">${pa?money(pa.balance,pa.currency):"—"}</div><div class="small muted">${s.balanceReferenceDate?fmtDate(dateFromISO(s.balanceReferenceDate)):"Référence non définie"}</div></div><div class="card kpi"><div class="muted small">EOP calculé</div><div class="value">${eop.available?money(eop.calculated,eop.currency):"—"}</div><div class="small muted">${safeText(impactText)}</div></div></div>
+  <div class="grid2"><div class="card kpi"><div class="muted small">Réservé dans EOP</div><div class="value">${reserved.ready?money(reserved.total,reserved.currency):"—"}</div><div class="small muted">${reserved.ready?"Budgets + provisions + sécurité":"Initialisation du cycle requise"}</div></div><div class="card kpi"><div class="muted small">Confirmations en attente</div><div class="value">${eop.pending}</div><div class="small muted">Non appliquées à EOP</div></div></div>
+
+  ${!s.balanceReferenceDate?referenceSetupCard():""}
+  ${reserved.initRequired&&!reserved.ready?reserveInitFormHTML():""}
+
+  <div class="card"><div class="title">Actions rapides</div><div class="actions3"><button class="action" id="quickIncome"><span class="symbol">＋</span><span>Revenu</span></button><button class="action" id="quickExpense"><span class="symbol">−</span><span>Dépense</span></button><button class="action" id="quickProject"><span class="symbol">◇</span><span>Projet</span></button></div></div>
+
+  ${safe.available?homeCollapseHTML("safe-control","Contrôle du Safe",safeLimit,safeDetail,`<span class="badge good">${safe.uncertain?"Conservateur":"Actif"}</span>`):""}
+  ${reserved.ready?homeCollapseHTML("cycle-margin","Marge prévue du cycle",marginSummary,marginDetail,marginBadge):""}
+  ${reserved.ready?homeCollapseHTML("reserved-detail","Détail du Réservé",reserveSummary,reserveDetail,`<span class="badge good">${money(reserved.total,reserved.currency)}</span>`):""}
+  ${s.balanceReferenceDate?homeCollapseHTML("calendar","Calendrier du cycle",calendarCompactSummary(cal),calendarDetail,`<span class="badge good">${cal.events.length}</span>`):""}
+  ${homeCollapseHTML("debt","Accord D",debtCompactSummary(),debtDetail,debtBadge)}
+  ${homeCollapseHTML("closure","Clôture du cycle",closureCompactSummary(),closureDetail,closureBadge)}`;
+
+  document.getElementById("referenceForm")?.addEventListener("submit",e=>{e.preventDefault();saveReferenceDate(document.getElementById("referenceDate").value)});
+  document.getElementById("reserveInitForm")?.addEventListener("submit",e=>{e.preventDefault();saveReserveInitialization()});
+  document.getElementById("previewClosure")?.addEventListener("click",()=>openClosureDialog(true));
+  document.getElementById("closeCycle")?.addEventListener("click",()=>openClosureDialog(false));
+  document.getElementById("quickIncome")?.addEventListener("click",()=>{openModal("Nouveau revenu",incomeFormHTML());bindIncomeForm()});
+  document.getElementById("quickExpense")?.addEventListener("click",()=>{openModal("Nouvelle dépense",expenseFormHTML());bindExpenseForm()});
+  document.getElementById("quickProject")?.addEventListener("click",openProjectSimulation);
+  bindEventActions();
+  bindTransactionActions();
+  bindDebtHomeButtons();
+  bindHealthActions();
+  bindHomeCollapsibles()
+}
+function renderHistory(){
+  const s=state.settings||defaultSettings;headerSub.textContent="Calendrier · Phase 3O";
+  if(!s.balanceReferenceDate){
+    view.innerHTML=referenceSetupCard();
+    document.getElementById("referenceForm")?.addEventListener("submit",e=>{e.preventDefault();saveReferenceDate(document.getElementById("referenceDate").value)});return
+  }
+  const cal=generateCycleEvents(),eop=calculateEOP();
+  view.innerHTML=`<div class="card"><div class="title">Opérations réelles</div><div class="muted small" style="margin-bottom:12px">Revenus et dépenses saisis manuellement pendant le cycle.</div>${transactionRows()}</div>
+  <div class="card"><div class="title">Événements du cycle</div><div class="note">Période : ${fmtDate(cal.range.start)} → ${fmtDate(cal.range.end)}. Les événements du jour de clôture appartiennent au cycle suivant. Les sorties sont affichées avant les entrées le même jour. « Calculé » signifie que l’événement automatique arrivé à échéance est déjà inclus dans EOP calculé; « À confirmer » ne l’est pas encore.</div><div style="margin-top:12px">${eventRows(cal.events)}</div></div>
+  <div class="card"><div class="title">Contrôle EOP</div><div class="grid2"><div class="kpi"><div class="muted small">Réel de référence</div><div class="value">${money(eop.baseline,eop.currency)}</div></div><div class="kpi"><div class="muted small">Calculé aujourd’hui</div><div class="value">${money(eop.calculated,eop.currency)}</div></div></div></div>
+  ${safeControlHTML(calculateSafe())}
+  <div class="card"><div class="title">Réservé</div>${reserveBreakdownHTML(reserveBreakdown())}</div>
+  <div class="card"><div class="title">Clôtures précédentes</div>${closuresHistoryHTML()}</div>`;
+  bindEventActions();
+  bindTransactionActions()
+}
+
+function renderRuleList(type){
+  manageSection=type;headerSub.textContent=ruleLabels[type]+" · Phase 3O";
+  const rules=visibleRules(type);
+  view.innerHTML=`<div class="card"><div class="section-head"><div><button class="btn ghost" id="backManage">← Gérer</button></div><button class="btn" id="addRule">+ Ajouter</button></div><div class="title">${ruleLabels[type]}</div>
+    <div class="list">${rules.length?rules.map(r=>`<button class="item" data-rule="${r.id}" style="width:100%;text-align:left;color:inherit"><div class="row"><div><div class="name">${safeText(r.name)}</div><div class="meta">${safeText(ruleMeta(r))}</div><div class="status-line">${statusBadge(r)}</div></div><div class="amount">${money(r.amount,ruleCurrency(r))}</div></div></button>`).join(""):'<div class="empty">Aucun élément. Utilisez « + Ajouter ».</div>'}</div>
+  </div>`;
+  document.getElementById("backManage").onclick=()=>{manageSection=null;renderManage()};
+  document.getElementById("addRule").onclick=()=>{if(!activeAccounts().length){alert("Créez d'abord au moins un compte.");return}openModal("Ajouter · "+ruleLabels[type],ruleForm(type));bindRuleForm(type,null)};
+  document.querySelectorAll("[data-rule]").forEach(b=>b.onclick=()=>{const r=state.rules.find(x=>x.id===b.dataset.rule);if(r)openRuleEditor(r)})
+}
+
+function renderManage(){
+  if(manageSection){renderRuleList(manageSection);return}
+  headerSub.textContent="Gérer mes finances · Phase 3O";
+  const accounts=activeAccounts();
+  const branch=(type)=>`<div class="tree-row"><div class="tree-main"><button class="tree-open" data-section="${type}"><strong>${ruleLabels[type]}</strong><div class="count">${ruleCount(type)} élément(s)</div></button></div><button class="btn alt" data-add="${type}">+ Ajouter</button></div>`;
+  view.innerHTML=`<div class="card"><div class="title">Gérer mes finances</div><div class="tree">
+    <div class="tree-row"><div class="tree-main"><strong>Comptes</strong><div class="count">${accounts.length} actif(s)</div></div><button class="btn alt" id="addAccountManage">+ Ajouter</button></div>
+    ${branch("fixed_income")}${branch("debit")}${branch("reserved_budget")}${branch("transfer")}
+    <div class="tree-row"><div class="tree-main"><button class="tree-open" id="openProjectsManage"><strong>Projets</strong><div class="count">${visibleProjects().length} projet(s)</div></button></div><span class="muted">›</span></div>
+  </div></div>
+  <div class="card"><div class="title">Mes comptes</div><div class="list">${accounts.length?accounts.map(a=>`<button class="item" data-account="${a.id}" style="width:100%;text-align:left;color:inherit"><div class="row"><div><div class="name">${safeText(a.name)}</div><div class="meta">${a.currency} · ${a.role==="primary_spending"?"Compte principal":a.role==="protected_savings"?"Épargne protégée":"Suivi seulement"}</div></div><div class="amount">${money(a.balance,a.currency)}</div></div></button>`).join(""):'<div class="empty">Aucun compte actif.</div>'}</div></div>`;
+  document.getElementById("addAccountManage").onclick=()=>{openModal("Ajouter un compte",accountForm());bindAccountForm(null)};
+  document.getElementById("openProjectsManage")?.addEventListener("click",()=>{page="projects";manageSection=null;render()});
+  document.querySelectorAll("[data-section]").forEach(b=>b.onclick=()=>renderRuleList(b.dataset.section));
+  document.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{const type=b.dataset.add;if(!activeAccounts().length){alert("Créez d'abord un compte.");return}openModal("Ajouter · "+ruleLabels[type],ruleForm(type));bindRuleForm(type,null)});
+  document.querySelectorAll("[data-account]").forEach(btn=>btn.onclick=()=>{
+    const acc=state.accounts.find(a=>a.id===btn.dataset.account);if(!acc)return;
+    openModal("Modifier le compte",`${accountForm(acc)}<div class="hr"></div><button class="btn bad" id="archiveAccount">Archiver le compte</button>`);
+    bindAccountForm(acc);
+    document.getElementById("archiveAccount").onclick=async()=>{
+      if(!confirm("Archiver ce compte ?"))return;
+      acc.archived=true;await putOne(STORE_ACCOUNTS,acc);
+      if(state.settings?.primaryAccountId===acc.id){state.settings.primaryAccountId=null;await putOne(STORE_META,{key:"settings",value:state.settings})}
+      await loadState();closeModal();render()
+    }
+  })
+}
+
+function renderPlaceholder(title,text){headerSub.textContent=title+" · Phase 3O";view.innerHTML=`<div class="card"><div class="title">${title}</div><div class="empty">${text}</div></div>`}
+
+
+/* ===== Phase 3O : Stabilisation / diagnostic interne ===== */
+function diagnosticResult(){
+  const errors=[],warnings=[],ok=[];
+  const activeAcc=activeAccounts(),primaryRoles=activeAcc.filter(a=>a.role==="primary_spending");
+  const pa=primaryAccount(),s=state.settings||defaultSettings;
+  const today=localToday();
+  const add=(bucket,label,detail="")=>bucket.push({label,detail});
+
+  if(!activeAcc.length)add(errors,"Comptes","Aucun compte actif.");
+  else add(ok,"Comptes",`${activeAcc.length} compte(s) actif(s).`);
+
+  if(!pa)add(errors,"Compte principal","Aucun compte principal de dépenses disponible.");
+  else{
+    add(ok,"Compte principal",`${pa.name} · ${pa.currency}.`);
+    if(primaryRoles.length!==1)add(warnings,"Rôle principal",`${primaryRoles.length} compte(s) portent le rôle principal; un seul est recommandé.`);
+    if(s.primaryAccountId&&s.primaryAccountId!==pa.id)add(warnings,"Paramètre principal","L’identifiant principal enregistré ne correspond pas au compte utilisé par le moteur.");
+  }
+
+  const ref=dateFromISO(s.balanceReferenceDate);
+  if(!ref)add(errors,"Solde de référence","Date de référence EOP absente.");
+  else if(ref>today)add(errors,"Solde de référence","La date de référence EOP est dans le futur.");
+  else add(ok,"Solde de référence",fmtDate(ref));
+
+  const range=activeCycleRange();
+  if(!(range.start instanceof Date)||!(range.end instanceof Date)||range.end<=range.start)add(errors,"Cycle actif","Période de cycle invalide.");
+  else add(ok,"Cycle actif",`${fmtDate(range.start)} → ${fmtDate(range.end)}.`);
+
+  const accountsById=new Map(state.accounts.map(a=>[a.id,a]));
+  const activeRuleRows=state.rules.filter(r=>!r.archived);
+
+  for(const r of activeRuleRows){
+    if(!Number.isFinite(Number(r.amount))||Number(r.amount)<0)
+      add(errors,`Règle · ${r.name||r.id}`,"Montant invalide.");
+
+    if(["fixed_income","debit","reserved_budget"].includes(r.type)){
+      if(!accountsById.has(r.accountId))add(errors,`Règle · ${r.name||r.id}`,"Compte lié introuvable.");
+    }
+    if(r.type==="transfer"){
+      if(!accountsById.has(r.sourceAccountId)||!accountsById.has(r.destinationAccountId))
+        add(errors,`Virement · ${r.name||r.id}`,"Compte source ou destination introuvable.");
+      if(r.sourceAccountId===r.destinationAccountId)
+        add(errors,`Virement · ${r.name||r.id}`,"Source et destination sont identiques.");
+    }
+
+    // Les budgets réservés hebdomadaires/mensuels n'ont volontairement
+    // aucune date fixe : ils protègent une enveloppe et ne génèrent pas
+    // un événement calendrier.
+    if(r.type!=="reserved_budget"&&r.frequency==="weekly"&&(!Number.isInteger(Number(r.weekday))||Number(r.weekday)<0||Number(r.weekday)>6))
+      add(errors,`Règle · ${r.name||r.id}`,"Jour hebdomadaire invalide.");
+    if(r.frequency==="biweekly"&&!dateFromISO(r.referenceDate))
+      add(errors,`Règle · ${r.name||r.id}`,"Date de référence bihebdomadaire absente.");
+    if(r.type!=="reserved_budget"&&r.frequency==="monthly"&&(!Number.isFinite(Number(r.monthDay))||Number(r.monthDay)<1||Number(r.monthDay)>28))
+      add(errors,`Règle · ${r.name||r.id}`,"Jour mensuel invalide.");
+    if(r.frequency==="annual"&&!dateFromISO(r.annualDate))
+      add(errors,`Règle · ${r.name||r.id}`,"Date annuelle absente.");
+  }
+  if(!errors.some(x=>x.label.startsWith("Règle")||x.label.startsWith("Virement")))
+    add(ok,"Règles",`${activeRuleRows.length} règle(s) structurellement cohérente(s).`);
+
+  for(const d of activeDebts()){
+    if(!Number.isFinite(Number(d.referenceBalance))||Number(d.referenceBalance)<0)
+      add(errors,`Dette · ${d.name||d.id}`,"Solde de référence invalide.");
+    if(!dateFromISO(d.referenceDate))
+      add(errors,`Dette · ${d.name||d.id}`,"Date de référence absente.");
+    if(d.monthlyRuleId){
+      const rr=state.rules.find(r=>r.id===d.monthlyRuleId&&!r.archived);
+      if(!rr)add(errors,`Dette · ${d.name||d.id}`,"Prélèvement mensuel lié introuvable.");
+      else if(rr.type!=="debit")add(warnings,`Dette · ${d.name||d.id}`,"La règle liée n’est pas un prélèvement.");
+    }else add(warnings,`Dette · ${d.name||d.id}`,"Aucun prélèvement mensuel lié.");
+  }
+  if(activeDebts().length&&!errors.some(x=>x.label.startsWith("Dette")))
+    add(ok,"Dettes",`${activeDebts().length} dette(s) cohérente(s).`);
+
+  for(const p of visibleProjects()){
+    if(!Number.isFinite(Number(p.targetAmount))||Number(p.targetAmount)<=0)
+      add(errors,`Projet · ${p.name||p.id}`,"Montant cible invalide.");
+    if(!dateFromISO(p.targetDate))
+      add(errors,`Projet · ${p.name||p.id}`,"Date cible invalide.");
+  }
+  if(visibleProjects().length&&!errors.some(x=>x.label.startsWith("Projet")))
+    add(ok,"Projets",`${visibleProjects().length} projet(s) cohérent(s).`);
+
+  let orphanOps=0;
+  for(const t of state.transactions){
+    if(t.sourceAccountId&&!accountsById.has(t.sourceAccountId))orphanOps++;
+    if(t.destinationAccountId&&!accountsById.has(t.destinationAccountId))orphanOps++;
+    if(t.budgetRuleId&&!state.rules.some(r=>r.id===t.budgetRuleId))orphanOps++;
+    if(t.debtId&&!state.debts.some(d=>d.id===t.debtId))orphanOps++;
+  }
+  if(orphanOps)add(warnings,"Historique",`${orphanOps} référence(s) ancienne(s) ne pointent plus vers un objet actuel. Les opérations restent conservées.`);
+  else add(ok,"Historique",`${state.transactions.length} opération(s) sans référence orpheline.`);
+
+  const ids=state.eventRecords.map(e=>e.id).filter(Boolean);
+  const duplicateEventIds=ids.length-new Set(ids).size;
+  if(duplicateEventIds)add(errors,"Événements",`${duplicateEventIds} identifiant(s) dupliqué(s).`);
+  else add(ok,"Événements",`${state.eventRecords.length} événement(s) persisté(s), aucun doublon.`);
+
+  const eop=calculateEOP(),reserve=reserveBreakdown(),safe=calculateSafe(),margin=calculateCycleMargin();
+  if(!eop.available)add(errors,"EOP calculé","Calcul indisponible.");
+  if(!reserve.ready)add(errors,"Réservé","Réserves non initialisées.");
+  if(!safe.available)add(errors,"Safe","Calcul indisponible.");
+  if(!margin.available)add(errors,"Marge","Calcul indisponible.");
+
+  if(eop.available&&reserve.ready&&safe.available&&margin.available){
+    const eps=0.011;
+    const expectedFree=roundCurrency(eop.calculated-reserve.total,eop.currency);
+    if(Math.abs(expectedFree-safe.currentFree)>eps)
+      add(errors,"Cohérence Safe","Libre maintenant ≠ EOP calculé − Réservé.");
+    else add(ok,"Cohérence Safe","Libre maintenant = EOP calculé − Réservé.");
+
+    if(safe.safe-safe.currentFree>eps)
+      add(errors,"Cohérence Safe","Safe supérieur au montant libre actuel.");
+    else add(ok,"Limite Safe","Safe ne dépasse pas le libre actuel.");
+
+    const expectedMargin=roundCurrency(margin.projectedEOP-reserve.total,margin.currency);
+    if(Math.abs(expectedMargin-margin.margin)>eps)
+      add(errors,"Cohérence Marge","Marge ≠ EOP prévu − Réservé.");
+    else add(ok,"Cohérence Marge","Marge = EOP prévu − Réservé.");
+  }
+
+  const health=financeHealth();
+  if(health.status==="blocked")add(errors,"Fiabilité",health.fatal.join(" "));
+  else if(health.status==="provisional")add(warnings,"Fiabilité",health.warnings.join(" "));
+  else add(ok,"Fiabilité","État courant : Fiable.");
+
+  const status=errors.length?"error":warnings.length?"warning":"ok";
+  return {status,errors,warnings,ok,counts:{
+    accounts:state.accounts.length,rules:state.rules.length,transactions:state.transactions.length,
+    events:state.eventRecords.length,closures:state.closures.length,projects:state.projects.length,debts:state.debts.length
+  }}
+}
+function diagnosticStatusBadge(d){
+  if(d.status==="error")return `<span class="badge bad">${d.errors.length} erreur(s)</span>`;
+  if(d.status==="warning")return `<span class="badge warn">${d.warnings.length} avertissement(s)</span>`;
+  return '<span class="badge good">Aucune anomalie</span>'
+}
+function diagnosticListHTML(items,kind){
+  if(!items.length)return "";
+  const title=kind==="error"?"Erreurs":kind==="warning"?"Avertissements":"Contrôles réussis";
+  return `<div class="title" style="font-size:14px;margin-top:14px">${title}</div>
+    <div class="list">${items.map(x=>`<div class="item"><div class="name">${safeText(x.label)}</div>${x.detail?`<div class="meta">${safeText(x.detail)}</div>`:""}</div>`).join("")}</div>`
+}
+function diagnosticCardHTML(){
+  const d=diagnosticResult();
+  return `<div class="card">
+    <div class="row">
+      <div><div class="title" style="margin-bottom:3px">Diagnostic de cohérence</div><div class="muted small">Contrôle technique sans modifier vos données.</div></div>
+      ${diagnosticStatusBadge(d)}
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="kpi"><div class="muted small">Comptes / règles</div><div class="value">${d.counts.accounts} / ${d.counts.rules}</div></div>
+      <div class="kpi"><div class="muted small">Opérations / événements</div><div class="value">${d.counts.transactions} / ${d.counts.events}</div></div>
+      <div class="kpi"><div class="muted small">Projets / dettes</div><div class="value">${d.counts.projects} / ${d.counts.debts}</div></div>
+      <div class="kpi"><div class="muted small">Clôtures</div><div class="value">${d.counts.closures}</div></div>
+    </div>
+    ${diagnosticListHTML(d.errors,"error")}
+    ${diagnosticListHTML(d.warnings,"warning")}
+    <details style="margin-top:14px">
+      <summary style="cursor:pointer;font-weight:800;color:var(--blue2)">Voir les contrôles réussis (${d.ok.length})</summary>
+      <div style="margin-top:10px">${diagnosticListHTML(d.ok,"ok")}</div>
+    </details>
+  </div>`
+}
+
+function renderMore(){
+  const s=state.settings||defaultSettings,debt=primaryDebt();headerSub.textContent="Plus · Phase 3O";
+  view.innerHTML=`<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Bilan analytique</div><div class="muted small">Revenus, dépenses, épargne, budgets, dette et comparaison entre cycles.</div></div><button class="btn" id="openBilan">Ouvrir</button></div></div>
+  <div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Accord D</div><div class="muted small">${debt?"Suivi de la dette actif":"Module non configuré"}</div></div><button class="btn alt" id="openDebtMore">${debt?"Ouvrir":"Configurer"}</button></div>${debt?`<div class="small muted" style="margin-top:10px">Solde réel de référence : ${money(debt.referenceBalance,debt.currency||"CAD")} · taux ${Number(debt.annualRate||0).toFixed(2)} %.</div>`:'<div class="note" style="margin-top:12px">Configurez le solde réel, le taux et liez le prélèvement mensuel existant. Aucune donnée personnelle n’est codée dans le fichier public.</div>'}</div>
+  <div class="card"><div class="title">Paramètres de base</div><form id="editSettings">
+    <label>Jour de clôture</label><input id="editCycleDay" type="number" min="1" max="28" value="${s.cycleDay}">
+    <label>Devise principale</label><select id="editCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option ${s.mainCurrency===c?"selected":""}>${c}</option>`).join("")}</select>
+    <label>Réserve de sécurité</label><input id="editReserve" type="number" min="0" step="0.01" value="${s.safetyReserve}">
+    <label>Cycle actif</label><input type="text" value="${fmtDate(activeCycleRange().start)} → ${fmtDate(activeCycleRange().end)}" disabled>
+    <label>Date de référence du solde EOP</label><input id="editReferenceDate" type="date" value="${s.balanceReferenceDate||""}">
+    <div class="muted small">À modifier seulement si vous confirmez un nouveau solde réel comme nouveau point de départ.</div>
+    <div class="form-actions"><button class="btn" type="submit">Enregistrer</button></div>
+  </form></div>
+  ${diagnosticCardHTML()}
+  <div class="card"><div class="title">Sauvegarde & restauration</div>
+    <div class="note">La sauvegarde JSON contient toutes les données locales de l’application : comptes, règles, historique, clôtures, projets, Accord D et paramètres.</div>
+    <div class="form-actions">
+      <button class="btn" id="exportBackupBtn">Exporter une sauvegarde</button>
+      <button class="btn alt" id="importBackupBtn">Importer une sauvegarde</button>
+      <input id="backupFileInput" type="file" accept="application/json,.json" hidden>
+    </div>
+    <div class="muted small" style="margin-top:10px">Important : ce fichier contient vos données financières personnelles. Gardez-le privé et ne l’ajoutez pas au dépôt GitHub public.</div>
+  </div>
+  <div class="card"><div class="title">Phase 3O · Stabilisation</div><div class="note">Phase 3O n’ajoute pas de nouvelle logique financière. Elle masque les budgets analytiques entièrement nuls et ajoute un diagnostic de cohérence pour vérifier comptes, règles, historique, événements, dette, projets et identités de calcul Safe/Marge. Le schéma IndexedDB reste en DB v6.</div></div>`;
+
+  document.getElementById("openBilan")?.addEventListener("click",()=>{page="bilan";render()});
+  document.getElementById("openDebtMore")?.addEventListener("click",()=>{const d=primaryDebt();if(d)openDebtDetail(d);else openDebtSetup(null)});
+  document.getElementById("exportBackupBtn")?.addEventListener("click",exportBackup);
+  document.getElementById("importBackupBtn")?.addEventListener("click",()=>document.getElementById("backupFileInput")?.click());
+  document.getElementById("backupFileInput")?.addEventListener("change",async e=>{
+    const input=e.currentTarget,file=input.files?.[0];input.value="";
+    await handleBackupFile(file)
+  });
+  document.getElementById("editSettings").onsubmit=async e=>{
+    e.preventDefault();
+    s.cycleDay=Math.max(1,Math.min(28,Number(document.getElementById("editCycleDay").value)||2));
+    s.mainCurrency=document.getElementById("editCurrency").value;
+    s.safetyReserve=Math.max(0,Number(document.getElementById("editReserve").value)||0);
+    s.balanceReferenceDate=document.getElementById("editReferenceDate").value||null;
+    s.dataVersion=6;
+    await putOne(STORE_META,{key:"settings",value:s});
+    state.settings=s;await syncDueEvents();await loadState();render()
+  }
+}
+
+function render(){
+  if(!state.onboardingComplete){renderOnboarding();return}
+  nav.hidden=false;
+  const navPage=page==="bilan"?"more":page;
+  nav.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.page===navPage));
+  if(page==="home")renderHome();
+  else if(page==="manage")renderManage();
+  else if(page==="history")renderHistory();
+  else if(page==="projects")renderProjects();
+  else if(page==="bilan")renderBilan();
+  else if(page==="more")renderMore()
+}
+nav.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{page=b.dataset.page;manageSection=null;render()}));
+
+async function boot(){
+  try{
+    db=await openDB();
+    await loadState();
+
+    if(!state.settings){
+      state.settings={...defaultSettings};
+      state.settings.activeCycleStart=isoLocal(cycleRange(state.settings.cycleDay||2).start);
+      await putOne(STORE_META,{key:"settings",value:state.settings})
+    }else{
+      const migrated={...defaultSettings,...state.settings,dataVersion:6};
+      if(!migrated.activeCycleStart)migrated.activeCycleStart=isoLocal(cycleRange(migrated.cycleDay||2).start);
+      const changed=JSON.stringify(migrated)!==JSON.stringify(state.settings);
+      state.settings=migrated;
+      if(changed)await putOne(STORE_META,{key:"settings",value:state.settings})
+    }
+
+    if(state.onboardingComplete&&state.settings?.balanceReferenceDate){await syncDueEvents();await loadState();await syncProjectCycleReservations();await loadState()}
+    render()
+  }catch(err){
+    console.error(err);
+    view.innerHTML='<div class="card"><div class="title">Erreur de stockage local</div><div class="note">IndexedDB n’a pas pu être ouvert sur ce navigateur.</div></div>'
+  }
+}
+boot();
+})();
+</script>
+</body>
+</html>
