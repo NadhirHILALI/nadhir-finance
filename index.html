@@ -1,0 +1,1224 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08131f">
+<title>Nadhir Finance V2 — Phase 3G</title>
+<style>
+:root{
+  --bg:#07111c;--panel:#0c1927;--panel2:#102236;--card:#0f2134;--line:#213a52;
+  --text:#f4f7fb;--muted:#8ea4b9;--blue:#2e8cff;--blue2:#6ab5ff;
+  --good:#2ac37d;--warn:#f1b84b;--bad:#ef6472;--shadow:0 12px 28px rgba(0,0,0,.26)
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+button,input,select{font:inherit}button{cursor:pointer}
+.app{max-width:560px;margin:0 auto;min-height:100vh;padding-bottom:90px}
+header{position:sticky;top:0;z-index:10;padding:18px 16px 12px;background:rgba(7,17,28,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.04)}
+.brand{font-size:24px;font-weight:900}.brand span{color:var(--blue)}.sub{font-size:12px;color:var(--muted);margin-top:3px}
+main{padding:14px}
+.card{background:linear-gradient(180deg,var(--card),var(--panel));border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
+.hero{background:linear-gradient(135deg,#0d3f76,#125fae 52%,#2287de);border-color:#2c78bc}
+.title{font-size:16px;font-weight:850;margin-bottom:10px}.eyebrow{font-size:11px;letter-spacing:.11em;text-transform:uppercase;font-weight:800;color:#afd2f1}
+.big{font-size:38px;font-weight:900;margin:5px 0}.muted{color:var(--muted)}.small{font-size:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kpi{min-width:0;padding:12px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.025)}
+.kpi .value{font-size:21px;font-weight:900;margin-top:4px;overflow-wrap:anywhere}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border-radius:999px;font-size:11px;font-weight:800;background:#14324d;border:1px solid #2b5273;color:#c4e3ff}
+.badge.good{background:#113928;border-color:#245c44;color:#c3f3d9}.badge.warn{background:#4b3915;border-color:#705821;color:#ffe4a7}.badge.bad{background:#4e2029;border-color:#7a2e3a;color:#ffdce2}
+.btn{border:0;border-radius:13px;background:var(--blue);color:#fff;padding:12px 14px;font-weight:850}
+.btn.alt{background:#17334e;border:1px solid #2d526f;color:#dcefff}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}
+.btn.bad{background:#57212b;border:1px solid #7a2e3a;color:#ffdde2}.btn:disabled{opacity:.45;cursor:not-allowed}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+label{display:block;margin:10px 0 5px;font-size:12px;color:#b0c4d5}
+input,select{width:100%;border:1px solid var(--line);border-radius:12px;background:#091725;color:var(--text);padding:12px;font-size:16px;outline:none}
+input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(46,140,255,.14)}
+.list{display:flex;flex-direction:column;gap:9px}.item{border:1px solid var(--line);border-radius:15px;background:#0b1b2a;padding:12px}
+.item .name{font-weight:850}.item .meta{font-size:12px;color:var(--muted);margin-top:3px}.item .amount{font-weight:900}
+.note{padding:11px;border-radius:14px;border:1px solid #34516b;background:#0c2134;color:#c7d7e6;font-size:12px}
+.empty{text-align:center;padding:18px;border:1px dashed #31506a;border-radius:16px;color:var(--muted)}
+.steps{display:flex;gap:6px;margin-bottom:14px}.step{height:5px;flex:1;background:#183149;border-radius:999px}.step.on{background:var(--blue)}
+.tree{display:flex;flex-direction:column;gap:8px}.tree-row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--line);background:#0d2031;border-radius:15px;padding:13px}
+.tree-row strong{font-size:14px}.tree-row .count{font-size:12px;color:var(--muted)}
+.tree-main{flex:1;min-width:0}.tree-open{border:0;background:transparent;color:var(--text);padding:0;text-align:left;width:100%}
+.actions3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.action{min-height:72px;border:1px solid var(--line);border-radius:18px;background:#0e2336;color:var(--text);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:4px;font-weight:850}
+.action .symbol{font-size:26px;color:var(--blue2)}
+.status-line{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.rule-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.calendar-day{font-size:12px;font-weight:850;color:#9fc7e8;margin:13px 2px 6px}
+.event{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px solid var(--line);background:#0b1b2a;border-radius:15px;padding:12px}
+.event-name{font-weight:850}.event-meta{font-size:12px;color:var(--muted);margin-top:3px}.event-amount{font-weight:900;white-space:nowrap}.event-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.btn.mini{padding:7px 10px;border-radius:10px;font-size:11px}
+.event-amount.in{color:#8fe4b8}.event-amount.out{color:#ffc0c7}
+nav[hidden]{display:none!important}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(560px,100%);display:grid;grid-template-columns:repeat(5,1fr);background:rgba(8,19,31,.97);border-top:1px solid var(--line);padding:8px 8px max(8px,env(safe-area-inset-bottom));z-index:20}
+nav button{border:0;background:transparent;color:#788fa6;min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:18px}
+nav button.active{color:var(--blue2)}nav .lab{font-size:10px}
+dialog{width:min(500px,94vw);border:0;padding:0;background:transparent;color:var(--text)}dialog::backdrop{background:rgba(0,0,0,.67);backdrop-filter:blur(2px)}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:var(--shadow)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.close{border:0;background:transparent;color:var(--muted);font-size:26px;padding:3px 8px}.hr{height:1px;background:var(--line);margin:14px 0}
+.inline-check{display:flex;align-items:center;gap:9px;margin-top:12px}.inline-check input{width:auto;transform:scale(1.15)}
+@media (max-width:390px){.grid2,.actions3{grid-template-columns:1fr}.big{font-size:32px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header><div class="brand">Nadhir <span>Finance</span></div><div class="sub" id="headerSub">V2 · Phase 3G</div></header>
+<main id="view"></main>
+<nav id="nav" hidden>
+  <button data-page="home" class="active">⌂<span class="lab">Accueil</span></button>
+  <button data-page="history">≡<span class="lab">Historique</span></button>
+  <button data-page="manage">⌘<span class="lab">Gérer</span></button>
+  <button data-page="projects">◇<span class="lab">Projets</span></button>
+  <button data-page="more">•••<span class="lab">Plus</span></button>
+</nav>
+</div>
+<dialog id="dlg">
+  <div class="modal">
+    <div class="modal-head"><div class="title" id="dlgTitle"></div><button class="close" id="dlgClose" aria-label="Fermer">×</button></div>
+    <div id="dlgBody"></div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+"use strict";
+
+const DB_NAME="nadhir_finance_v2";
+const DB_VERSION=3;
+const STORE_ACCOUNTS="accounts";
+const STORE_META="meta";
+const STORE_RULES="rules";
+const STORE_EVENTS="events";
+const STORE_TRANSACTIONS="transactions";
+
+const defaultSettings={
+  cycleDay:2,
+  mainCurrency:"CAD",
+  safetyReserve:0,
+  primaryAccountId:null,
+  balanceReferenceDate:null,
+  dataVersion:3
+};
+
+const ruleLabels={
+  fixed_income:"Revenus fixes",
+  debit:"Prélèvements",
+  reserved_budget:"Budgets réservés",
+  transfer:"Virements programmés"
+};
+
+let db=null,page="home",manageSection=null,onboardingStep=1;
+const state={accounts:[],rules:[],eventRecords:[],transactions:[],settings:null,onboardingComplete:false,reserveInit:null};
+const view=document.getElementById("view"),nav=document.getElementById("nav"),dlg=document.getElementById("dlg"),
+dlgTitle=document.getElementById("dlgTitle"),dlgBody=document.getElementById("dlgBody"),dlgClose=document.getElementById("dlgClose"),
+headerSub=document.getElementById("headerSub");
+
+function uid(){return (window.crypto&&crypto.randomUUID)?crypto.randomUUID():"id-"+Date.now()+"-"+Math.random().toString(16).slice(2)}
+function safeText(str=""){return String(str).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function digitsFor(currency){return currency==="TND"?3:2}
+function money(n,currency="CAD"){const d=digitsFor(currency);return new Intl.NumberFormat("fr-CA",{style:"currency",currency,minimumFractionDigits:d,maximumFractionDigits:d}).format(Number(n||0))}
+function maxDayInMonth(y,m){return new Date(y,m+1,0).getDate()}
+function fmtDate(d){return new Intl.DateTimeFormat("fr-CA",{day:"2-digit",month:"short",year:"numeric"}).format(d)}
+function fmtDay(d){return new Intl.DateTimeFormat("fr-CA",{weekday:"short",day:"2-digit",month:"short"}).format(d)}
+function localToday(){const n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate(),12)}
+function isoLocal(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`}
+function dateFromISO(s){return s?new Date(s+"T12:00:00"):null}
+function sameDay(a,b){return a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate()}
+
+function cycleRange(day){
+  const now=localToday(),y=now.getFullYear(),m=now.getMonth(),thisDay=Math.min(day,maxDayInMonth(y,m));
+  let start,end;
+  if(now.getDate()>=thisDay){
+    start=new Date(y,m,thisDay,12);
+    const nm=m===11?0:m+1,ny=m===11?y+1:y;
+    end=new Date(ny,nm,Math.min(day,maxDayInMonth(ny,nm)),12)
+  }else{
+    const pm=m===0?11:m-1,py=m===0?y-1:y;
+    start=new Date(py,pm,Math.min(day,maxDayInMonth(py,pm)),12);
+    end=new Date(y,m,thisDay,12)
+  }
+  return{start,end}
+}
+
+function openDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=e=>{
+      const d=e.target.result;
+      if(!d.objectStoreNames.contains(STORE_ACCOUNTS))d.createObjectStore(STORE_ACCOUNTS,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_META))d.createObjectStore(STORE_META,{keyPath:"key"});
+      if(!d.objectStoreNames.contains(STORE_RULES))d.createObjectStore(STORE_RULES,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_EVENTS))d.createObjectStore(STORE_EVENTS,{keyPath:"id"});
+      if(!d.objectStoreNames.contains(STORE_TRANSACTIONS))d.createObjectStore(STORE_TRANSACTIONS,{keyPath:"id"});
+    };
+    req.onsuccess=e=>resolve(e.target.result);
+    req.onerror=()=>reject(req.error)
+  })
+}
+function store(name,mode="readonly"){return db.transaction(name,mode).objectStore(name)}
+function getAll(name){return new Promise((resolve,reject)=>{const r=store(name).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)})}
+function getOne(name,key){return new Promise((resolve,reject)=>{const r=store(name).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
+function putOne(name,value){return new Promise((resolve,reject)=>{const r=store(name,"readwrite").put(value);r.onsuccess=()=>resolve(value);r.onerror=()=>reject(r.error)})}
+
+async function loadState(){
+  state.accounts=await getAll(STORE_ACCOUNTS);
+  state.rules=await getAll(STORE_RULES);
+  state.eventRecords=await getAll(STORE_EVENTS);
+  state.transactions=await getAll(STORE_TRANSACTIONS);
+  const s=await getOne(STORE_META,"settings"),o=await getOne(STORE_META,"onboardingComplete");
+  state.settings=s?s.value:null;
+  state.onboardingComplete=!!(o&&o.value);
+  state.reserveInit=null;
+  if(state.settings){
+    const rr=cycleRange(state.settings.cycleDay||2);
+    const ri=await getOne(STORE_META,`reserveInit:${isoLocal(rr.start)}`);
+    state.reserveInit=ri?ri.value:null
+  }
+}
+function activeAccounts(){return state.accounts.filter(a=>!a.archived)}
+function primaryAccount(){const id=state.settings?.primaryAccountId;return activeAccounts().find(a=>a.id===id)||activeAccounts().find(a=>a.role==="primary_spending")||null}
+function accountById(id){return state.accounts.find(a=>a.id===id)||null}
+function activeRules(type=null){return state.rules.filter(r=>!r.archived&&r.status!=="frozen"&&(!type||r.type===type))}
+function visibleRules(type=null){return state.rules.filter(r=>!r.archived&&(!type||r.type===type))}
+function ruleCount(type){return visibleRules(type).length}
+function statusBadge(rule){return rule.status==="frozen"?'<span class="badge warn">Gelé</span>':'<span class="badge good">Actif</span>'}
+function openModal(title,html){dlgTitle.textContent=title;dlgBody.innerHTML=html;dlg.showModal()}
+function closeModal(){dlg.close()}
+dlgClose.addEventListener("click",closeModal);
+
+function frequencyFields(rule={}){
+  const f=rule.frequency||"monthly";
+  let extra="";
+  if(f==="weekly"){
+    extra=`<label>Jour de la semaine</label><select id="ruleWeekday">${["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"].map((n,i)=>`<option value="${i}" ${Number(rule.weekday)===i?"selected":""}>${n}</option>`).join("")}</select>`;
+  }else if(f==="biweekly"){
+    extra=`<label>Date de référence</label><input id="ruleReferenceDate" type="date" value="${rule.referenceDate||""}" required><div class="muted small">Le rythme de 14 jours part de cette date.</div>`;
+  }else if(f==="monthly"){
+    extra=`<label>Jour du mois</label><input id="ruleMonthDay" type="number" min="1" max="28" value="${rule.monthDay||1}" required>`;
+  }else if(f==="annual"){
+    extra=`<label>Date annuelle</label><input id="ruleAnnualDate" type="date" value="${rule.annualDate||""}" required><div class="muted small">L'année de cette date sert seulement de référence; le mois et le jour se répètent chaque année.</div>`;
+  }
+  return extra;
+}
+function scheduleSummary(r){
+  if(r.frequency==="weekly") return "Hebdomadaire · "+(["dim.","lun.","mar.","mer.","jeu.","ven.","sam."][Number(r.weekday)||0]);
+  if(r.frequency==="biweekly") return "Aux 2 semaines · réf. "+(r.referenceDate||"—");
+  if(r.frequency==="monthly") return "Mensuel · le "+r.monthDay;
+  if(r.frequency==="annual"){
+    const d=r.annualDate?dateFromISO(r.annualDate):null;
+    return "Annuel · "+(d?new Intl.DateTimeFormat("fr-CA",{day:"2-digit",month:"short"}).format(d):"—");
+  }
+  return r.frequency||"—"
+}
+function executionSummary(r){return r.executionMode==="confirm"?"À confirmer":"Automatique"}
+
+function accountForm(account=null,onboarding=false){
+  const hasPrimary=activeAccounts().some(a=>a.role==="primary_spending"&&a.id!==account?.id);
+  const chosenRole=account?.role||(hasPrimary?"protected_savings":"primary_spending");
+  return `<form id="accountForm">
+    <label>Nom du compte</label><input id="accName" required maxlength="60" value="${safeText(account?.name||"")}" placeholder="Ex. EOP">
+    <label>Type</label><select id="accType">
+      <option value="current" ${account?.type==="current"?"selected":""}>Compte courant</option>
+      <option value="savings" ${account?.type==="savings"?"selected":""}>Épargne</option>
+      <option value="tracking" ${account?.type==="tracking"?"selected":""}>Suivi seulement</option>
+      <option value="other" ${account?.type==="other"?"selected":""}>Autre</option>
+    </select>
+    <label>Devise</label><select id="accCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option value="${c}" ${(account?.currency||"CAD")===c?"selected":""}>${c}</option>`).join("")}</select>
+    <label>Solde actuel</label><input id="accBalance" type="number" step="${(account?.currency||"CAD")==="TND"?"0.001":"0.01"}" required value="${account?.balance??""}" placeholder="${(account?.currency||"CAD")==="TND"?"0.000":"0.00"}">
+    <label>Rôle</label><select id="accRole">
+      <option value="primary_spending" ${chosenRole==="primary_spending"?"selected":""}>Compte principal de dépenses</option>
+      <option value="protected_savings" ${chosenRole==="protected_savings"?"selected":""}>Épargne protégée</option>
+      <option value="tracking_only" ${chosenRole==="tracking_only"?"selected":""}>Suivi seulement</option>
+    </select>
+    <div class="note" style="margin-top:10px">Le compte principal servira au moteur Safe to Spend.</div>
+    <div class="form-actions"><button class="btn" type="submit">${account?"Enregistrer":"Ajouter le compte"}</button>${onboarding?"":'<button type="button" class="btn ghost" id="cancelAcc">Annuler</button>'}</div>
+  </form>`
+}
+async function saveAccount(existing=null){
+  const name=document.getElementById("accName").value.trim(),
+        type=document.getElementById("accType").value,
+        currency=document.getElementById("accCurrency").value,
+        balance=Number(document.getElementById("accBalance").value),
+        role=document.getElementById("accRole").value;
+  if(!name||!Number.isFinite(balance)){alert("Vérifiez le nom et le solde.");return}
+  if(role==="primary_spending"){
+    for(const a of state.accounts){
+      if(a.id!==existing?.id&&a.role==="primary_spending"&&!a.archived){
+        a.role="protected_savings";
+        await putOne(STORE_ACCOUNTS,a)
+      }
+    }
+  }
+  const obj={id:existing?.id||uid(),name,type,currency,balance,role,archived:existing?.archived||false,createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};
+  await putOne(STORE_ACCOUNTS,obj);
+  await loadState();
+  if(role==="primary_spending"){
+    state.settings={...defaultSettings,...(state.settings||{}),primaryAccountId:obj.id,dataVersion:3};
+    await putOne(STORE_META,{key:"settings",value:state.settings})
+  }
+  closeModal();render()
+}
+function bindAccountForm(existing=null){
+  const form=document.getElementById("accountForm");if(!form)return;
+  const currencySelect=document.getElementById("accCurrency"),balanceInput=document.getElementById("accBalance");
+  function updatePrecision(){const tnd=currencySelect?.value==="TND";if(balanceInput){balanceInput.step=tnd?"0.001":"0.01";balanceInput.placeholder=tnd?"0.000":"0.00"}}
+  currencySelect?.addEventListener("change",updatePrecision);updatePrecision();
+  form.addEventListener("submit",e=>{e.preventDefault();saveAccount(existing)});
+  document.getElementById("cancelAcc")?.addEventListener("click",closeModal)
+}
+
+function commonRuleFields(rule={}){
+  const accountOptions=activeAccounts().map(a=>`<option value="${a.id}" ${rule.accountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("");
+  return `
+    <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(rule.name||"")}">
+    <label>Montant</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${rule.amount??""}">
+    <label>Fréquence</label><select id="ruleFrequency">
+      <option value="weekly" ${rule.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+      <option value="biweekly" ${rule.frequency==="biweekly"?"selected":""}>Aux 2 semaines</option>
+      <option value="monthly" ${(!rule.frequency||rule.frequency==="monthly")?"selected":""}>Mensuelle</option>
+      <option value="annual" ${rule.frequency==="annual"?"selected":""}>Annuelle</option>
+    </select>
+    <div id="frequencyExtra">${frequencyFields(rule.frequency?rule:{...rule,frequency:"monthly"})}</div>
+    <label>Compte</label><select id="ruleAccount">${accountOptions}</select>
+  `
+}
+function ruleForm(type,rule=null){
+  const r=rule||{type,status:"active",executionMode:"auto",frequency:"monthly"};
+  if(type==="fixed_income"||type==="debit"){
+    const roleLabel=type==="fixed_income"?"Compte destination":"Compte source";
+    return `<form id="ruleForm">${commonRuleFields(r).replace("<label>Compte</label>",`<label>${roleLabel}</label>`)}
+      <label>Mode d’exécution</label><select id="ruleExecution">
+        <option value="auto" ${r.executionMode!=="confirm"?"selected":""}>Automatique</option>
+        <option value="confirm" ${r.executionMode==="confirm"?"selected":""}>À confirmer</option>
+      </select>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  if(type==="reserved_budget"){
+    return `<form id="ruleForm">
+      <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(r.name||"")}">
+      <label>Montant réservé</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${r.amount??""}">
+      <label>Fréquence</label><select id="ruleFrequency">
+        <option value="weekly" ${r.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+        <option value="monthly" ${(!r.frequency||r.frequency==="monthly")?"selected":""}>Mensuelle</option>
+        <option value="annual" ${r.frequency==="annual"?"selected":""}>Annuelle</option>
+      </select>
+      <div id="frequencyExtra">${r.frequency==="annual"?frequencyFields(r):""}</div>
+      <label>Compte à protéger</label><select id="ruleAccount">${activeAccounts().map(a=>`<option value="${a.id}" ${r.accountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label class="inline-check"><input id="ruleRollover" type="checkbox" ${r.rollover?"checked":""}> Reporter le reste au cycle suivant</label>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  if(type==="transfer"){
+    const accounts=activeAccounts();
+    return `<form id="ruleForm">
+      <label>Nom</label><input id="ruleName" required maxlength="70" value="${safeText(r.name||"")}">
+      <label>Compte source</label><select id="ruleSource">${accounts.map(a=>`<option value="${a.id}" ${r.sourceAccountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label>Montant prévu à débiter</label><input id="ruleAmount" type="number" min="0" step="0.01" required value="${r.amount??""}">
+      <label>Compte destination</label><select id="ruleDestination">${accounts.map(a=>`<option value="${a.id}" ${r.destinationAccountId===a.id?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+      <label>Fréquence</label><select id="ruleFrequency">
+        <option value="weekly" ${r.frequency==="weekly"?"selected":""}>Hebdomadaire</option>
+        <option value="biweekly" ${r.frequency==="biweekly"?"selected":""}>Aux 2 semaines</option>
+        <option value="monthly" ${(!r.frequency||r.frequency==="monthly")?"selected":""}>Mensuelle</option>
+        <option value="annual" ${r.frequency==="annual"?"selected":""}>Annuelle</option>
+      </select>
+      <div id="frequencyExtra">${frequencyFields(r.frequency?r:{...r,frequency:"monthly"})}</div>
+      <label>Mode d’exécution</label><select id="ruleExecution">
+        <option value="auto" ${r.executionMode!=="confirm"?"selected":""}>Automatique</option>
+        <option value="confirm" ${r.executionMode==="confirm"?"selected":""}>À confirmer</option>
+      </select>
+      <div class="note" style="margin-top:10px">Si les deux comptes n’ont pas la même devise, le montant réellement crédité sera saisi lors de l’exécution. Aucun taux de change n’est inventé.</div>
+      <div class="form-actions"><button class="btn" type="submit">Enregistrer</button><button class="btn ghost" type="button" id="cancelRule">Annuler</button></div>
+    </form>`
+  }
+  return ""
+}
+function readSchedule(){
+  const frequency=document.getElementById("ruleFrequency").value;
+  const out={frequency};
+  if(frequency==="weekly") out.weekday=Number(document.getElementById("ruleWeekday").value);
+  if(frequency==="biweekly") out.referenceDate=document.getElementById("ruleReferenceDate").value;
+  if(frequency==="monthly") out.monthDay=Math.max(1,Math.min(28,Number(document.getElementById("ruleMonthDay").value)||1));
+  if(frequency==="annual") out.annualDate=document.getElementById("ruleAnnualDate").value;
+  return out
+}
+async function saveRule(type,existing=null){
+  const name=document.getElementById("ruleName").value.trim(),amount=Number(document.getElementById("ruleAmount").value);
+  if(!name||!Number.isFinite(amount)||amount<0){alert("Vérifiez le nom et le montant.");return}
+  let schedule;
+  if(type==="reserved_budget"){
+    const frequency=document.getElementById("ruleFrequency").value;
+    schedule={frequency};
+    if(frequency==="annual")schedule.annualDate=document.getElementById("ruleAnnualDate")?.value||"";
+  }else schedule=readSchedule();
+
+  if(schedule.frequency==="biweekly"&&!schedule.referenceDate){alert("Ajoutez une date de référence.");return}
+  if(schedule.frequency==="annual"&&!schedule.annualDate){alert("Ajoutez la date annuelle.");return}
+
+  const base={id:existing?.id||uid(),type,name,amount,status:existing?.status||"active",archived:false,createdAt:existing?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString(),...schedule};
+
+  if(type==="fixed_income"||type==="debit"){
+    base.accountId=document.getElementById("ruleAccount").value;
+    base.executionMode=document.getElementById("ruleExecution").value
+  }else if(type==="reserved_budget"){
+    base.accountId=document.getElementById("ruleAccount").value;
+    base.rollover=document.getElementById("ruleRollover").checked
+  }else if(type==="transfer"){
+    base.sourceAccountId=document.getElementById("ruleSource").value;
+    base.destinationAccountId=document.getElementById("ruleDestination").value;
+    if(base.sourceAccountId===base.destinationAccountId){alert("Le compte source et destination doivent être différents.");return}
+    base.executionMode=document.getElementById("ruleExecution").value
+  }
+  await putOne(STORE_RULES,base);await loadState();await syncDueEvents();await loadState();closeModal();render()
+}
+function bindRuleForm(type,existing=null){
+  document.getElementById("cancelRule")?.addEventListener("click",closeModal);
+  const freq=document.getElementById("ruleFrequency"),box=document.getElementById("frequencyExtra");
+  if(freq&&box){
+    freq.addEventListener("change",()=>{
+      if(type==="reserved_budget"&&freq.value!=="annual"){box.innerHTML="";return}
+      box.innerHTML=frequencyFields({frequency:freq.value})
+    })
+  }
+  document.getElementById("ruleForm")?.addEventListener("submit",e=>{e.preventDefault();saveRule(type,existing)})
+}
+function ruleMeta(r){
+  if(r.type==="transfer"){
+    const s=accountById(r.sourceAccountId),d=accountById(r.destinationAccountId);
+    return `${scheduleSummary(r)} · ${s?.name||"?"} → ${d?.name||"?"} · ${executionSummary(r)}`
+  }
+  const a=accountById(r.accountId);
+  if(r.type==="reserved_budget"){
+    let freqLabel=r.frequency==="weekly"?"Hebdomadaire":r.frequency==="annual"?scheduleSummary(r):"Mensuel";
+    return `${freqLabel} · ${a?.name||"?"} · Reste ${r.rollover?"reporté":"libéré"}`
+  }
+  return `${scheduleSummary(r)} · ${a?.name||"?"} · ${executionSummary(r)}`
+}
+function ruleCurrency(r){
+  if(r.type==="transfer")return accountById(r.sourceAccountId)?.currency||state.settings?.mainCurrency||"CAD";
+  return accountById(r.accountId)?.currency||state.settings?.mainCurrency||"CAD"
+}
+function openRuleEditor(rule){
+  openModal("Modifier · "+ruleLabels[rule.type],ruleForm(rule.type,rule)+`
+    <div class="hr"></div>
+    <div class="rule-actions">
+      <button class="btn alt" id="toggleRule">${rule.status==="frozen"?"Réactiver":"Geler"}</button>
+      <button class="btn bad" id="archiveRule">Supprimer</button>
+    </div>`);
+  bindRuleForm(rule.type,rule);
+  document.getElementById("toggleRule").onclick=async()=>{
+    rule.status=rule.status==="frozen"?"active":"frozen";
+    rule.updatedAt=new Date().toISOString();
+    await putOne(STORE_RULES,rule);await loadState();closeModal();render()
+  };
+  document.getElementById("archiveRule").onclick=async()=>{
+    if(!confirm("Supprimer cette règle de la configuration actuelle ?"))return;
+    rule.archived=true;rule.updatedAt=new Date().toISOString();
+    await putOne(STORE_RULES,rule);await loadState();closeModal();render()
+  }
+}
+
+/* ===== Phase 3G : calendrier + EOP calculé ===== */
+function occurrenceDates(rule,start,end){
+  const out=[];
+  const pushIf=d=>{if(d>=start&&d<end)out.push(d)};
+  if(rule.frequency==="weekly"){
+    const d=new Date(start);
+    while(d.getDay()!==Number(rule.weekday))d.setDate(d.getDate()+1);
+    for(;d<end;d.setDate(d.getDate()+7))pushIf(new Date(d))
+  }else if(rule.frequency==="biweekly"){
+    const ref=dateFromISO(rule.referenceDate);
+    if(!ref)return out;
+    let d=new Date(ref);
+    if(d<start){
+      const days=Math.floor((start-d)/86400000);
+      const jumps=Math.floor(days/14);
+      d.setDate(d.getDate()+jumps*14);
+      while(d<start)d.setDate(d.getDate()+14)
+    }
+    for(;d<end;d.setDate(d.getDate()+14))pushIf(new Date(d))
+  }else if(rule.frequency==="monthly"){
+    let y=start.getFullYear(),m=start.getMonth();
+    while(new Date(y,m,1,12)<end){
+      const day=Math.min(Number(rule.monthDay)||1,maxDayInMonth(y,m));
+      pushIf(new Date(y,m,day,12));
+      m++;if(m>11){m=0;y++}
+    }
+  }else if(rule.frequency==="annual"){
+    const ref=dateFromISO(rule.annualDate);
+    if(!ref)return out;
+    for(let y=start.getFullYear();y<=end.getFullYear();y++){
+      const d=new Date(y,ref.getMonth(),Math.min(ref.getDate(),maxDayInMonth(y,ref.getMonth())),12);
+      pushIf(d)
+    }
+  }
+  return out
+}
+
+function ruleToEvent(r,d){
+  let direction="out",accountId=null,destinationId=null;
+  if(r.type==="fixed_income"){direction="in";accountId=r.accountId}
+  else if(r.type==="debit"){direction="out";accountId=r.accountId}
+  else {direction="out";accountId=r.sourceAccountId;destinationId=r.destinationAccountId}
+  return {
+    id:`${r.id}__${isoLocal(d)}`,
+    ruleId:r.id,
+    type:r.type,
+    name:r.name,
+    amount:Number(r.amount)||0,
+    currency:ruleCurrency(r),
+    destinationCurrency:destinationId?accountById(destinationId)?.currency||null:null,
+    date:d,
+    dateISO:isoLocal(d),
+    direction,
+    accountId,
+    destinationId,
+    executionMode:r.executionMode||"auto"
+  }
+}
+
+function snapshotToEvent(rec){
+  return {
+    id:rec.id,ruleId:rec.ruleId,type:rec.type,name:rec.name,
+    amount:Number(rec.plannedAmount??rec.amount??0),currency:rec.currency||state.settings?.mainCurrency||"CAD",
+    destinationCurrency:rec.destinationCurrency||null,date:dateFromISO(rec.dateISO),dateISO:rec.dateISO,
+    direction:rec.direction||"out",accountId:rec.accountId||null,destinationId:rec.destinationId||null,
+    executionMode:rec.executionMode||"auto",record:rec
+  }
+}
+
+function generateEventsBetween(start,end){
+  const ref=dateFromISO(state.settings?.balanceReferenceDate);
+  const events=[];
+  for(const r of activeRules()){
+    if(!["fixed_income","debit","transfer"].includes(r.type))continue;
+    for(const d of occurrenceDates(r,start,end)){
+      if(ref&&d<=ref)continue;
+      events.push(ruleToEvent(r,d))
+    }
+  }
+  events.sort((a,b)=>{
+    const dd=a.date-b.date;
+    if(dd!==0)return dd;
+    if(a.direction!==b.direction)return a.direction==="out"?-1:1;
+    return a.name.localeCompare(b.name,"fr")
+  });
+  return events
+}
+
+function generateCycleEvents(){
+  const s=state.settings||defaultSettings;
+  const range=cycleRange(s.cycleDay);
+  const ref=dateFromISO(s.balanceReferenceDate);
+  if(!ref)return {range,reference:null,events:[]};
+  const generated=generateEventsBetween(range.start,range.end);
+  const map=new Map(generated.map(e=>[e.id,e]));
+  for(const rec of state.eventRecords){
+    const d=dateFromISO(rec.dateISO);
+    if(!d||d<range.start||d>=range.end||d<=ref)continue;
+    map.set(rec.id,snapshotToEvent(rec)); // une occurrence échue garde son snapshot historique
+  }
+  const events=[...map.values()].sort((a,b)=>{
+    const dd=a.date-b.date;
+    if(dd!==0)return dd;
+    if(a.direction!==b.direction)return a.direction==="out"?-1:1;
+    return a.name.localeCompare(b.name,"fr")
+  });
+  return {range,reference:ref,events}
+}
+
+function eventRecordById(id){return state.eventRecords.find(r=>r.id===id)||null}
+function eventSnapshot(e,status){
+  return {
+    id:e.id,ruleId:e.ruleId,type:e.type,name:e.name,plannedAmount:Number(e.amount)||0,currency:e.currency,
+    destinationCurrency:e.destinationCurrency||null,dateISO:e.dateISO,direction:e.direction,accountId:e.accountId||null,
+    destinationId:e.destinationId||null,executionMode:e.executionMode||"auto",status,
+    createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()
+  }
+}
+
+async function syncDueEvents(){
+  const s=state.settings||defaultSettings,ref=dateFromISO(s.balanceReferenceDate);
+  if(!ref)return;
+  const today=localToday(),end=new Date(today);end.setDate(end.getDate()+1);
+  const start=new Date(ref);start.setDate(start.getDate()+1);
+  if(start>=end)return;
+  const existing=new Set(state.eventRecords.map(r=>r.id));
+  const due=generateEventsBetween(start,end);
+  let changed=false;
+  for(const e of due){
+    if(existing.has(e.id))continue;
+    const rec=eventSnapshot(e,e.executionMode==="confirm"?"pending":"calculated");
+    await putOne(STORE_EVENTS,rec);existing.add(e.id);changed=true
+  }
+  if(changed)state.eventRecords=await getAll(STORE_EVENTS)
+}
+
+function effectiveEventState(e){
+  const rec=e.record||eventRecordById(e.id),today=localToday();
+  if(rec?.status==="cancelled")return {status:"cancelled",apply:false,record:rec,amount:0};
+  if(rec?.status==="confirmed")return {status:"confirmed",apply:true,record:rec,amount:Number(rec.actualAmount??e.amount)};
+  if(rec?.status==="corrected")return {status:"corrected",apply:true,record:rec,amount:Number(rec.actualAmount??e.amount)};
+  if(rec?.status==="calculated")return {status:"calculated",apply:true,record:rec,amount:Number(rec.plannedAmount??e.amount)};
+  if(rec?.status==="pending")return {status:"pending",apply:false,record:rec,amount:0};
+  if(e.date>today)return {status:"planned",apply:false,record:null,amount:Number(e.amount)};
+  if(e.executionMode==="confirm")return {status:"pending",apply:false,record:null,amount:0};
+  return {status:"calculated",apply:true,record:null,amount:Number(e.amount)}
+}
+
+function recordImpactOnPrimary(rec){
+  const pa=primaryAccount();if(!pa)return 0;
+  const status=rec.status;
+  if(status==="pending"||status==="cancelled")return 0;
+  const amount=(status==="confirmed"||status==="corrected")?Number(rec.actualAmount??rec.plannedAmount??0):Number(rec.plannedAmount??0);
+  if(rec.type==="fixed_income"&&rec.accountId===pa.id)return amount;
+  if(rec.type==="debit"&&rec.accountId===pa.id)return -amount;
+  if(rec.type==="transfer"){
+    let impact=0;
+    if(rec.accountId===pa.id)impact-=amount;
+    if(rec.destinationId===pa.id){
+      const destAmount=Number(rec.actualDestinationAmount);
+      if(Number.isFinite(destAmount))impact+=destAmount;
+      else if(rec.currency===pa.currency)impact+=amount;
+    }
+    return impact
+  }
+  return 0
+}
+
+function activeTransactions(){
+  return state.transactions.filter(t=>t.status!=="cancelled")
+}
+function transactionImpactOnPrimary(t){
+  const pa=primaryAccount();if(!pa||t.status==="cancelled")return 0;
+  const amount=Number(t.amount)||0;
+  if(t.type==="expense"&&t.sourceAccountId===pa.id)return -amount;
+  if(t.type==="income"&&t.destinationAccountId===pa.id)return amount;
+  return 0
+}
+function transactionsSinceReference(){
+  const ref=dateFromISO(state.settings?.balanceReferenceDate),today=localToday();
+  if(!ref)return [];
+  return activeTransactions().filter(t=>{
+    const d=dateFromISO(t.dateISO);
+    return d&&d>=ref&&d<=today
+  })
+}
+function budgetSpentSinceReference(ruleId){
+  return transactionsSinceReference()
+    .filter(t=>t.type==="expense"&&t.budgetRuleId===ruleId)
+    .reduce((sum,t)=>sum+(Number(t.amount)||0),0)
+}
+function calculateEOP(){
+  const pa=primaryAccount(),s=state.settings||defaultSettings,ref=dateFromISO(s.balanceReferenceDate),today=localToday();
+  if(!pa||!ref)return {available:false,calculated:null,baseline:pa?.balance??null,impact:0,eventImpact:0,transactionImpact:0,pending:0};
+  let eventImpact=0,pending=0,applied=0;
+  for(const rec of state.eventRecords){
+    const d=dateFromISO(rec.dateISO);if(!d||d<=ref||d>today)continue;
+    if(rec.status==="pending")pending++;
+    const v=recordImpactOnPrimary(rec);eventImpact+=v;if(v!==0)applied++
+  }
+  const transactionImpact=transactionsSinceReference().reduce((sum,t)=>sum+transactionImpactOnPrimary(t),0);
+  const impact=eventImpact+transactionImpact;
+  return {available:true,baseline:Number(pa.balance)||0,calculated:(Number(pa.balance)||0)+impact,impact,eventImpact,transactionImpact,pending,applied,reference:ref,currency:pa.currency}
+}
+
+
+/* ===== Phase 3G : Dépenses réelles ===== */
+function expenseBudgetOptions(accountId,selected=""){
+  const rules=activeRules("reserved_budget").filter(r=>r.accountId===accountId&&r.frequency!=="annual");
+  return `<option value="">Aucune réserve</option>`+rules.map(r=>`<option value="${r.id}" ${selected===r.id?"selected":""}>${safeText(r.name)}</option>`).join("")
+}
+function expenseFormHTML(){
+  const pa=primaryAccount(),ref=state.settings?.balanceReferenceDate||isoLocal(localToday()),today=isoLocal(localToday());
+  const accounts=activeAccounts();
+  const defaultId=pa?.id||accounts[0]?.id||"";
+  const defaultAcc=accountById(defaultId);
+  return `<form id="expenseForm">
+    <label>Description</label>
+    <input id="expenseName" required maxlength="80" placeholder="Ex. Épicerie">
+    <label>Montant</label>
+    <input id="expenseAmount" type="number" min="0.01" step="${defaultAcc?.currency==="TND"?"0.001":"0.01"}" required placeholder="0.00">
+    <label>Date</label>
+    <input id="expenseDate" type="date" min="${ref}" max="${today}" value="${today}" required>
+    <label>Compte source</label>
+    <select id="expenseAccount">${accounts.map(a=>`<option value="${a.id}" ${a.id===defaultId?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+    <label>Affecter à</label>
+    <select id="expenseBudget">${expenseBudgetOptions(defaultId)}</select>
+    <div id="expenseBudgetHint" class="muted small" style="margin-top:6px">Choisissez un budget réservé si cette dépense était déjà protégée.</div>
+    <label>Note (optionnel)</label>
+    <input id="expenseNote" maxlength="140" placeholder="Détail facultatif">
+    <div class="note" style="margin-top:12px">Une dépense liée à un budget réservé diminue à la fois EOP et le reste du budget. Le Safe n’est donc réduit que si vous dépassez la réserve restante.</div>
+    <div class="form-actions"><button class="btn" type="submit">Enregistrer la dépense</button><button class="btn ghost" type="button" id="cancelExpense">Annuler</button></div>
+  </form>`
+}
+function bindExpenseForm(){
+  const acc=document.getElementById("expenseAccount"),budget=document.getElementById("expenseBudget"),amount=document.getElementById("expenseAmount");
+  function refreshBudget(){
+    const a=accountById(acc.value);
+    budget.innerHTML=expenseBudgetOptions(acc.value);
+    if(amount)amount.step=a?.currency==="TND"?"0.001":"0.01"
+  }
+  acc?.addEventListener("change",refreshBudget);
+  document.getElementById("cancelExpense")?.addEventListener("click",closeModal);
+  document.getElementById("expenseForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const source=accountById(acc.value),value=Number(amount.value),dateISO=document.getElementById("expenseDate").value;
+    const ref=state.settings?.balanceReferenceDate||"";
+    if(!source||!Number.isFinite(value)||value<=0){alert("Vérifiez le montant et le compte.");return}
+    if(ref&&dateISO<ref){alert("La dépense ne peut pas être antérieure au solde de référence.");return}
+    if(dateISO>isoLocal(localToday())){alert("Une dépense réelle ne peut pas être datée dans le futur.");return}
+    const tx={
+      id:uid(),type:"expense",description:document.getElementById("expenseName").value.trim()||"Dépense",
+      amount:roundCurrency(value,source.currency),currency:source.currency,sourceAccountId:source.id,
+      budgetRuleId:budget.value||null,dateISO,status:"confirmed",
+      note:document.getElementById("expenseNote").value.trim(),
+      createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()
+    };
+    await putOne(STORE_TRANSACTIONS,tx);
+    await loadState();closeModal();render()
+  })
+}
+
+function incomeFormHTML(){
+  const pa=primaryAccount(),ref=state.settings?.balanceReferenceDate||isoLocal(localToday()),today=isoLocal(localToday());
+  const accounts=activeAccounts();
+  const defaultId=pa?.id||accounts[0]?.id||"";
+  const defaultAcc=accountById(defaultId);
+  return `<form id="incomeForm">
+    <label>Description</label>
+    <input id="incomeName" required maxlength="80" placeholder="Ex. Remboursement, vente, prime">
+    <label>Montant</label>
+    <input id="incomeAmount" type="number" min="0.01" step="${defaultAcc?.currency==="TND"?"0.001":"0.01"}" required placeholder="0.00">
+    <label>Date</label>
+    <input id="incomeDate" type="date" min="${ref}" max="${today}" value="${today}" required>
+    <label>Compte destination</label>
+    <select id="incomeAccount">${accounts.map(a=>`<option value="${a.id}" ${a.id===defaultId?"selected":""}>${safeText(a.name)} · ${a.currency}</option>`).join("")}</select>
+    <label>Note (optionnel)</label>
+    <input id="incomeNote" maxlength="140" placeholder="Détail facultatif">
+    <div class="note" style="margin-top:12px">Un revenu ponctuel versé sur le compte principal augmente EOP calculé. Il ne crée aucune règle récurrente.</div>
+    <div class="form-actions"><button class="btn" type="submit">Enregistrer le revenu</button><button class="btn ghost" type="button" id="cancelIncome">Annuler</button></div>
+  </form>`
+}
+function bindIncomeForm(){
+  const acc=document.getElementById("incomeAccount"),amount=document.getElementById("incomeAmount");
+  function refreshPrecision(){
+    const a=accountById(acc.value);
+    if(amount)amount.step=a?.currency==="TND"?"0.001":"0.01"
+  }
+  acc?.addEventListener("change",refreshPrecision);
+  refreshPrecision();
+  document.getElementById("cancelIncome")?.addEventListener("click",closeModal);
+  document.getElementById("incomeForm")?.addEventListener("submit",async e=>{
+    e.preventDefault();
+    const destination=accountById(acc.value),value=Number(amount.value),dateISO=document.getElementById("incomeDate").value;
+    const ref=state.settings?.balanceReferenceDate||"";
+    if(!destination||!Number.isFinite(value)||value<=0){alert("Vérifiez le montant et le compte.");return}
+    if(ref&&dateISO<ref){alert("Le revenu ne peut pas être antérieur au solde de référence.");return}
+    if(dateISO>isoLocal(localToday())){alert("Un revenu réel ne peut pas être daté dans le futur.");return}
+    const tx={
+      id:uid(),type:"income",description:document.getElementById("incomeName").value.trim()||"Revenu",
+      amount:roundCurrency(value,destination.currency),currency:destination.currency,destinationAccountId:destination.id,
+      budgetRuleId:null,dateISO,status:"confirmed",
+      note:document.getElementById("incomeNote").value.trim(),
+      createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()
+    };
+    await putOne(STORE_TRANSACTIONS,tx);
+    await loadState();closeModal();render()
+  })
+}
+
+function transactionRows(){
+  const range=cycleRange((state.settings||defaultSettings).cycleDay);
+  const rows=state.transactions.filter(t=>{
+    const d=dateFromISO(t.dateISO);return d&&d>=range.start&&d<range.end
+  }).sort((a,b)=>String(b.dateISO).localeCompare(String(a.dateISO))||String(b.createdAt).localeCompare(String(a.createdAt)));
+  if(!rows.length)return '<div class="empty">Aucune opération réelle enregistrée dans ce cycle.</div>';
+  return `<div class="list">${rows.map(t=>{
+    const acc=accountById(t.sourceAccountId||t.destinationAccountId),r=t.budgetRuleId?state.rules.find(x=>x.id===t.budgetRuleId):null;
+    const cancelled=t.status==="cancelled";
+    return `<button class="item" data-tx="${t.id}" style="width:100%;text-align:left;color:inherit;opacity:${cancelled?".58":"1"}"><div class="row"><div><div class="name">${safeText(t.description||"Dépense")}</div><div class="meta">${fmtDate(dateFromISO(t.dateISO))} · ${safeText(acc?.name||"?")}${r?` · ${safeText(r.name)}`:""}${cancelled?" · Annulée":""}</div></div><div class="amount" style="color:${cancelled?"var(--muted)":t.type==="income"?"#8fe4b8":"#ffc0c7"}">${t.type==="expense"?"−":"+"}${money(t.amount,t.currency)}</div></div></button>`
+  }).join("")}</div>`
+}
+function bindTransactionActions(){
+  document.querySelectorAll("[data-tx]").forEach(btn=>btn.onclick=()=>{
+    const t=state.transactions.find(x=>x.id===btn.dataset.tx);if(!t)return;
+    const acc=accountById(t.sourceAccountId||t.destinationAccountId),r=t.budgetRuleId?state.rules.find(x=>x.id===t.budgetRuleId):null;
+    openModal("Opération réelle",`<div class="item"><div class="name">${safeText(t.description||"Dépense")}</div><div class="meta">${fmtDate(dateFromISO(t.dateISO))} · ${safeText(acc?.name||"?")}${r?` · ${safeText(r.name)}`:""}</div><div class="amount" style="font-size:24px;margin-top:10px;color:${t.type==="income"?"#8fe4b8":"#ffc0c7"}">${t.type==="expense"?"−":"+"}${money(t.amount,t.currency)}</div>${t.note?`<div class="note" style="margin-top:10px">${safeText(t.note)}</div>`:""}</div>${t.status!=="cancelled"?'<div class="form-actions"><button class="btn bad" id="cancelTransaction">Annuler cette opération</button></div>':'<div class="note" style="margin-top:12px">Cette opération est annulée et n’affecte plus les calculs.</div>'}`);
+    document.getElementById("cancelTransaction")?.addEventListener("click",async()=>{
+      if(!confirm("Annuler cette opération ? EOP, Réservé et Safe seront recalculés."))return;
+      t.status="cancelled";t.cancelledAt=new Date().toISOString();t.updatedAt=new Date().toISOString();
+      await putOne(STORE_TRANSACTIONS,t);await loadState();closeModal();render()
+    })
+  })
+}
+
+/* ===== Phase 3G : Réservé ===== */
+function roundCurrency(n,currency="CAD"){
+  const d=digitsFor(currency),m=Math.pow(10,d);return Math.round((Number(n)||0)*m)/m
+}
+function reserveMetaKey(range=cycleRange((state.settings||defaultSettings).cycleDay)){
+  return `reserveInit:${isoLocal(range.start)}`
+}
+function nextAnnualDue(rule,from=localToday()){
+  const ref=dateFromISO(rule.annualDate);if(!ref)return null;
+  let y=from.getFullYear();
+  let d=new Date(y,ref.getMonth(),Math.min(ref.getDate(),maxDayInMonth(y,ref.getMonth())),12);
+  if(d<=from){y++;d=new Date(y,ref.getMonth(),Math.min(ref.getDate(),maxDayInMonth(y,ref.getMonth())),12)}
+  return d
+}
+function cycleSlotsUntil(due,range=cycleRange((state.settings||defaultSettings).cycleDay)){
+  if(!due)return 0;
+  const day=(state.settings||defaultSettings).cycleDay||2;
+  let d=new Date(range.start),count=0,guard=0;
+  while(d<due&&guard<240){
+    count++;guard++;
+    let y=d.getFullYear(),m=d.getMonth()+1;if(m>11){m=0;y++}
+    d=new Date(y,m,Math.min(day,maxDayInMonth(y,m)),12)
+  }
+  return Math.max(1,count)
+}
+function reserveInitializationRequired(){
+  const s=state.settings||defaultSettings,range=cycleRange(s.cycleDay),ref=dateFromISO(s.balanceReferenceDate),pa=primaryAccount();
+  if(!pa||!ref||state.reserveInit)return false;
+  const hasNonAnnual=activeRules("reserved_budget").some(r=>r.accountId===pa.id&&r.frequency!=="annual");
+  return hasNonAnnual&&ref>range.start&&ref<range.end
+}
+function reserveBreakdown(){
+  const s=state.settings||defaultSettings,pa=primaryAccount(),range=cycleRange(s.cycleDay),currency=pa?.currency||s.mainCurrency||"CAD";
+  if(!pa)return {ready:false,currency,total:0,items:[],reason:"Compte principal requis"};
+  const initRequired=reserveInitializationRequired();
+  const initAmounts=state.reserveInit?.amounts||{};
+  const items=[];
+  const safety=roundCurrency(Number(s.safetyReserve)||0,currency);
+  if(safety>0)items.push({kind:"safety",name:"Réserve de sécurité",amount:safety,meta:"Protection permanente"});
+  for(const r of activeRules("reserved_budget").filter(r=>r.accountId===pa.id)){
+    if(r.frequency==="annual"){
+      const due=nextAnnualDue(r,localToday()),slots=cycleSlotsUntil(due,range);
+      const amount=roundCurrency((Number(r.amount)||0)/slots,currency);
+      items.push({kind:"annual",ruleId:r.id,name:r.name,amount,meta:`Provision du cycle · échéance ${due?fmtDate(due):"—"} · ${slots} cycle(s) restant(s)`});
+    }else{
+      let amount;
+      let baseAmount;
+      if(Object.prototype.hasOwnProperty.call(initAmounts,r.id))baseAmount=roundCurrency(initAmounts[r.id],currency);
+      else if(initRequired)baseAmount=null;
+      else baseAmount=roundCurrency(Number(r.amount)||0,currency);
+      if(baseAmount===null)amount=null;
+      else{
+        const spent=roundCurrency(budgetSpentSinceReference(r.id),currency);
+        amount=roundCurrency(Math.max(0,baseAmount-spent),currency);
+      }
+      const spent=roundCurrency(budgetSpentSinceReference(r.id),currency);
+      const metaBase=r.frequency==="weekly"?"Budget hebdomadaire protégé":"Budget mensuel protégé";
+      items.push({kind:"budget",ruleId:r.id,name:r.name,amount,spent,baseAmount,meta:spent>0?`${metaBase} · ${money(spent,currency)} utilisé depuis la référence`:metaBase});
+    }
+  }
+  const ready=!items.some(x=>x.kind==="budget"&&x.amount===null);
+  const total=roundCurrency(items.reduce((a,x)=>a+(x.amount===null?0:Number(x.amount)||0),0),currency);
+  return {ready,currency,total,items,initRequired,range}
+}
+function reserveBreakdownHTML(b){
+  if(!b.items.length)return '<div class="empty">Aucune réserve configurée sur le compte principal.</div>';
+  return `<div class="list">${b.items.map(x=>`<div class="item"><div class="row"><div><div class="name">${safeText(x.name)}</div><div class="meta">${safeText(x.meta)}</div></div><div class="amount">${x.amount===null?"À initialiser":money(x.amount,b.currency)}</div></div></div>`).join("")}</div>`
+}
+function reserveInitFormHTML(){
+  const pa=primaryAccount(),rules=activeRules("reserved_budget").filter(r=>r.accountId===pa?.id&&r.frequency!=="annual");
+  if(!rules.length)return "";
+  return `<div class="card"><div class="title">Initialiser les budgets du cycle</div><div class="note">Le solde EOP a été confirmé en cours de cycle. Pour éviter de réserver une deuxième fois ce qui a déjà été payé ou consommé, indiquez seulement ce qu’il reste à protéger jusqu’à la prochaine clôture. Mettez 0 si un budget est déjà entièrement utilisé ou payé.</div><form id="reserveInitForm">${rules.map(r=>`<label>${safeText(r.name)} · restant à protéger</label><input data-reserve-rule="${r.id}" type="number" min="0" step="0.01" value="${Number(r.amount)||0}" required>`).join("")}<div class="form-actions"><button class="btn" type="submit">Confirmer les réserves restantes</button></div></form></div>`
+}
+async function saveReserveInitialization(){
+  const amounts={};
+  for(const el of document.querySelectorAll("[data-reserve-rule]")){
+    const v=Number(el.value);if(!Number.isFinite(v)||v<0){alert("Vérifiez les montants réservés.");return}
+    amounts[el.dataset.reserveRule]=v
+  }
+  const range=cycleRange((state.settings||defaultSettings).cycleDay);
+  const value={cycleStart:isoLocal(range.start),cycleEnd:isoLocal(range.end),referenceDate:state.settings?.balanceReferenceDate||null,amounts,createdAt:new Date().toISOString()};
+  await putOne(STORE_META,{key:reserveMetaKey(range),value});
+  await loadState();render()
+}
+
+
+/* ===== Phase 3G : Safe to Spend ===== */
+function projectedImpactOnPrimary(e){
+  const pa=primaryAccount();if(!pa)return {impact:0,uncertain:false};
+  const rec=e.record||eventRecordById(e.id),st=effectiveEventState(e);
+  if(st.status==="cancelled")return {impact:0,uncertain:false};
+  const amount=(st.status==="confirmed"||st.status==="corrected")?Number(st.amount||0):Number(e.amount||0);
+  if(e.type==="fixed_income"&&e.accountId===pa.id)return {impact:amount,uncertain:false};
+  if(e.type==="debit"&&e.accountId===pa.id)return {impact:-amount,uncertain:false};
+  if(e.type==="transfer"){
+    let impact=0,uncertain=false;
+    if(e.accountId===pa.id)impact-=amount;
+    if(e.destinationId===pa.id){
+      const actualDest=Number(rec?.actualDestinationAmount);
+      if(Number.isFinite(actualDest))impact+=actualDest;
+      else if(e.currency===pa.currency)impact+=amount;
+      else uncertain=true; // entrée multidevise non connue : on ne la compte pas dans le Safe
+    }
+    return {impact,uncertain}
+  }
+  return {impact:0,uncertain:false}
+}
+function safeProjectionEvents(){
+  const cal=generateCycleEvents(),today=localToday(),rows=[];
+  for(const e of cal.events){
+    const rec=e.record||eventRecordById(e.id),st=effectiveEventState(e);
+    if(st.status==="cancelled")continue;
+    let include=false;
+    if(e.date>today)include=true;
+    else if(!rec)include=true; // sécurité si la synchro d'une échéance n'a pas encore créé son snapshot
+    else if(st.status==="pending")include=true; // dû mais pas encore appliqué à EOP
+    if(!include)continue;
+    const p=projectedImpactOnPrimary(e);
+    if(p.impact===0&&!p.uncertain)continue;
+    rows.push({...e,projectionImpact:p.impact,projectionUncertain:p.uncertain})
+  }
+  rows.sort((a,b)=>{
+    const dd=a.date-b.date;if(dd!==0)return dd;
+    if(a.projectionImpact!==b.projectionImpact)return a.projectionImpact-b.projectionImpact; // sorties avant entrées
+    return a.name.localeCompare(b.name,"fr")
+  });
+  return rows
+}
+function calculateSafe(){
+  const eop=calculateEOP(),reserved=reserveBreakdown(),pa=primaryAccount();
+  if(!pa||!eop.available)return {available:false,reason:"EOP calculé indisponible"};
+  if(!reserved.ready)return {available:false,reason:"Réserves du cycle à initialiser"};
+  const currency=pa.currency,currentFree=roundCurrency(eop.calculated-reserved.total,currency);
+  let running=currentFree,minFree=currentFree,limitingEvent=null,uncertain=false;
+  const timeline=[];
+  for(const e of safeProjectionEvents()){
+    uncertain=uncertain||!!e.projectionUncertain;
+    running=roundCurrency(running+Number(e.projectionImpact||0),currency);
+    timeline.push({event:e,balance:running});
+    if(running<minFree){minFree=running;limitingEvent=e}
+  }
+  const safe=roundCurrency(Math.max(0,minFree),currency);
+  return {available:true,currency,eop:eop.calculated,reserved:reserved.total,currentFree,safe,minFree,limitingEvent,timeline,uncertain}
+}
+
+function calculateCycleMargin(){
+  const pa=primaryAccount(),eop=calculateEOP(),reserved=reserveBreakdown();
+  if(!pa||!eop.available)return {available:false,reason:"EOP calculé indisponible"};
+  if(!reserved.ready)return {available:false,reason:"Réserves du cycle à initialiser"};
+  const currency=pa.currency;
+  const future=safeProjectionEvents();
+  let futureNet=0,uncertain=false;
+  for(const e of future){
+    futureNet=roundCurrency(futureNet+Number(e.projectionImpact||0),currency);
+    uncertain=uncertain||!!e.projectionUncertain
+  }
+  const projectedEOP=roundCurrency(eop.calculated+futureNet,currency);
+  const margin=roundCurrency(projectedEOP-reserved.total,currency);
+  const range=cycleRange((state.settings||defaultSettings).cycleDay);
+  return {
+    available:true,currency,
+    currentEOP:eop.calculated,
+    futureNet,
+    projectedEOP,
+    reserved:reserved.total,
+    margin,
+    endDate:range.end,
+    uncertain
+  }
+}
+function cycleMarginHTML(calc){
+  if(!calc.available){
+    return `<div class="card"><div class="title">Marge prévue du cycle</div><div class="note">${safeText(calc.reason||"Calcul indisponible")}</div></div>`
+  }
+  const badge=calc.margin<0
+    ?'<span class="badge bad">Déficit prévu</span>'
+    :calc.uncertain
+      ?'<span class="badge warn">Projection conservatrice</span>'
+      :'<span class="badge good">Projection positive</span>';
+  return `<div class="card">
+    <div class="row">
+      <div>
+        <div class="title" style="margin-bottom:3px">Marge prévue du cycle</div>
+        <div class="muted small">Projection au ${fmtDate(calc.endDate)} après les événements prévus et en gardant les réserves protégées.</div>
+      </div>
+      ${badge}
+    </div>
+    <div class="big" style="font-size:32px;margin-top:12px">${money(calc.margin,calc.currency)}</div>
+    <div class="grid2" style="margin-top:12px">
+      <div class="kpi">
+        <div class="muted small">EOP prévu à la clôture</div>
+        <div class="value">${money(calc.projectedEOP,calc.currency)}</div>
+        <div class="small muted">${calc.futureNet>=0?"+":""}${money(calc.futureNet,calc.currency)} d’événements futurs</div>
+      </div>
+      <div class="kpi">
+        <div class="muted small">Réservé protégé</div>
+        <div class="value">${money(calc.reserved,calc.currency)}</div>
+        <div class="small muted">Exclu de la marge</div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:12px">Les restes de budgets qui seront libérés à la clôture pourront augmenter la marge réelle. Cette projection suppose que les règles actuellement configurées restent inchangées.</div>
+    ${calc.uncertain?'<div class="note" style="margin-top:10px">Une entrée multidevise future non confirmée n’est pas comptée afin de garder la projection conservatrice.</div>':""}
+  </div>`
+}
+
+function safeControlHTML(calc){
+  if(!calc.available)return `<div class="card"><div class="title">Contrôle du Safe</div><div class="note">${safeText(calc.reason||"Calcul indisponible")}</div></div>`;
+  const limit=calc.limitingEvent?`${fmtDay(calc.limitingEvent.date)} · après ${safeText(calc.limitingEvent.name)}`:"Aujourd’hui";
+  return `<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Contrôle du Safe</div><div class="muted small">Le Safe est le plus petit solde libre projeté jusqu’à la clôture.</div></div><span class="badge good">${calc.uncertain?"Conservateur":"Actif"}</span></div>
+    <div class="grid2" style="margin-top:12px"><div class="kpi"><div class="muted small">Libre maintenant</div><div class="value">${money(calc.currentFree,calc.currency)}</div><div class="small muted">EOP calculé − Réservé</div></div><div class="kpi"><div class="muted small">Point limitant</div><div class="value">${money(calc.minFree,calc.currency)}</div><div class="small muted">${limit}</div></div></div>
+    ${calc.uncertain?'<div class="note" style="margin-top:12px">Une entrée multidevise future n’a pas de montant de destination confirmé. Elle est ignorée dans le Safe pour rester conservateur.</div>':""}
+  </div>`
+}
+
+function eventTypeLabel(e){return e.type==="fixed_income"?"Revenu fixe":e.type==="debit"?"Prélèvement":"Virement"}
+function eventAccountLabel(e){
+  const a=accountById(e.accountId);
+  if(e.type!=="transfer")return a?.name||"?";
+  const d=accountById(e.destinationId);return `${a?.name||"?"} → ${d?.name||"?"}`
+}
+function eventStatusBadge(e){
+  const st=effectiveEventState(e).status;
+  if(st==="pending")return '<span class="badge warn">À confirmer</span>';
+  if(st==="confirmed")return '<span class="badge good">Confirmé</span>';
+  if(st==="corrected")return '<span class="badge warn">Corrigé</span>';
+  if(st==="cancelled")return '<span class="badge bad">Annulé</span>';
+  if(st==="calculated")return '<span class="badge good">Calculé</span>';
+  return '<span class="badge good">Prévu</span>'
+}
+function eventActionHTML(e){
+  const st=effectiveEventState(e).status;
+  if(st==="pending")return `<div class="event-actions"><button class="btn mini" data-event-confirm="${e.id}">Confirmer</button></div>`;
+  if(["calculated","confirmed","corrected","cancelled"].includes(st))return `<div class="event-actions"><button class="btn mini alt" data-event-manage="${e.id}">Gérer</button></div>`;
+  return ""
+}
+function displayEventAmount(e){
+  const st=effectiveEventState(e),amount=(st.status==="confirmed"||st.status==="corrected")?st.amount:Number(e.amount);
+  const sign=e.direction==="in"?"+":"−";
+  return `${sign}${money(amount,e.currency)}`
+}
+function eventRows(events,limit=null){
+  const rows=(limit?events.slice(0,limit):events);
+  if(!rows.length)return '<div class="empty">Aucun événement prévu après le solde de référence dans ce cycle.</div>';
+  let last="",html="";
+  for(const e of rows){
+    if(e.dateISO!==last){html+=`<div class="calendar-day">${safeText(fmtDay(e.date))}</div>`;last=e.dateISO}
+    html+=`<div class="event"><div><div class="event-name">${safeText(e.name)}</div><div class="event-meta">${eventTypeLabel(e)} · ${safeText(eventAccountLabel(e))}</div><div class="status-line">${eventStatusBadge(e)}</div>${eventActionHTML(e)}</div><div class="event-amount ${e.direction==="in"?"in":"out"}">${displayEventAmount(e)}</div></div>`
+  }
+  return html
+}
+
+function crossCurrency(e){
+  const src=accountById(e.accountId),dst=accountById(e.destinationId);
+  return e.type==="transfer"&&src&&dst&&src.currency!==dst.currency
+}
+function openEventManager(e,mode="manage"){
+  const rec=e.record||eventRecordById(e.id),st=effectiveEventState(e),isCross=crossCurrency(e),dst=accountById(e.destinationId);
+  const actualDefault=(rec?.actualAmount??e.amount);
+  const destDefault=rec?.actualDestinationAmount??"";
+  const confirmMode=mode==="confirm"||st.status==="pending";
+  openModal(confirmMode?"Confirmer l’opération":"Gérer l’événement",`<div class="note">${safeText(e.name)} · ${fmtDay(e.date)}<br>Montant prévu : ${money(e.amount,e.currency)}</div>
+    <form id="eventForm">
+      <label>${e.direction==="in"?"Montant réel reçu":"Débit réel"} (${e.currency})</label>
+      <input id="eventActual" type="number" min="0" step="${e.currency==="TND"?"0.001":"0.01"}" required value="${actualDefault}">
+      ${isCross?`<label>Crédit réel destination (${dst?.currency||e.destinationCurrency||""})</label><input id="eventDestinationActual" type="number" min="0" step="${(dst?.currency||e.destinationCurrency)==="TND"?"0.001":"0.01"}" required value="${destDefault}">`:""}
+      <div class="form-actions"><button class="btn" type="submit">${confirmMode?"Confirmer":"Enregistrer la correction"}</button><button class="btn ghost" type="button" id="cancelEventForm">Fermer</button></div>
+    </form>
+    <div class="hr"></div><button class="btn bad" id="cancelOccurrence">Annuler cette occurrence</button>`);
+  document.getElementById("cancelEventForm").onclick=closeModal;
+  document.getElementById("eventForm").onsubmit=async ev=>{
+    ev.preventDefault();
+    const actual=Number(document.getElementById("eventActual").value);if(!Number.isFinite(actual)||actual<0)return alert("Montant réel invalide.");
+    let dstActual=null;
+    if(isCross){dstActual=Number(document.getElementById("eventDestinationActual").value);if(!Number.isFinite(dstActual)||dstActual<0)return alert("Crédit destination invalide.")}
+    const base=rec?{...rec}:eventSnapshot(e,e.executionMode==="confirm"?"pending":"calculated");
+    base.status=confirmMode?"confirmed":"corrected";base.actualAmount=actual;
+    if(isCross)base.actualDestinationAmount=dstActual;
+    base.updatedAt=new Date().toISOString();if(confirmMode)base.confirmedAt=new Date().toISOString();
+    await putOne(STORE_EVENTS,base);await loadState();closeModal();render()
+  };
+  document.getElementById("cancelOccurrence").onclick=async()=>{
+    if(!confirm("Annuler seulement cette occurrence ? La règle future reste active."))return;
+    const base=rec?{...rec}:eventSnapshot(e,"cancelled");base.status="cancelled";base.updatedAt=new Date().toISOString();
+    await putOne(STORE_EVENTS,base);await loadState();closeModal();render()
+  }
+}
+function bindEventActions(){
+  document.querySelectorAll("[data-event-confirm]").forEach(b=>b.onclick=()=>{const cal=generateCycleEvents(),e=cal.events.find(x=>x.id===b.dataset.eventConfirm);if(e)openEventManager(e,"confirm")});
+  document.querySelectorAll("[data-event-manage]").forEach(b=>b.onclick=()=>{const cal=generateCycleEvents(),e=cal.events.find(x=>x.id===b.dataset.eventManage);if(e)openEventManager(e,"manage")})
+}
+
+async function saveReferenceDate(value){
+  const d=dateFromISO(value);if(!d){alert("Choisissez une date valide.");return}
+  const s={...defaultSettings,...(state.settings||{}),balanceReferenceDate:value,dataVersion:3};
+  await putOne(STORE_META,{key:"settings",value:s});state.settings=s;await syncDueEvents();await loadState();render()
+}
+function referenceSetupCard(){
+  return `<div class="card"><div class="title">Initialiser le calcul EOP</div><div class="note">Le solde du compte principal est déjà un solde réel. Le moteur calcule seulement les événements après la date à laquelle ce solde a été vérifié, afin d’éviter tout double comptage.</div><form id="referenceForm"><label>Date de référence du solde</label><input id="referenceDate" type="date" required value="${isoLocal(localToday())}"><div class="muted small">Les événements de cette date et des jours précédents sont déjà inclus dans le solde réel.</div><div class="form-actions"><button class="btn" type="submit">Confirmer la date</button></div></form></div>`
+}
+
+/* ===== Onboarding / écrans ===== */
+function renderOnboarding(){
+  nav.hidden=true;headerSub.textContent="V2 · Configuration initiale";
+  if(onboardingStep===1){
+    view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step"></div><div class="step"></div></div><div class="eyebrow">Étape 1 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Créer mes comptes</div><div class="muted small" style="margin-bottom:14px">Ajoutez d'abord vos comptes réels. Rien n'est créé automatiquement.</div><div class="list">${activeAccounts().length?activeAccounts().map(a=>`<div class="item"><div class="row"><div><div class="name">${safeText(a.name)}</div><div class="meta">${a.currency} · ${a.role==="primary_spending"?"Compte principal":a.role==="protected_savings"?"Épargne protégée":"Suivi seulement"}</div></div><div class="amount">${money(a.balance,a.currency)}</div></div></div>`).join(""):'<div class="empty">Aucun compte pour le moment.</div>'}</div><div class="form-actions"><button class="btn" id="addOnboardAccount">+ Ajouter un compte</button><button class="btn alt" id="nextOnboard1" ${primaryAccount()?"":"disabled"}>Continuer</button></div>${primaryAccount()?"":'<div class="note" style="margin-top:10px">Il faut au moins un compte principal de dépenses pour continuer.</div>'}</div>`;
+    document.getElementById("addOnboardAccount").onclick=()=>{openModal("Ajouter un compte",accountForm(null,true));bindAccountForm(null)};
+    document.getElementById("nextOnboard1").onclick=()=>{onboardingStep=2;renderOnboarding()};return
+  }
+  if(onboardingStep===2){
+    const s=state.settings||defaultSettings;
+    view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step on"></div><div class="step"></div></div><div class="eyebrow">Étape 2 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Paramètres du cycle</div><form id="settingsForm"><label>Jour de clôture du cycle</label><input id="cycleDay" type="number" min="1" max="28" required value="${s.cycleDay||2}"><div class="muted small">Le jour est configurable.</div><label>Devise principale</label><select id="mainCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option value="${c}" ${(s.mainCurrency||"CAD")===c?"selected":""}>${c}</option>`).join("")}</select><label>Réserve de sécurité optionnelle</label><input id="safetyReserve" type="number" min="0" step="0.01" value="${s.safetyReserve||0}"><div class="form-actions"><button class="btn ghost" type="button" id="backOnboard">Retour</button><button class="btn" type="submit">Continuer</button></div></form></div>`;
+    document.getElementById("backOnboard").onclick=()=>{onboardingStep=1;renderOnboarding()};
+    document.getElementById("settingsForm").onsubmit=async e=>{
+      e.preventDefault();
+      const pa=primaryAccount();
+      state.settings={...defaultSettings,...(state.settings||{}),cycleDay:Math.max(1,Math.min(28,Number(document.getElementById("cycleDay").value)||2)),mainCurrency:document.getElementById("mainCurrency").value,safetyReserve:Math.max(0,Number(document.getElementById("safetyReserve").value)||0),primaryAccountId:pa?.id||null,dataVersion:3};
+      await putOne(STORE_META,{key:"settings",value:state.settings});onboardingStep=3;renderOnboarding()
+    };return
+  }
+  const pa=primaryAccount(),s=state.settings||defaultSettings,range=cycleRange(s.cycleDay);
+  view.innerHTML=`<div class="card"><div class="steps"><div class="step on"></div><div class="step on"></div><div class="step on"></div></div><div class="eyebrow">Étape 3 sur 3</div><div class="title" style="font-size:22px;margin-top:6px">Prêt à démarrer</div><div class="grid2"><div class="kpi"><div class="muted small">Compte principal</div><div class="value">${safeText(pa?.name||"—")}</div></div><div class="kpi"><div class="muted small">Solde actuel</div><div class="value">${pa?money(pa.balance,pa.currency):"—"}</div></div><div class="kpi"><div class="muted small">Cycle actuel</div><div class="value" style="font-size:15px">${fmtDate(range.start)} → ${fmtDate(range.end)}</div></div><div class="kpi"><div class="muted small">Réserve sécurité</div><div class="value">${money(s.safetyReserve,s.mainCurrency)}</div></div></div><div class="note" style="margin-top:14px">Phase 3G ajoute la Marge prévue du cycle en plus du Safe, de EOP calculé et des opérations ponctuelles.</div><div class="form-actions"><button class="btn ghost" id="backOnboard2">Retour</button><button class="btn" id="finishOnboard">Ouvrir Nadhir Finance</button></div></div>`;
+  document.getElementById("backOnboard2").onclick=()=>{onboardingStep=2;renderOnboarding()};
+  document.getElementById("finishOnboard").onclick=async()=>{await putOne(STORE_META,{key:"onboardingComplete",value:true});await loadState();page="home";render()}
+}
+
+function renderHome(){
+  const s=state.settings||defaultSettings,pa=primaryAccount(),range=cycleRange(s.cycleDay),rulesReady=state.rules.filter(r=>!r.archived).length;
+  headerSub.textContent=`Cycle ${fmtDate(range.start)} → ${fmtDate(range.end)}`;
+  const cal=generateCycleEvents(),eop=calculateEOP(),reserved=reserveBreakdown(),safe=calculateSafe(),cycleMargin=calculateCycleMargin();
+  const impactText=eop.available?(eop.impact===0?"Aucun mouvement appliqué depuis la référence":`${eop.impact>=0?"+":""}${money(eop.impact,eop.currency)} depuis la référence`):"Date de référence requise";
+  const safeValue=safe.available?money(safe.safe,safe.currency):"—";
+  const safeBadge=safe.available?'<span class="badge good">Phase 3G · Marge active</span>':'<span class="badge warn">Safe à initialiser</span>';
+  const safeTextLine=safe.available?"Montant maximal dépensable aujourd’hui tout en gardant les réserves et les événements prévus couverts jusqu’à la clôture.":safeText(safe.reason||"Calcul indisponible");
+  view.innerHTML=`<div class="card hero"><div class="eyebrow">SAFE TO SPEND AUJOURD’HUI</div><div class="big">${safeValue}</div>${safeBadge}<div class="small" style="margin-top:10px;color:#d8ecff">${safeTextLine}</div></div>
+  <div class="grid2"><div class="card kpi"><div class="muted small">EOP réel de référence</div><div class="value">${pa?money(pa.balance,pa.currency):"—"}</div><div class="small muted">${s.balanceReferenceDate?fmtDate(dateFromISO(s.balanceReferenceDate)):"Référence non définie"}</div></div><div class="card kpi"><div class="muted small">EOP calculé</div><div class="value">${eop.available?money(eop.calculated,eop.currency):"—"}</div><div class="small muted">${safeText(impactText)}</div></div></div>
+  <div class="grid2"><div class="card kpi"><div class="muted small">Réservé dans EOP</div><div class="value">${reserved.ready?money(reserved.total,reserved.currency):"—"}</div><div class="small muted">${reserved.ready?"Budgets + provisions + sécurité":"Initialisation du cycle requise"}</div></div><div class="card kpi"><div class="muted small">Confirmations en attente</div><div class="value">${eop.pending}</div><div class="small muted">Non appliquées à EOP</div></div></div>
+  ${reserved.initRequired&&!reserved.ready?reserveInitFormHTML():safeControlHTML(safe)}
+  ${reserved.ready?cycleMarginHTML(cycleMargin):""}
+  ${reserved.ready?`<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Détail du Réservé</div><div class="muted small">Argent toujours dans EOP mais protégé.</div></div><span class="badge good">${money(reserved.total,reserved.currency)}</span></div><div style="margin-top:12px">${reserveBreakdownHTML(reserved)}</div></div>`:""}
+  ${s.balanceReferenceDate?`<div class="card"><div class="row"><div><div class="title" style="margin-bottom:3px">Calendrier du cycle</div><div class="muted small">Solde de référence : ${fmtDate(cal.reference)}</div></div><span class="badge good">${cal.events.length} événement(s)</span></div>${eventRows(cal.events,6)}${cal.events.length>6?'<div class="muted small" style="margin-top:10px">Voir Historique pour la liste complète.</div>':""}</div>`:referenceSetupCard()}
+  <div class="card"><div class="title">Actions rapides</div><div class="actions3"><button class="action" id="quickIncome"><span class="symbol">＋</span><span>Revenu</span></button><button class="action" id="quickExpense"><span class="symbol">−</span><span>Dépense</span></button><button class="action" disabled><span class="symbol">◇</span><span>Projet</span></button></div><div class="muted small" style="margin-top:10px">Revenu et Dépense sont actifs. Phase 3G ajoute aussi la projection de fin de cycle. Projet reste désactivé.</div></div>`;
+  document.getElementById("referenceForm")?.addEventListener("submit",e=>{e.preventDefault();saveReferenceDate(document.getElementById("referenceDate").value)});
+  document.getElementById("reserveInitForm")?.addEventListener("submit",e=>{e.preventDefault();saveReserveInitialization()});
+  document.getElementById("quickIncome")?.addEventListener("click",()=>{openModal("Nouveau revenu",incomeFormHTML());bindIncomeForm()});
+  document.getElementById("quickExpense")?.addEventListener("click",()=>{openModal("Nouvelle dépense",expenseFormHTML());bindExpenseForm()});
+  bindEventActions();
+  bindTransactionActions()
+}
+function renderHistory(){
+  const s=state.settings||defaultSettings;headerSub.textContent="Calendrier · Phase 3G";
+  if(!s.balanceReferenceDate){
+    view.innerHTML=referenceSetupCard();
+    document.getElementById("referenceForm")?.addEventListener("submit",e=>{e.preventDefault();saveReferenceDate(document.getElementById("referenceDate").value)});return
+  }
+  const cal=generateCycleEvents(),eop=calculateEOP();
+  view.innerHTML=`<div class="card"><div class="title">Opérations réelles</div><div class="muted small" style="margin-bottom:12px">Dépenses saisies manuellement pendant le cycle.</div>${transactionRows()}</div>
+  <div class="card"><div class="title">Événements du cycle</div><div class="note">Période : ${fmtDate(cal.range.start)} → ${fmtDate(cal.range.end)}. Les événements du jour de clôture appartiennent au cycle suivant. Les sorties sont affichées avant les entrées le même jour. « Calculé » signifie que l’événement automatique arrivé à échéance est déjà inclus dans EOP calculé; « À confirmer » ne l’est pas encore.</div><div style="margin-top:12px">${eventRows(cal.events)}</div></div>
+  <div class="card"><div class="title">Contrôle EOP</div><div class="grid2"><div class="kpi"><div class="muted small">Réel de référence</div><div class="value">${money(eop.baseline,eop.currency)}</div></div><div class="kpi"><div class="muted small">Calculé aujourd’hui</div><div class="value">${money(eop.calculated,eop.currency)}</div></div></div></div>
+  ${safeControlHTML(calculateSafe())}
+  <div class="card"><div class="title">Réservé</div>${reserveBreakdownHTML(reserveBreakdown())}</div>`;
+  bindEventActions();
+  bindTransactionActions()
+}
+
+function renderRuleList(type){
+  manageSection=type;headerSub.textContent=ruleLabels[type]+" · Phase 3G";
+  const rules=visibleRules(type);
+  view.innerHTML=`<div class="card"><div class="section-head"><div><button class="btn ghost" id="backManage">← Gérer</button></div><button class="btn" id="addRule">+ Ajouter</button></div><div class="title">${ruleLabels[type]}</div>
+    <div class="list">${rules.length?rules.map(r=>`<button class="item" data-rule="${r.id}" style="width:100%;text-align:left;color:inherit"><div class="row"><div><div class="name">${safeText(r.name)}</div><div class="meta">${safeText(ruleMeta(r))}</div><div class="status-line">${statusBadge(r)}</div></div><div class="amount">${money(r.amount,ruleCurrency(r))}</div></div></button>`).join(""):'<div class="empty">Aucun élément. Utilisez « + Ajouter ».</div>'}</div>
+  </div>`;
+  document.getElementById("backManage").onclick=()=>{manageSection=null;renderManage()};
+  document.getElementById("addRule").onclick=()=>{if(!activeAccounts().length){alert("Créez d'abord au moins un compte.");return}openModal("Ajouter · "+ruleLabels[type],ruleForm(type));bindRuleForm(type,null)};
+  document.querySelectorAll("[data-rule]").forEach(b=>b.onclick=()=>{const r=state.rules.find(x=>x.id===b.dataset.rule);if(r)openRuleEditor(r)})
+}
+
+function renderManage(){
+  if(manageSection){renderRuleList(manageSection);return}
+  headerSub.textContent="Gérer mes finances · Phase 3G";
+  const accounts=activeAccounts();
+  const branch=(type)=>`<div class="tree-row"><div class="tree-main"><button class="tree-open" data-section="${type}"><strong>${ruleLabels[type]}</strong><div class="count">${ruleCount(type)} élément(s)</div></button></div><button class="btn alt" data-add="${type}">+ Ajouter</button></div>`;
+  view.innerHTML=`<div class="card"><div class="title">Gérer mes finances</div><div class="tree">
+    <div class="tree-row"><div class="tree-main"><strong>Comptes</strong><div class="count">${accounts.length} actif(s)</div></div><button class="btn alt" id="addAccountManage">+ Ajouter</button></div>
+    ${branch("fixed_income")}${branch("debit")}${branch("reserved_budget")}${branch("transfer")}
+    <div class="tree-row"><div class="tree-main"><strong>Projets</strong><div class="count">Phase suivante</div></div><span class="muted">›</span></div>
+  </div></div>
+  <div class="card"><div class="title">Mes comptes</div><div class="list">${accounts.length?accounts.map(a=>`<button class="item" data-account="${a.id}" style="width:100%;text-align:left;color:inherit"><div class="row"><div><div class="name">${safeText(a.name)}</div><div class="meta">${a.currency} · ${a.role==="primary_spending"?"Compte principal":a.role==="protected_savings"?"Épargne protégée":"Suivi seulement"}</div></div><div class="amount">${money(a.balance,a.currency)}</div></div></button>`).join(""):'<div class="empty">Aucun compte actif.</div>'}</div></div>`;
+  document.getElementById("addAccountManage").onclick=()=>{openModal("Ajouter un compte",accountForm());bindAccountForm(null)};
+  document.querySelectorAll("[data-section]").forEach(b=>b.onclick=()=>renderRuleList(b.dataset.section));
+  document.querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{const type=b.dataset.add;if(!activeAccounts().length){alert("Créez d'abord un compte.");return}openModal("Ajouter · "+ruleLabels[type],ruleForm(type));bindRuleForm(type,null)});
+  document.querySelectorAll("[data-account]").forEach(btn=>btn.onclick=()=>{
+    const acc=state.accounts.find(a=>a.id===btn.dataset.account);if(!acc)return;
+    openModal("Modifier le compte",`${accountForm(acc)}<div class="hr"></div><button class="btn bad" id="archiveAccount">Archiver le compte</button>`);
+    bindAccountForm(acc);
+    document.getElementById("archiveAccount").onclick=async()=>{
+      if(!confirm("Archiver ce compte ?"))return;
+      acc.archived=true;await putOne(STORE_ACCOUNTS,acc);
+      if(state.settings?.primaryAccountId===acc.id){state.settings.primaryAccountId=null;await putOne(STORE_META,{key:"settings",value:state.settings})}
+      await loadState();closeModal();render()
+    }
+  })
+}
+
+function renderPlaceholder(title,text){headerSub.textContent=title+" · Phase 3G";view.innerHTML=`<div class="card"><div class="title">${title}</div><div class="empty">${text}</div></div>`}
+
+function renderMore(){
+  const s=state.settings||defaultSettings;headerSub.textContent="Plus · Phase 3G";
+  view.innerHTML=`<div class="card"><div class="title">Paramètres de base</div><form id="editSettings">
+    <label>Jour de clôture</label><input id="editCycleDay" type="number" min="1" max="28" value="${s.cycleDay}">
+    <label>Devise principale</label><select id="editCurrency">${["CAD","TND","USD","EUR"].map(c=>`<option ${s.mainCurrency===c?"selected":""}>${c}</option>`).join("")}</select>
+    <label>Réserve de sécurité</label><input id="editReserve" type="number" min="0" step="0.01" value="${s.safetyReserve}">
+    <label>Date de référence du solde EOP</label><input id="editReferenceDate" type="date" value="${s.balanceReferenceDate||""}">
+    <div class="muted small">À modifier seulement si vous confirmez un nouveau solde réel comme nouveau point de départ.</div>
+    <div class="form-actions"><button class="btn" type="submit">Enregistrer</button></div>
+  </form></div>
+  <div class="card"><div class="title">Phase 3G</div><div class="note">EOP calculé, Réservé, Safe et opérations ponctuelles restent actifs. Phase 3G ajoute la projection de Marge à la clôture du cycle.</div></div>`;
+
+  document.getElementById("editSettings").onsubmit=async e=>{
+    e.preventDefault();
+    s.cycleDay=Math.max(1,Math.min(28,Number(document.getElementById("editCycleDay").value)||2));
+    s.mainCurrency=document.getElementById("editCurrency").value;
+    s.safetyReserve=Math.max(0,Number(document.getElementById("editReserve").value)||0);
+    s.balanceReferenceDate=document.getElementById("editReferenceDate").value||null;
+    s.dataVersion=3;
+    await putOne(STORE_META,{key:"settings",value:s});
+    state.settings=s;await syncDueEvents();await loadState();render()
+  }
+}
+
+function render(){
+  if(!state.onboardingComplete){renderOnboarding();return}
+  nav.hidden=false;
+  nav.querySelectorAll("button").forEach(b=>b.classList.toggle("active",b.dataset.page===page));
+  if(page==="home")renderHome();
+  else if(page==="manage")renderManage();
+  else if(page==="history")renderHistory();
+  else if(page==="projects")renderPlaceholder("Projets","Simulation et gestion des projets arrivent dans une phase dédiée.");
+  else if(page==="more")renderMore()
+}
+nav.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{page=b.dataset.page;manageSection=null;render()}));
+
+async function boot(){
+  try{
+    db=await openDB();
+    await loadState();
+
+    if(!state.settings){
+      state.settings={...defaultSettings};
+      await putOne(STORE_META,{key:"settings",value:state.settings})
+    }else{
+      const migrated={...defaultSettings,...state.settings,dataVersion:3};
+      const changed=JSON.stringify(migrated)!==JSON.stringify(state.settings);
+      state.settings=migrated;
+      if(changed)await putOne(STORE_META,{key:"settings",value:state.settings})
+    }
+
+    if(state.onboardingComplete&&state.settings?.balanceReferenceDate){await syncDueEvents();await loadState()}
+    render()
+  }catch(err){
+    console.error(err);
+    view.innerHTML='<div class="card"><div class="title">Erreur de stockage local</div><div class="note">IndexedDB n’a pas pu être ouvert sur ce navigateur.</div></div>'
+  }
+}
+boot();
+})();
+</script>
+</body>
+</html>
